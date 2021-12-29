@@ -1,0 +1,126 @@
+.playList {
+  z-index: 1009;
+  background: #fff;
+  // height: 100vh;
+  width: 300px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  box-shadow: rgba(0,0,0,.2)  0 1px 15px 0px;
+  transform: translateX(100%);
+  transition: transform ease 250ms;
+  &.show {
+    transform: translateX(0);
+  }
+
+  .playListInner {
+    height: 100%;
+    z-index: 1009;
+    box-sizing: border-box;
+    // padding: 24px 0;
+    display: flex;
+    flex-direction: column;
+    .playListHeader {
+      // height: 64px;
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      .headerInner {
+        // display: flex;
+        // flex-direction: column;
+        // align-items: center;
+        .title {
+          font-size: 20px;
+          // padding: 8px 0;
+          font-weight: 550;
+        }
+        .count {
+          padding: 4px 0;
+          // text-align: left;
+          font-size: 12px;
+          color: #7d7d7d;
+        }
+      }
+    }
+
+    .playListFooter {
+      height: 64px;
+      display: flex;
+      padding: 0 24px;
+      align-items: center;
+      justify-content: flex-end;
+      border-top: 1px solid #f3f3f3;
+      color: #7c7c7c;
+      .playListIcon {
+        height: 100%;
+        display: flex;
+        // width: 20px;
+        display: flex;
+        align-items: center;
+        font-size: 12px;
+        cursor: pointer;
+        svg {
+          font-size: 18px;
+        }
+        &:hover {
+          color: #1ece9a;
+        }
+      }
+    }
+
+    .playListContent {
+      flex: 1;
+    }
+  }
+
+}
+
+.playListMask {
+  position: fixed;
+  top: 0;
+  left: 210px;
+  right: 300px;
+  bottom: 0;
+  // background: rgba(0,0,0,0.1);
+  z-index: 1008;
+  display: none;
+  &.show {
+    display: block;
+  }
+}
+
+.playListItem {
+  // height: 64px;
+  box-sizing: border-box;
+  &.select {
+    background: #f8f8f8;
+  }
+  &:hover {
+    background: #f8f8f8;
+  }
+  .playListItemInner {
+    padding: 16px 24px;
+    display: flex;
+    flex-direction: column;
+    user-select: none;
+    .title {
+      font-size: 14px;
+      padding: 2px 0;
+    }
+
+    .info {
+      display: flex;
+      padding: 2px 0;
+      justify-content: space-between;
+      font-size: 12px;
+      .singer {
+        color: #7d7d7d
+      }
+
+      .musicLength {
+        color: #7c7c7c;
+      }
+    }
+  }
+}

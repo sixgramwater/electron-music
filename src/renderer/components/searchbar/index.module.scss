@@ -1,0 +1,25 @@
+.searchBar {
+  height: 32px;
+  margin-left: 12px;
+  margin-right: auto;
+  -webkit-app-region: no-drag;
+  input {
+    background: #e3e3e3;
+    height: 30px;
+    border-radius: 30px;
+    border: transparent;
+    box-sizing: border-box;
+    padding-left: 12px;
+    &::placeholder {
+      font-size: 12px;
+    }
+    &:focus{
+      outline: none;
+      // border: transparent
+    }
+  }
+  // .searchBarInner {
+  //   background: #e3e3e3;
+  //   input {}
+  // }
+}

@@ -1,4 +1,5 @@
 const { contextBridge, ipcRenderer } = require('electron');
+// window.ipcRenderer = require('electron').ipcRenderer;
 
 contextBridge.exposeInMainWorld('electron', {
   ipcRenderer: {
@@ -18,6 +19,12 @@ contextBridge.exposeInMainWorld('electron', {
         // Deliberately strip event as it includes `sender`
         ipcRenderer.once(channel, (event, ...args) => func(...args));
       }
+    },
+    send: (channel, data) => {
+      ipcRenderer.send(channel, data);
+      // if (validChannels.includes(channel)) {
+      //   ipcRenderer.send(channel, data);
+      // }
     },
   },
 });

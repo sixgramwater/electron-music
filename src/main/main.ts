@@ -76,7 +76,11 @@ const createWindow = async () => {
     width: 1024,
     height: 728,
     icon: getAssetPath('icon.png'),
+    frame: false,
     webPreferences: {
+      // nodeIntegration: true,
+//       preload: path.resolve(__dirname, './public/preload.js'),//preload.js 文件路径
+//       contextIsolation: false,//官方文档默认为true,
       preload: path.join(__dirname, 'preload.js'),
     },
   });
@@ -98,6 +102,14 @@ const createWindow = async () => {
     mainWindow = null;
   });
 
+  // mainWindow.on('resize', () => {
+  //   let size = mainWindow?.getSize();
+  //   if(!size)  return;
+  //   let width = size[0];
+  //   let height = size[1];
+
+  // })
+
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
 
@@ -112,9 +124,91 @@ const createWindow = async () => {
   new AppUpdater();
 };
 
+let win: any = {};
+type createWindowOptions = {
+  height: number;
+  width: number;
+  minHeight?: number;
+  minWidth?: number;
+  hash: string;
+}
+
+const createNewWindow = (options: createWindowOptions) => {
+  const { width, height, minHeight, minWidth, hash } = options;
+  win[hash] = new BrowserWindow({
+    width,
+    height,
+    minHeight,
+    minWidth,
+    fullscreenable: false,
+    titleBarStyle: 'hidden',
+    parent: mainWindow!,
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+    },
+  });
+  let startUrl;
+  if(isDevelopment) {
+    startUrl = `http://localhost:1212#${hash}`;
+  } else {
+    const url = require('url');
+    startUrl = url.format({
+      pathname: path.resolve(__dirname, '../renderer/', 'index.html'),
+      // pathname: path.join(__dirname, '/../build/index.html'),
+      protocol: 'file:',
+      slashes: false,
+      hash
+    })
+  }
+  console.log(startUrl);
+  win[hash].loadURL(startUrl);
+  win[hash].on('ready-to-show', () => {
+    if(!win[hash]) {
+      throw new Error('window is not defined');
+    }
+    win[hash].show();
+  })
+  win[hash].on('closed', () => {
+    win[hash] = null;
+  });
+}
+
+const closeHashWindow = (hash: string) => {
+  if(win[hash]) {
+    win[hash].close();
+  }
+}
+
+const createLoginWindow = () => {
+  let loginWindow = new BrowserWindow({
+  // show: false,
+  width: 300,
+  height: 528,
+  parent: mainWindow?mainWindow:undefined,
+  webPreferences: {
+    // nodeIntegration: true,
+//       preload: path.resolve(__dirname, './public/preload.js'),//preload.js 文件路径
+//       contextIsolation: false,//官方文档默认为true,
+    preload: path.join(__dirname, 'preload.js'),
+  },
+  });
+//  mainWindow.loadURL(resolveHtmlPath('index.html'));
+  loginWindow.loadURL(resolveHtmlPath('index.html')+'?login');
+  loginWindow.on('ready-to-show', () => {
+  if (!loginWindow) {
+    throw new Error('"loginWindow" is not defined');
+  }
+  loginWindow.show();
+  // if (process.env.START_MINIMIZED) {
+  //   mainWindow.minimize();
+  // } else {
+  //   mainWindow.show();
+  // }
+});
+}
 /**
- * Add event listeners...
- */
+* Add event listeners...
+*/
 
 app.on('window-all-closed', () => {
   // Respect the OSX convention of having the application in memory even
@@ -135,3 +229,23 @@ app
     });
   })
   .catch(console.log);
+
+  ipcMain.on('maxWindow', ()=>mainWindow?.maximize());
+  ipcMain.on('minWindow', ()=>mainWindow?.minimize());
+  ipcMain.on('closeWindow', ()=>mainWindow?.close());
+  ipcMain.on('createLoginWindow', () => {
+    console.log('create')
+    createLoginWindow();
+  //  let loginWindow = new BrowserWindow({
+//  })
+  })
+
+  ipcMain.on('create-new-window', (event, value) => {
+    // console.log('createNewWindow');
+    createNewWindow(value);
+  })
+
+  ipcMain.on('close-hash-window', (event, value) => {
+    closeHashWindow(value);
+  })
+

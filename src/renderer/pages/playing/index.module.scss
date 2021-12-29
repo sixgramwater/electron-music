@@ -1,0 +1,259 @@
+.playingPage {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  // position: absolute;
+  position: fixed;
+  // position: relative;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  // background-repeat: no-repeat;
+  // background-size: cover;
+  // background-position: center;
+  z-index: 100;
+  background-color: #292a2b;
+  min-width: 980px;
+
+  transform: translateY(100%);
+  transition: 300ms ease-in-out transform;
+  &.show {
+    transform: translateY(0);
+  }
+  // position: absolute;
+
+  // padding: 12px;
+  .mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    // z-index: -1;
+    // margin: -30px;
+    background-color: rgba(0,0,0,.35);
+    z-index: 103;
+
+    // background-repeat: no-repeat;
+    // background-size: cover;
+    // background-position: center;
+	  // filter:blur(60px);
+    // opacity: 0.6;
+  }
+  .bgPlayer {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 50%;
+    filter: blur(25px);
+    opacity: .7;
+    transform: translateZ(0);
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 101;
+    overflow: hidden;
+  }
+  .pageInner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    z-index: 105;
+    user-select: none;
+  }
+
+  .header {
+    height: 64px;
+    padding: 12px 24px;
+    z-index: 105;
+    -webkit-app-region: drag;
+    .headerInner {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .exitIcon {
+        font-size: 24px;
+        display: flex;
+        align-items: center;
+        color: #8c8c8c;
+        -webkit-app-region: no-drag;
+        &:hover{
+          color: #1ece9a;
+        }
+        svg {
+          // -webkit-app-region: no-drag;
+          transform: scaleX(1.1) scaleY(0.9);
+          cursor: pointer;
+          z-index: 1001;
+        }
+      }
+    }
+  }
+
+  .content {
+    padding: 12px 56px;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    .albumCover {
+      // width: 320px;
+      width: 50%;
+      // max-width: ;
+      height: 350px;
+      transform: translateY(-30px);
+      // padding: ;
+      display: flex;
+      flex: 1;
+      justify-content: center;
+      // height: 320px;
+      img {
+        width: auto;
+        height: auto;
+
+        // width: 100%;
+        // height: 100%;
+      }
+    }
+
+    .musicInfo {
+      flex: 1;
+      height: 100%;
+      padding: 24px 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      // align-items: center;
+      .musicInfoHeader {
+        display: flex;
+        overflow: hidden;
+        flex-direction: column;
+        .title {
+          color: #fff;
+          font-size: 30px;
+          font-weight: 500;
+          text-align: center;
+          // padding: 12px;
+        }
+        .otherInfo {
+          padding: 12px;
+          flex: 1;
+          text-align: center;
+          color: #8c8c8c;
+        }
+      }
+      .lyricContainer {
+        flex: 1;
+      }
+
+    }
+  }
+  .player {
+    height: 67px;
+    z-index: 1001;
+    .playerInner {
+      width: 100%;
+      height: 100%;
+      padding: 0 40px;
+      .progressContainer {
+        // height: 4px;
+        transform: translateY(-4px);
+        // margin-top: -3px;
+
+      }
+    }
+  }
+}
+
+
+.playerController {
+  display: flex;
+  flex: 1;
+  width: 100%;
+  align-items: center;
+  // padding-top: 3px;
+  .controllerInner {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .miniButtons {
+      display: flex;
+      align-items: center;
+      vertical-align: middle;
+      color: #8c8c8c;
+      font-size: 20px;
+      .miniButton {
+        padding: 0 5px;
+      }
+      .timeInfo {
+        display: flex;
+        align-items: center;
+        padding: 0 4px;
+      }
+      span {
+        font-size: 13px;
+      }
+      svg {
+        cursor: pointer;
+        &:hover {
+          color: #1ece9a;
+        }
+      }
+
+    }
+    .playerBtns {
+      display: flex;
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 30px;
+      color: #fff;
+      align-items: center;
+      height: 100%;
+      .playerButton {
+       height: 100%;
+       vertical-align: middle;
+       display: flex;
+       align-items: center;
+       padding: 0 4px;
+       svg {
+         cursor: pointer;
+         &:hover {
+           color: #1ece9a;
+         }
+       }
+      //  margin-bottom: auto;
+
+      }
+    }
+    .rightBtns {
+      display: flex;
+      vertical-align: middle;
+      align-items: center;
+      color: #8c8c8c;
+      font-size: 20px;
+      .timeInfo {
+        font-size: 13px;
+        padding: 0 8px;
+      }
+      svg {
+        cursor: pointer;
+        &:hover {
+          color: #1ece9a;
+        }
+      }
+    }
+  }
+}

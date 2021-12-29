@@ -1,0 +1,107 @@
+import React from 'react';
+import styles from './index.module.scss';
+import { MdSkipPrevious, MdSkipNext, MdVolumeDown, MdOutlinePlayCircleFilled, MdPauseCircleFilled, MdOutlineQueueMusic} from 'react-icons/md';
+import { useAppDispatch, useAppSelector } from 'renderer/hooks/hooks';
+// import { useAppSelector } from 'renderer/hooks/hooks';
+// import { useHistory } from 'react-router-dom';
+// import Slider from 'rc-slider';
+
+const FooterPlayer: React.FC = () => {
+  const albumCover = 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2Fbf19f7ffec9278ce7f92cd79c132db9945d87c57a10c-63iyrZ_fw658&refer=http%3A%2F%2Fhbimg.b0.upaiyun.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1640440257&t=1113a3a43c3d8214798abcf346e4b58d'
+  const dispatch = useAppDispatch();
+  const curMusic = useAppSelector(state=>state.music.curMusic);
+  const curTime = useAppSelector(state=>state.music.curTime);
+  const duration = useAppSelector(state=>state.music.duration);
+  const playingState = useAppSelector(state => state.music.playingState);
+  // const history = useHistory();
+  const handleClickPlayListIcon = () => {
+    dispatch({
+      type: 'app/toggleShowPlayList',
+      payload: true,
+    })
+  }
+  const handleClickAlbumCover = () => {
+    dispatch({
+      type: 'app/toggleShowPlayingPage',
+      payload: true,
+    })
+    // history.push('/playing');
+  }
+  const handleClickPlay = () => {
+    dispatch({
+      type: 'music/setPlayingState',
+      payload: 'playing',
+    });
+  }
+  const handleClickPause = () => {
+    dispatch({
+      type: 'music/setPlayingState',
+      payload: 'paused',
+    })
+  }
+  const handleClickStop = () => {
+    dispatch({
+      type: 'music/setPlayingState',
+
+    })
+  }
+
+  const timeFormat = (time: number) => {
+    // let temp = time.toFixed(0);
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time - minutes * 60);
+    const formatted = `${minutes.toFixed(0).padStart(2, '0')}:${seconds
+      .toFixed(0)
+      .padStart(2, '0')}`;
+    return formatted;
+  };
+  return (
+    <div className={styles.player}>
+      <div className={styles.playerInner}>
+        <div className={styles.playerInfo}>
+          <div className={styles.albumCover} onClick={handleClickAlbumCover}>
+            <img src={curMusic?.album.picUrl} alt="albumCover" />
+          </div>
+          <div className={styles.albumInfo}>
+            <div className={styles.albumTitle}>
+            {curMusic?.name}
+            </div>
+            <div className={styles.albumSinger}>
+            {curMusic?.artists[0].name}
+            </div>
+          </div>
+        </div>
+        <div className={styles.playerBtns}>
+          <div className={styles.playerButton}>
+            <MdSkipPrevious />
+          </div>
+          <div className={styles.playerButton}>
+            {
+              (playingState === 'stop' || playingState === 'paused') ?
+              <MdOutlinePlayCircleFilled style={{fontSize: '40px', color: '#1ece9a'}} onClick={handleClickPlay}/>
+              : <MdPauseCircleFilled style={{fontSize: '40px', color: '#1ece9a'}} onClick={handleClickPause}/>
+            }
+          </div>
+          <div className={styles.playerButton}>
+            <MdSkipNext />
+          </div>
+          <div className={styles.playerButton}>
+            <MdVolumeDown style={{fontSize: '20px'}}/>
+          </div>
+        </div>
+        <div className={styles.playerList}>
+          <div className={styles.playingTime}>
+            <span>
+            {timeFormat(curTime)} / {timeFormat(duration)}
+            </span>
+          </div>
+          <div className={styles.playListIcon} onClick={handleClickPlayListIcon}>
+            <MdOutlineQueueMusic/>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default FooterPlayer;

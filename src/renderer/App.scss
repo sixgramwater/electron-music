@@ -1,0 +1,161 @@
+/*
+ * @NOTE: Prepend a `~` to css file paths that are in your node_modules
+ *        See https://github.com/webpack-contrib/sass-loader#imports
+ */
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  // height: 100%;
+  height: 100vh;
+  width: 100%;
+  background: #ffffff;
+  // position: relative;
+  // color: white;
+  // height: 100vh;
+  // background: linear-gradient(
+  //   200.96deg,
+  //   #fedc2a -29.09%,
+  //   #dd5789 51.77%,
+  //   #7a2c9e 129.35%
+  // );
+  // font-family: sans-serif;
+  // overflow-y: hidden;
+  // display: flex;
+  // justify-content: center;
+  // align-items: center;
+}
+
+#root {
+  height: 100%;
+  overflow: hidden;
+}
+
+// button {
+//   background-color: white;
+//   padding: 10px 20px;
+//   border-radius: 10px;
+//   border: none;
+//   appearance: none;
+//   font-size: 1.3rem;
+//   box-shadow: 0px 8px 28px -6px rgba(24, 39, 75, 0.12),
+//     0px 18px 88px -4px rgba(24, 39, 75, 0.14);
+//   transition: all ease-in 0.1s;
+//   cursor: pointer;
+//   opacity: 0.9;
+// }
+
+// button:hover {
+//   transform: scale(1.05);
+//   opacity: 1;
+// }
+
+// li {
+//   list-style: none;
+// }
+
+// a {
+//   text-decoration: none;
+//   height: fit-content;
+//   width: fit-content;
+//   margin: 10px;
+// }
+
+// a:hover {
+//   opacity: 1;
+//   text-decoration: none;
+// }
+
+.Hello {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.layout {
+  display: flex;
+  height: 100%;
+  .main-container {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+    min-width: 600px;
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    position: relative;
+  }
+  .content {
+    position: relative;
+    margin-top: 64px;
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
+
+.fade-enter {
+  transform: translateX(10%);
+  opacity: 0;
+}
+
+.fade-enter-active {
+  transform: translateX(0);
+  opacity: 1;
+  transition: all 250ms ease-in-out;
+}
+
+.fade-exit {
+  opacity: 1;
+  transform: translateX(-10%);
+  opacity: 0;
+  transition: all 250ms ease-in-out;
+}
+
+.forward-from-bottom-enter {
+  transform: translateY(100%);
+}
+
+.forward-from-bottom-enter-active {
+  transform: translateY(0);
+  transition: all 250ms ease-in-out;
+}
+
+.backward-to-bottom-enter {
+  transform: translateY(0);
+}
+
+.backward-to-bottom-enter-active {
+  transform: translateY(100%);
+  transition: all ease-in-out 250ms;
+
+}
+
+.backward-to-bottom-exit {
+  transform: translateY(0);
+}
+
+.backward-to-bottom-exit-active {
+  transition: all ease-in-out 250ms;
+  transform: translateY(100%);
+}
+
+.slide-enter {
+  transform: translateY(100%);
+}
+
+.slide-enter-active {
+  transform: translateY(0);
+  transition: all 250ms ease-in-out;
+}
+
+.slide-exit {
+  transform: translateY(0);
+}
+
+.slide-exit-active {
+  transition: all ease-in-out 250ms;
+  transform: translateY(100%);
+}

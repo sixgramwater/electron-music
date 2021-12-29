@@ -1,0 +1,24 @@
+.pageRecommend {
+  user-select: none;
+  padding: 8px 36px;
+  .pageTitle {
+    font-size: 32px;
+    font-weight: 800;
+    padding: 12px 0;
+  }
+  .section {
+    padding-bottom: 24px;
+    
+    .sectionTitle {
+      padding: 12px 0;
+      h2{
+        font-size: 22px;
+        font-weight: 500;
+      }
+    }
+  }
+  .sectionContent {
+    display: flex;
+    justify-content: space-between;
+  }
+}

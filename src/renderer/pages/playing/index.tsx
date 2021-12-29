@@ -1,0 +1,76 @@
+import React from 'react';
+import styles from './index.module.scss';
+import { AiOutlineDown } from 'react-icons/ai';
+import HeaderButton from '../../components/headerButton';
+import { useAppDispatch, useAppSelector } from 'renderer/hooks/hooks';
+import cx from 'classnames';
+// import Slider from 'rc-slider';
+import Player from './player';
+// import { useHistory } from 'react-router-dom'
+
+const PlayingPage: React.FC = () => {
+  // const history = useHistory();
+  const dispatch = useAppDispatch();
+  const showPlayingPage = useAppSelector((state)=>state.app.showPlayingPage);
+  const albumCover = 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2Fbf19f7ffec9278ce7f92cd79c132db9945d87c57a10c-63iyrZ_fw658&refer=http%3A%2F%2Fhbimg.b0.upaiyun.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1640440257&t=1113a3a43c3d8214798abcf346e4b58d';
+
+  const handleClickExitButton = () => {
+    // history.go(-1);
+    dispatch({
+      type: 'app/toggleShowPlayingPage',
+      payload: false
+    })
+  }
+  const playingPageClass = cx(styles.playingPage, {
+    [styles.show]: showPlayingPage
+  })
+  return(
+    <div className={playingPageClass}
+      // style={{
+      //   backgroundImage: `url(${albumCover})`,
+      // }}
+    >
+      <div className={styles.mask}
+        // style={{
+        //   backgroundImage: `url(${albumCover})`,
+        // }}
+      >
+      </div>
+      <div className={styles.bgPlayer}
+        style={{
+          backgroundImage: `url(${albumCover})`,
+        }}
+      ></div>
+      <div className={styles.pageInner}>
+        <div className={styles.header}>
+            <div className={styles.headerInner}>
+              <div className={styles.exitIcon} onClick={handleClickExitButton}><AiOutlineDown /></div>
+              <div className={styles.headerBtns}>
+                <HeaderButton />
+              </div>
+            </div>
+          </div>
+          <div className={styles.content}>
+            <div className={styles.albumCover}>
+              <img src={albumCover} alt="cover" />
+            </div>
+            <div className={styles.musicInfo}>
+              <div className={styles.musicInfoHeader}>
+                <div className={styles.title}>Red</div>
+                <div className={styles.otherInfo}>
+                  <div>歌手: Taylor Swift</div>
+                  <div>专辑: Red(Delux Edition)</div>
+                </div>
+              </div>
+              <div className={styles.lyricContainer}></div>
+            </div>
+          </div>
+          <div className={styles.player}>
+            <Player />
+          </div>
+        </div>
+    </div>
+  )
+}
+
+export default PlayingPage;

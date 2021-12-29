@@ -1,0 +1,89 @@
+.header {
+  user-select: none;
+  height: 64px;
+  // background: #ccc;
+  padding-left: 12px;
+  position: fixed;
+  top: 0;
+  // left: 0;
+  // width: 100%;
+  right: 0;
+  left: 210px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  -webkit-app-region: drag;
+  // .headerInner {
+
+  // }
+  .headerInner {
+    height: 100%;
+    width: 100%;
+    padding: 0 12px;
+    display: flex;
+    height: 24px;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .divider {
+    width: 16px;
+    height: 100%;
+    display: flex;
+    color: #8c8c8c;
+    justify-content: center;
+    align-items: center;
+    transform: scaleY(1.15) translateY(-2px) scaleX(0.8) ;
+    opacity: 0.7;
+    // transform: translateY(2px);
+  }
+  .headerBtns {
+    display: flex;
+    -webkit-app-region: no-drag;
+    // margin-;
+  }
+
+  .headerBtn {
+    height: 100%;
+    display: flex;
+    font-size: 18px;
+    color: #8c8c8c;
+    align-items: center;
+    font-weight: 100;
+    box-sizing: border-box;
+    margin: 0 8px;
+    cursor: pointer;
+    -webkit-app-region: no-drag;
+    svg {
+      &:hover {
+        color: #1ecc94;;
+      }
+    }
+  }
+
+  .headerAvatar {
+    border-radius: 64px;
+    overflow: hidden;
+    height: 100%;
+    -webkit-user-drag: none;
+    
+    -webkit-app-region: no-drag;
+    // width: 24px;
+    cursor: pointer;
+    margin: 0 6px;
+    img {
+    -webkit-user-drag: none;
+
+      width: 24px;
+      height: 24px;
+      // border-radius: 64px;
+    }
+  }
+  .userName {
+    cursor: pointer;
+    -webkit-app-region: no-drag;
+    color: #8c8c8c;
+    font-size: 12px;
+    margin: 0 6px;
+  }
+}

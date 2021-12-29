@@ -70,7 +70,9 @@ export default merge(baseConfig, {
           {
             loader: 'css-loader',
             options: {
-              modules: true,
+              modules: {
+                localIdentName: '[local]--[hash:base64:10]',
+              },
               sourceMap: true,
               importLoaders: 1,
             },
