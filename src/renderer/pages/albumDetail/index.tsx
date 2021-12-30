@@ -1,21 +1,72 @@
-import React, {useEffect} from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './index.module.scss';
 import { MdOutlinePlayArrow, MdOutlineAddBox, MdOutlineDownload, MdOutlineHighQuality } from 'react-icons/md';
 import { Row, Col } from 'antd';
 import { FaRegHeart } from 'react-icons/fa';
-import { useAppSelector } from 'renderer/hooks/hooks';
+import { useAppDispatch, useAppSelector } from 'renderer/hooks/hooks';
 import { useParams } from 'react-router';
 import PlaylistLoader from 'renderer/components/Loader/PlaylistLoader';
+import { fetchPlaylistDetail } from 'renderer/api';
+import Scroll from '../../components/scrollbar'
 // import { MdOutlinePlayArrow } from 'react-icons/md';
 // import AlbumItem from 'renderer/components/AlbumItem';
 
+type AlbumDetailParaType = {
+  id: string;
+}
+
 const AlbumDetailPage: React.FC = () => {
-  const id = useParams();
-  // useEffect(()=>{
-  //   if()
-  // }, [])
-  const playlistLoading = useAppSelector(state=>state.music.playlistLoading);
-  // const curPlaylist = useAppSelector(state=>state.music.)
+  const stringId = useParams<AlbumDetailParaType>().id;
+  const id = parseInt(stringId);
+  // console.log(id);
+  const [loading, setLoading] = useState(false);
+  const dispatch = useAppDispatch()
+  // const playlistLoading = useAppSelector(state=>state.music.playlistLoading);
+  const curPlaylistIndex = useAppSelector(state=>state.music.playlists.findIndex(list=>list.id===id));
+  const curPlaylist = useAppSelector(state=>(curPlaylistIndex!==-1) ? state.music.playlists[curPlaylistIndex]:undefined);
+  useEffect(() => {
+    if(curPlaylist)  return;
+    setLoading(true);
+    fetchPlaylistDetail(id).then(para=>{
+      const datalist = para.data.playlist;
+      // console.log(datalist);
+      const payload = {
+        id: datalist.id,
+        name: datalist.name,
+        picUrl: datalist.coverImgUrl,
+        userId: datalist.userId,
+        createTime: datalist.createTime,
+        updateTime: datalist.updateTime,
+        trackCount: datalist.trackCount,
+        tracks: datalist.tracks.map((track: any)=>{
+          return {
+            name: track.name,
+            id: track.id,
+            artists: track.ar,
+            album: track.al,
+            duration: track.dt,
+          }
+        }),
+        trackIds: datalist.trackIds,
+        creator: {
+          avatarUrl: datalist.creator.avatarUrl,
+          nickname: datalist.creator.nickname,
+          signature: datalist.creator.signature,
+        }
+      }
+      console.log(payload);
+      setLoading(false);
+      dispatch({
+        type: 'music/addPlaylists',
+        payload: {
+          id: payload.id,
+          playlist: payload,
+        }
+      });
+      // console.log(curPlaylist);
+
+    })
+  }, [])
   const albumCover = 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2Fbf19f7ffec9278ce7f92cd79c132db9945d87c57a10c-63iyrZ_fw658&refer=http%3A%2F%2Fhbimg.b0.upaiyun.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1640440257&t=1113a3a43c3d8214798abcf346e4b58d';
   const handleClickPlayAll = () => {
 
@@ -42,20 +93,50 @@ const AlbumDetailPage: React.FC = () => {
 
   }
 
-  const renderMusicItem = () => {
-    const playlistId = useParams();
-    useEffect(() => {
+  type ArtistType = {
+    name: string;
+    id: number;
+  }
 
-    }, [])
+  type MusicItemType = {
+    name: string;
+    id: number;
+    artists: ArtistType[];
+    album: {
+      name: string;
+      id: number;
+    }
+    duration: number;
+  }
+
+  const timeFormat = (time: number) => {
+    // let temp = time.toFixed(0);
+    time = time / 1000 >>0;
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time - minutes * 60);
+    const formatted = `${minutes.toFixed(0).padStart(2, '0')}:${seconds
+      .toFixed(0)
+      .padStart(2, '0')}`;
+    return formatted;
+  };
+  const renderMusicItem = (para: MusicItemType)=> {
+    const {
+      name="default title",
+      id,
+      artists,
+      duration,
+      album
+    } = para;
     return(
-      <Row>
+      <Row
+      key={id}>
         <div className={styles.musicItem}>
           <Col span={11}>
             <div className={styles.musicItemTitle}>
               <i className={styles.icon} onClick={handleClickLike}>
                 <FaRegHeart />
               </i>
-              <span>Love Story</span>
+              <span>{name}</span>
               <i className={styles.badge}>
                 <MdOutlineHighQuality />
               </i>
@@ -67,39 +148,51 @@ const AlbumDetailPage: React.FC = () => {
             </div>
 
           </Col>
-          <Col flex="1">
-            <span onClick={handleClickSinger}>
-              Tylar Swift
-            </span>
+          <Col flex="1 0 0%" style={{overflow: 'hidden'}}>
+            <div className={styles.itemTitle}>
+              <span onClick={handleClickSinger}>
+                {artists[0].name}
+              </span>
+            </div>
+
           </Col>
-          <Col flex="1">
-            <span onClick={handleClickAlbum}>
-              Red
-            </span>
+          <Col flex="1 0 0%" style={{overflow: 'hidden'}}>
+            <div className={styles.itemTitle}>
+              <span onClick={handleClickAlbum}>
+                {album.name}
+              </span>
+            </div>
+
           </Col>
-          <Col flex="60px"><span>04:23</span></Col>
+          <Col flex="60px">
+            <div className={styles.itemTitle}>
+              <span>{timeFormat(duration)}</span>
+            </div>
+          </Col>
 
         </div>
       </Row>
     )
   }
   return (
-    playlistLoading ? <PlaylistLoader/> :
+    loading ? <PlaylistLoader/> :
+    <Scroll>
     <div className={styles.albumDetailPage}>
       <div className={styles.detailHeader}>
         <div className={styles.albumCover}>
-          <img src={albumCover} alt="cover" />
+          <img src={curPlaylist?curPlaylist.picUrl:albumCover} alt="cover" />
         </div>
         <div className={styles.detailInfo}>
           <div className={styles.detailTitle}>
-            <h1>每日30首</h1>
+            <h1>{curPlaylist?curPlaylist.name:'name'}</h1>
           </div>
           <div className={styles.detailDesc}>
             <div className={styles.author}>
               <div className={styles.albumAvatar}>
+                <img src={curPlaylist?curPlaylist.creator.avatarUrl:''} alt="avatar" />
                 {/* <img src="" alt="avatar" /> */}
               </div>
-              <span>官方歌单</span>
+              <span>{curPlaylist?curPlaylist.creator.nickname:'creator'}</span>
             </div>
             <div className={styles.desc}>
             QQ音乐根据你的私人好品味为你挑选，每日更新。
@@ -129,7 +222,16 @@ const AlbumDetailPage: React.FC = () => {
             <Col flex="1">专辑</Col>
             <Col flex="60px"><span>时长</span></Col>
           </Row>
-          <Row>
+
+          {
+            curPlaylist ?
+            curPlaylist.tracks.map((track:any)=>{
+              return (
+              renderMusicItem(track)
+              )
+            })
+            :
+            <Row>
             <div className={styles.musicItem}>
               <Col span={11}>
                 <div className={styles.musicItemTitle}>
@@ -159,12 +261,11 @@ const AlbumDetailPage: React.FC = () => {
 
             </div>
           </Row>
-          {
-            renderMusicItem()
           }
         </div>
       </div>
     </div>
+    </Scroll>
   )
 }
 

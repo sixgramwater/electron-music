@@ -4,41 +4,88 @@ import styles from './index.module.scss';
 import Scroll from 'renderer/components/scrollbar';
 import Slider from '../../components/slider';
 import AlbumItemLoader from 'renderer/components/Loader/AlbumItemLoader';
-import { useAppSelector, useAppDispatch } from 'renderer/hooks/hooks';
+// import { useAppSelector, useAppDispatch } from 'renderer/hooks/hooks';
 import { fetchDailyRecommendPlaylist } from 'renderer/api';
 import { PlaylistType } from 'renderer/store/musicSlice';
+import { fetchOfficialPlaylist } from 'renderer/api';
+import { useQueries } from 'react-query'
+
 const Recommend: React.FC = () => {
-  const dispatch = useAppDispatch();
-  const [isLoading, setIsLoading] = useState(false);
-  const playLists = useAppSelector(state=>state.music.recommendPlaylist);
-  useEffect(() => {
-    if(playLists.length!==0)  return;
-    setIsLoading(true);
-    fetchDailyRecommendPlaylist().then((res) => {
-      console.log(res.data.recommend);
-      const playlists = res.data.recommend.map((item:any) => {
-        return {
-          id: item.id,
-          name: item.name,
-          copywriter: item.copywriter,
-          picUrl: item.picUrl,
-          playCount: item.playCount,
-          createTime: item.createTime,
-          creator: {
-            avatarUrl: item.creator.avatarUrl,
-            nickname: item.creator.nickname,
-            signature: item.creator.signature,
-          }
-        } as PlaylistType
-      })
-      console.log(playlists);
-      dispatch({
-        type: 'music/setRecommendPlaylist',
-        payload: playlists,
-      })
-      setIsLoading(false);
-    })
-  }, [])
+  // const dispatch = useAppDispatch();
+  // const [isLoading, setIsLoading] = useState(false);
+  // const playLists = useAppSelector(state=>state.music.recommendPlaylist);
+  const result = useQueries([
+    {
+      queryKey: 'dailyRecommend',
+      queryFn: fetchDailyRecommendPlaylist,
+      // enabled: playLists.length === 0,
+    },
+    {
+      queryKey: 'officialPlaylist',
+      queryFn: fetchOfficialPlaylist,
+    }
+  ]);
+  const dailyRecommendList = result[0].data?.data.recommend.map((item: any) => {
+    return {
+      id: item.id,
+      name: item.name,
+      copywriter: item.copywriter,
+      picUrl: item.picUrl,
+      playCount: item.playCount,
+      createTime: item.createTime,
+      creator: {
+        avatarUrl: item.creator.avatarUrl,
+        nickname: item.creator.nickname,
+        signature: item.creator.signature,
+      }
+    } as PlaylistType
+  });
+  const officialPlaylist = result[1].data?.data.playlist.map((item: any) => {
+    return {
+      id: item.id,
+      name: item.name,
+      copywriter: item.copywriter,
+      picUrl: item.coverImgUrl,
+      playCount: item.playCount,
+      createTime: item.createTime,
+      creator: {
+        avatarUrl: item.creator.avatarUrl,
+        nickname: item.creator.nickname,
+        signature: item.creator.signature,
+      }
+    } as PlaylistType
+  })
+  console.log(officialPlaylist);
+  // console.log(result[1].data?.data)
+  const isLoading2 = result[0].isLoading || result[1].isLoading;
+  // useEffect(() => {
+  //   if(playLists.length!==0)  return;
+  //   setIsLoading(true);
+  //   fetchDailyRecommendPlaylist().then((res) => {
+  //     console.log(res.data.recommend);
+  //     const playlists = res.data.recommend.map((item:any) => {
+  //       return {
+  //         id: item.id,
+  //         name: item.name,
+  //         copywriter: item.copywriter,
+  //         picUrl: item.picUrl,
+  //         playCount: item.playCount,
+  //         createTime: item.createTime,
+  //         creator: {
+  //           avatarUrl: item.creator.avatarUrl,
+  //           nickname: item.creator.nickname,
+  //           signature: item.creator.signature,
+  //         }
+  //       } as PlaylistType
+  //     })
+  //     // console.log(playlists);
+  //     dispatch({
+  //       type: 'music/setRecommendPlaylist',
+  //       payload: playlists,
+  //     })
+  //     setIsLoading(false);
+  //   })
+  // }, [])
   // const playlists = [
   //   {
   //     id: 3136952023,
@@ -48,7 +95,7 @@ const Recommend: React.FC = () => {
   // ]
 
   return (
-    isLoading ?
+    isLoading2 ?
     <AlbumItemLoader/>
     :
     <Scroll>
@@ -65,7 +112,7 @@ const Recommend: React.FC = () => {
               <AlbumItem/>
               <AlbumItem/> */}
               <Slider
-                data={playLists}
+                data={dailyRecommendList}
               />
             </div>
           </div>
@@ -75,7 +122,7 @@ const Recommend: React.FC = () => {
             </div>
             <div className={styles.sectionContent}>
               <Slider
-                data={playLists}
+                data={officialPlaylist}
               />
             </div>
           </div>

@@ -14,6 +14,9 @@ import AlbumDetailPage from './pages/albumDetail';
 import Login from './pages/login';
 import React  from 'react';
 import AudioPlayer from './components/AudioPlayer';
+import { QueryClient, QueryClientProvider } from 'react-query';
+
+const queryClient = new QueryClient();
 // import renderNestedRoutes from './routes';
 // import config from './routes/routerConfig'
 // import {} from 'react-router-dom'
@@ -44,8 +47,8 @@ export const Main: React.FC = () => {
                 <Route path="/" exact component={Recommend}/>
                 <Route path="/lib" component={Library}/>
                 <Route path="/like" component={Like}/>
-                <Route path="/albumDetail" component={AlbumDetailPage} />
                 <Route path="/albumDetail/:id" component={AlbumDetailPage} />
+                <Route path="/albumDetail" component={AlbumDetailPage} />
                 {/* <Redirect path='/rec'></Redirect> */}
               </Switch>
             </CSSTransition>
@@ -153,19 +156,22 @@ export const Main: React.FC = () => {
 //   )
 // }
 export default function App() {
+
   const location = useLocation();
   React.useEffect(()=>{
     console.log(location);
   }, [])
   // console.log(location.)
   return (
-
+    <QueryClientProvider
+      client={queryClient}
+    >
     <Switch location={location}>
       {/* <Route path="/playing" component={PlayingPage}></Route> */}
 
       <Route path="/login" component={Login}></Route>
       <Route path="/" component={Main}></Route>
     </Switch>
-
+    </QueryClientProvider>
   );
 }

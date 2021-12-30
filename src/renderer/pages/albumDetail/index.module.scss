@@ -42,6 +42,11 @@
             height: 20px;
             border-radius: 20px;
             background: #7d7d7d;
+            overflow: hidden;
+            img{
+              width: 100%;
+              height: 100%;
+            }
           }
           span {
             padding: 0 8px;
@@ -93,6 +98,7 @@
     .musicTable {
       height: 100%;
       width: 100%;
+      // overflow: hidden;
       margin-top: 30px;
       // padding: ;
       .tableHeader{
@@ -117,11 +123,13 @@
     }
   }
   span {
+    // display: inline-block;
+    // width: 100%;
     user-select: none;
     overflow: hidden;
     text-overflow:ellipsis;
     white-space: nowrap;
-    
+
   }
   // cursor: pointer;
   &:hover {
@@ -142,6 +150,17 @@
     // &:hover {
 
     // }
+  }
+}
+.itemTitle {
+  // width: 100%;
+  display: flex;
+  overflow: hidden;
+  align-items: center;
+  padding-right: 5px;
+  span {
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 }
 

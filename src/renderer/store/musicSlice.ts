@@ -2,6 +2,16 @@ import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 // import { fetchDailyRecommendPlaylist, fetchDailyRecommendSongs } from 'renderer/api';
 import Api from '../api';
 
+type trackType = {
+  name: string;
+  id: number;
+  artists: artistType[];
+  album: albumType;
+  duration: number;
+  musicUrl?: string;
+  lyricUrl?: string;
+}
+
 export interface MusicState {
   // showPlayList: boolean;
   isPlaying: boolean;
@@ -13,10 +23,12 @@ export interface MusicState {
   playingState: PlayingStateType;
   recommendPlaylist: PlaylistType[] | [];
   dailyRecommendSongs: musicType[] | [];
-  playlist: musicType[] | [];
+  playlists: PlaylistType[] | [];
 
   recommendPageLoading: boolean;
   playlistLoading: boolean;
+
+  trackPlaylist: trackType[];
 }
 
 export type PlaylistType = {
@@ -31,6 +43,14 @@ export type PlaylistType = {
     nickname: string;
     signature: string;
   };
+  trackCount: number;
+  tracks: {
+    name: string;
+    id: number;
+    artists: artistType[];
+    album: albumType;
+    duration: number;
+  }[]
 }
 
 export type PlayingStateType = 'playing' | 'paused' | 'stop';
@@ -132,10 +152,11 @@ const initialState: MusicState = {
 
   recommendPlaylist: [],
   dailyRecommendSongs: [],
-  playlist: [],
+  playlists: [],
 
   playlistLoading: false,
   recommendPageLoading: false,
+  trackPlaylist: [],
 }
 
 const musicSlice = createSlice({
@@ -169,9 +190,19 @@ const musicSlice = createSlice({
     setRecommendPageLoading: (state, action) => {
       state.recommendPageLoading = action.payload;
     },
-    setPlaylists: (state, action) => {
+    addPlaylists: (state, action) => {
+      const { id, playlist } = action.payload;
+      const index = state.playlists.findIndex(list=>list.id === id);
+      if(index !== -1) {
+        state.playlists[index] = playlist;
+      } else {
+        state.playlists.push(playlist as never);
+      }
+    },
+    setTrackPlaylist: (state, action) => {
+      state.trackPlaylist = action.payload;
+    },
 
-    }
 
   },
   extraReducers: (builder) => {

@@ -25,7 +25,7 @@ const AlbumItem: React.FC<AlbumItemProps> = (props) => {
   const albumCover = 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2Fbf19f7ffec9278ce7f92cd79c132db9945d87c57a10c-63iyrZ_fw658&refer=http%3A%2F%2Fhbimg.b0.upaiyun.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1640440257&t=1113a3a43c3d8214798abcf346e4b58d'
   const history = useHistory();
   const handleClickAlbum = () => {
-    history.push('/albumDetail')
+    history.push('/albumDetail/'+id);
   }
   return (
     <div className={styles.albumItem} onClick={handleClickAlbum}>
