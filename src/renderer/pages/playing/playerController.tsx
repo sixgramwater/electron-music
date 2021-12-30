@@ -1,16 +1,42 @@
 import React from 'react';
 import styles from './index.module.scss';
-import { MdSkipPrevious, MdSkipNext, MdVolumeDown, MdOutlineDownload, MdOutlineComment ,MdOutlinePlayCircleFilled, MdOutlineQueueMusic} from 'react-icons/md';
+import { MdSkipPrevious, MdSkipNext, MdVolumeDown, MdOutlineDownload, MdOutlineComment ,MdOutlinePlayCircleFilled, MdPauseCircleFilled,MdOutlineQueueMusic} from 'react-icons/md';
 // import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai'
 import { IoHeartDislikeOutline, IoHeartOutline } from 'react-icons/io5';
-import { useAppDispatch } from 'renderer/hooks/hooks';
+import { useAppDispatch, useAppSelector } from 'renderer/hooks/hooks';
 
 const PlayerController: React.FC = () => {
   const dispatch = useAppDispatch();
+  const curTime = useAppSelector(state=>state.music.curTime);
+  const duration = useAppSelector(state=>state.music.duration);
+  const isPlaying = useAppSelector(state=>state.music.isPlaying);
+  const timeFormat = (time: number) => {
+    // let temp = time.toFixed(0);
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time - minutes * 60);
+    const formatted = `${minutes.toFixed(0).padStart(2, '0')}:${seconds
+      .toFixed(0)
+      .padStart(2, '0')}`;
+    return formatted;
+  };
   const handleClickPlayListIcon = () => {
     dispatch({
       type: 'app/toggleShowPlayList',
       payload: true,
+    })
+  }
+
+  const handleClickPlayBtn = () => {
+    dispatch({
+      type: 'music/setPlayingState',
+      payload: 'playing'
+    })
+  }
+
+  const handleClickPauseBtn = () => {
+    dispatch({
+      type: 'music/setPlayingState',
+      payload: 'paused'
     })
   }
 
@@ -38,7 +64,12 @@ const PlayerController: React.FC = () => {
           <MdSkipPrevious />
         </div>
         <div className={styles.playerButton}>
-          <MdOutlinePlayCircleFilled style={{fontSize: '40px', color: '#1ece9a'}}/>
+          {
+            isPlaying ?
+            <MdPauseCircleFilled style={{fontSize: '40px', color: '#1ece9a'}} onClick={handleClickPauseBtn}></MdPauseCircleFilled>
+            : <MdOutlinePlayCircleFilled style={{fontSize: '40px', color: '#1ece9a'}} onClick={handleClickPlayBtn}/>
+
+          }
         </div>
         <div className={styles.playerButton}>
           <MdSkipNext />
@@ -49,7 +80,7 @@ const PlayerController: React.FC = () => {
       </div>
       <div className={styles.rightBtns}>
         <div className={styles.timeInfo}>
-          <span>01:32/03:31</span>
+          <span>{timeFormat(curTime)}/{timeFormat(duration)}</span>
         </div>
         <div className={styles.playListIcon} onClick={handleClickPlayListIcon}>
           <MdOutlineQueueMusic />

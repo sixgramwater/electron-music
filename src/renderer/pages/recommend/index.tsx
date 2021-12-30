@@ -55,7 +55,7 @@ const Recommend: React.FC = () => {
       }
     } as PlaylistType
   })
-  console.log(officialPlaylist);
+  // console.log(officialPlaylist);
   // console.log(result[1].data?.data)
   const isLoading2 = result[0].isLoading || result[1].isLoading;
   // useEffect(() => {

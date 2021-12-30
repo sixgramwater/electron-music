@@ -18,7 +18,9 @@ export interface MusicState {
   curTime: number;
   duration: number;
   volume: number;
+  seekTime: number;
   curMusic: musicType | undefined;
+  curMusicId: number;
   audioRef: any;
   playingState: PlayingStateType;
   recommendPlaylist: PlaylistType[] | [];
@@ -127,8 +129,10 @@ export const fetchPlaylistAllSongs = createAsyncThunk(
 const initialState: MusicState = {
   isPlaying: false,
   curTime: 0,
-  duration: 0,
+  seekTime: 0,
+  duration: 168,
   volume: 0.5,
+  curMusicId: 1425763494,
   curMusic: {
     name: 'free with you',
     id: 1425763494,
@@ -170,10 +174,13 @@ const musicSlice = createSlice({
       state.audioRef = action.payload;
     },
     setCurTime: (state, action) => {
-      state.audioRef = action.payload;
+      state.curTime = action.payload;
     },
     setCurMusic: (state, action: PayloadAction<musicType>) => {
       state.curMusic = action.payload;
+    },
+    setDuration: (state, action) => {
+      state.duration = action.payload;
     },
     setVolume: (state, action) => {
       state.volume = action.payload;
@@ -202,6 +209,12 @@ const musicSlice = createSlice({
     setTrackPlaylist: (state, action) => {
       state.trackPlaylist = action.payload;
     },
+    setMusicId: (state, action) => {
+      state.curMusicId = action.payload;
+    },
+    setSeekTime: (state, action) => {
+      state.seekTime = action.payload;
+    }
 
 
   },

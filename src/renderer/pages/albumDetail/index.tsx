@@ -24,6 +24,7 @@ const AlbumDetailPage: React.FC = () => {
   // const playlistLoading = useAppSelector(state=>state.music.playlistLoading);
   const curPlaylistIndex = useAppSelector(state=>state.music.playlists.findIndex(list=>list.id===id));
   const curPlaylist = useAppSelector(state=>(curPlaylistIndex!==-1) ? state.music.playlists[curPlaylistIndex]:undefined);
+
   useEffect(() => {
     if(curPlaylist)  return;
     setLoading(true);
@@ -54,7 +55,7 @@ const AlbumDetailPage: React.FC = () => {
           signature: datalist.creator.signature,
         }
       }
-      console.log(payload);
+      // console.log(payload);
       setLoading(false);
       dispatch({
         type: 'music/addPlaylists',
@@ -86,7 +87,17 @@ const AlbumDetailPage: React.FC = () => {
   const handleClickPanelAdd = () => {
 
   }
-  const handleClickPanelPlay = () => {
+  const handleClickPanelPlay = (para: MusicItemType) => {
+    dispatch({
+      type: 'music/setCurMusic',
+      payload: para,
+    });
+
+    dispatch({
+      type: 'music/setDuration',
+      payload: para.duration/1000>>0
+    });
+
 
   }
   const handleClickPanelDownload = () => {
@@ -141,7 +152,7 @@ const AlbumDetailPage: React.FC = () => {
                 <MdOutlineHighQuality />
               </i>
               <div className={styles.panel}>
-                <i className={styles.panelIcon} onClick={handleClickPanelPlay}><MdOutlinePlayArrow /></i>
+                <i className={styles.panelIcon} onClick={()=>handleClickPanelPlay(para)}><MdOutlinePlayArrow /></i>
                 <i className={styles.panelIcon} onClick={handleClickPanelAdd}><MdOutlineAddBox /></i>
                 <i className={styles.panelIcon} onClick={handleClickPanelDownload}><MdOutlineDownload /></i>
               </div>
