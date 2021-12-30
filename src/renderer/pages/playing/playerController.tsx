@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './index.module.scss';
+import { FaRandom, FaIndent, FaSync } from 'react-icons/fa';
 import { MdSkipPrevious, MdSkipNext, MdVolumeDown, MdOutlineDownload, MdOutlineComment ,MdOutlinePlayCircleFilled, MdPauseCircleFilled,MdOutlineQueueMusic} from 'react-icons/md';
 // import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai'
 import { IoHeartDislikeOutline, IoHeartOutline } from 'react-icons/io5';
@@ -10,6 +11,7 @@ const PlayerController: React.FC = () => {
   const curTime = useAppSelector(state=>state.music.curTime);
   const duration = useAppSelector(state=>state.music.duration);
   const isPlaying = useAppSelector(state=>state.music.isPlaying);
+  const playMode = useAppSelector(state=>state.music.playMode);
   const timeFormat = (time: number) => {
     // let temp = time.toFixed(0);
     const minutes = Math.floor(time / 60);
@@ -39,6 +41,33 @@ const PlayerController: React.FC = () => {
       payload: 'paused'
     })
   }
+  const clickPlayModeButton = () => {
+    dispatch({
+      type: 'music/setPlayMode',
+      payload: (playMode+1)%3,
+    })
+  }
+  // type playModeType = 'random' | 'list' | 'single';
+  const renderPlayingModeButton = (state: number) => {
+    switch (state) {
+      case 0:
+        return (
+          <FaRandom style={{fontSize: '14px'}} />
+        )
+      case 1:
+        return(
+          <FaIndent style={{fontSize: '14px'}} />
+        )
+      case 2:
+        return (
+          <FaSync style={{fontSize: '14px'}} />
+        )
+      default:
+        return (
+          <FaRandom style={{fontSize: '14px'}} />
+        )
+    }
+  }
 
   return (
     // <div className={styles.playerController}>
@@ -60,6 +89,11 @@ const PlayerController: React.FC = () => {
 
       </div>
       <div className={styles.playerBtns}>
+        <div className={styles.playerButton} style={{marginRight: '3px'}} onClick={clickPlayModeButton}>
+          {
+            renderPlayingModeButton(playMode)
+          }
+        </div>
         <div className={styles.playerButton}>
           <MdSkipPrevious />
         </div>

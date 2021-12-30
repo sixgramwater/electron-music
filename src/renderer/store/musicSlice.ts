@@ -31,6 +31,7 @@ export interface MusicState {
   playlistLoading: boolean;
 
   trackPlaylist: trackType[];
+  playMode: number;
 }
 
 export type PlaylistType = {
@@ -149,7 +150,6 @@ const initialState: MusicState = {
     },
     musicUrl: undefined,
     lyricUrl: undefined,
-
   },
   audioRef: null,
   playingState: 'stop',
@@ -161,6 +161,7 @@ const initialState: MusicState = {
   playlistLoading: false,
   recommendPageLoading: false,
   trackPlaylist: [],
+  playMode: 0,
 }
 
 const musicSlice = createSlice({
@@ -214,6 +215,9 @@ const musicSlice = createSlice({
     },
     setSeekTime: (state, action) => {
       state.seekTime = action.payload;
+    },
+    setPlayMode: (state, action) => {
+      state.playMode = action.payload;
     }
 
 

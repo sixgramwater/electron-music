@@ -24,7 +24,7 @@ const Player: React.FC = () => {
     dispatch({
       type: 'music/setSeekTime',
       payload: value,
-    })
+    });
     setIsDragging(false);
     console.log(value);
   }

@@ -2,16 +2,20 @@ import React from 'react';
 import styles from './index.module.scss';
 import { MdSkipPrevious, MdSkipNext, MdVolumeDown, MdOutlinePlayCircleFilled, MdPauseCircleFilled, MdOutlineQueueMusic} from 'react-icons/md';
 import { useAppDispatch, useAppSelector } from 'renderer/hooks/hooks';
+import { FaRandom, FaIndent, FaSync } from 'react-icons/fa';
+
 // import { useAppSelector } from 'renderer/hooks/hooks';
 // import { useHistory } from 'react-router-dom';
 // import Slider from 'rc-slider';
 
 const FooterPlayer: React.FC = () => {
   const albumCover = 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2Fbf19f7ffec9278ce7f92cd79c132db9945d87c57a10c-63iyrZ_fw658&refer=http%3A%2F%2Fhbimg.b0.upaiyun.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1640440257&t=1113a3a43c3d8214798abcf346e4b58d'
+
   const dispatch = useAppDispatch();
   const curMusic = useAppSelector(state=>state.music.curMusic);
   const curTime = useAppSelector(state=>state.music.curTime);
   const duration = useAppSelector(state=>state.music.duration);
+  const playMode = useAppSelector(state=>state.music.playMode);
   const playingState = useAppSelector(state => state.music.playingState);
   // const history = useHistory();
   const handleClickPlayListIcon = () => {
@@ -45,6 +49,32 @@ const FooterPlayer: React.FC = () => {
 
     })
   }
+  const clickPlayModeButton = () => {
+    dispatch({
+      type: 'music/setPlayMode',
+      payload: (playMode+1)%3,
+    })
+  }
+  const renderPlayingModeButton = (state: number) => {
+    switch (state) {
+      case 0:
+        return (
+          <FaRandom style={{fontSize: '14px'}} />
+        )
+      case 1:
+        return(
+          <FaIndent style={{fontSize: '14px'}} />
+        )
+      case 2:
+        return (
+          <FaSync style={{fontSize: '14px'}} />
+        )
+      default:
+        return (
+          <FaRandom style={{fontSize: '14px'}} />
+        )
+    }
+  }
 
   const timeFormat = (time: number) => {
     // let temp = time.toFixed(0);
@@ -72,6 +102,11 @@ const FooterPlayer: React.FC = () => {
           </div>
         </div>
         <div className={styles.playerBtns}>
+          <div className={styles.playerButton} onClick={clickPlayModeButton}>
+            {
+              renderPlayingModeButton(playMode)
+            }
+          </div>
           <div className={styles.playerButton}>
             <MdSkipPrevious />
           </div>
