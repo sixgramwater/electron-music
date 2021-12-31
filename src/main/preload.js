@@ -1,4 +1,5 @@
 const { contextBridge, ipcRenderer } = require('electron');
+const db = require('../db/downloadItem');
 // window.ipcRenderer = require('electron').ipcRenderer;
 
 contextBridge.exposeInMainWorld('electron', {
@@ -27,4 +28,5 @@ contextBridge.exposeInMainWorld('electron', {
       // }
     },
   },
+  db,
 });

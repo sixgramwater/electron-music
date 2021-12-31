@@ -11,11 +11,12 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import path from 'path';
+// import fs from 'fs';
 import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
-import { resolveHtmlPath } from './util';
+import { resolveHtmlPath, guid } from './util';
 
 export default class AppUpdater {
   constructor() {
@@ -249,3 +250,74 @@ app
     closeHashWindow(value);
   })
 
+  ipcMain.on('trigger-download', (e, value) => {
+    mainWindow?.webContents.downloadURL(value);
+  })
+
+
+// download logic
+const { session } = require('electron');
+const fs = require('fs');
+
+session.defaultSession.on('will-download', async (event, item) => {
+  const fileName = item.getFilename();
+  const url = item.getURL();
+  const startTime = item.getStartTime();
+  const initialState = item.getState();
+  const downloadPath = app.getPath('downloads');
+
+  let fileNum = 0;
+  let savePath = path.join(downloadPath, fileName);
+
+  // savePath基础信息
+  const ext = path.extname(savePath);
+  const name = path.basename(savePath, ext);
+  const dir = path.dirname(savePath);
+
+  // 文件名自增逻辑
+  while (fs.pathExistsSync(savePath)) {
+    fileNum += 1;
+    savePath = path.format({
+      dir,
+      ext,
+      name: `${name}(${fileNum})`,
+    });
+  }
+
+  // 设置下载目录，阻止系统dialog的出现
+  item.setSavePath(savePath);
+  const id = guid();
+  // 通知渲染进程，有一个新的下载任务
+  mainWindow?.webContents.send('new-download-item', {
+    id,
+    savePath,
+    url,
+    startTime,
+    state: initialState,
+    paused: item.isPaused(),
+    totalBytes: item.getTotalBytes(),
+    receivedBytes: item.getReceivedBytes(),
+  });
+
+  // 下载任务更新
+  item.on('updated', (e, state) => { // eslint-disable-line
+    mainWindow?.webContents.send('download-item-updated', {
+      id,
+      startTime,
+      state,
+      totalBytes: item.getTotalBytes(),
+      receivedBytes: item.getReceivedBytes(),
+      paused: item.isPaused(),
+    });
+  });
+
+  // 下载任务完成
+  item.on('done', (e, state) => { // eslint-disable-line
+    mainWindow?.webContents.send('download-item-done', {
+      id,
+      startTime,
+      state,
+    });
+  });
+
+})
