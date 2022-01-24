@@ -6,9 +6,9 @@ import { HashRouter as Router } from 'react-router-dom';
 
 render(
   <Provider store={store}>
-    <Router hashType='noslash'>
+    <Router hashType="noslash">
       <App />
     </Router>
   </Provider>,
-document.getElementById('root')
+  document.getElementById('root')
 );

@@ -32,13 +32,13 @@
     bottom: 0;
     // z-index: -1;
     // margin: -30px;
-    background-color: rgba(0,0,0,.35);
+    background-color: rgba(0, 0, 0, 0.35);
     z-index: 103;
 
     // background-repeat: no-repeat;
     // background-size: cover;
     // background-position: center;
-	  // filter:blur(60px);
+    // filter:blur(60px);
     // opacity: 0.6;
   }
   .bgPlayer {
@@ -46,7 +46,7 @@
     background-size: cover;
     background-position: 50%;
     filter: blur(25px);
-    opacity: .7;
+    opacity: 0.7;
     transform: translateZ(0);
     position: absolute;
     top: 0;
@@ -88,7 +88,7 @@
         align-items: center;
         color: #8c8c8c;
         -webkit-app-region: no-drag;
-        &:hover{
+        &:hover {
           color: #1ece9a;
         }
         svg {
@@ -155,8 +155,10 @@
       }
       .lyricContainer {
         flex: 1;
+        // height: 360px;
+        margin: 10px 0 20px;
+        // overflow: hidden;
       }
-
     }
   }
   .player {
@@ -170,12 +172,10 @@
         // height: 4px;
         transform: translateY(-4px);
         // margin-top: -3px;
-
       }
     }
   }
 }
-
 
 .playerController {
   display: flex;
@@ -212,7 +212,6 @@
           color: #1ece9a;
         }
       }
-
     }
     .playerBtns {
       display: flex;
@@ -223,19 +222,18 @@
       align-items: center;
       height: 100%;
       .playerButton {
-       height: 100%;
-       vertical-align: middle;
-       display: flex;
-       align-items: center;
-       padding: 0 4px;
-       svg {
-         cursor: pointer;
-         &:hover {
-           color: #1ece9a;
-         }
-       }
-      //  margin-bottom: auto;
-
+        height: 100%;
+        vertical-align: middle;
+        display: flex;
+        align-items: center;
+        padding: 0 4px;
+        svg {
+          cursor: pointer;
+          &:hover {
+            color: #1ece9a;
+          }
+        }
+        //  margin-bottom: auto;
       }
     }
     .rightBtns {

@@ -7,11 +7,11 @@
 // }
 
 export interface IRendererAPI {
-  loadPreferences: () => Promise<void>,
+  loadPreferences: () => Promise<void>;
 }
 
 declare global {
   interface Window {
-    electron: any
+    electron: any;
   }
 }

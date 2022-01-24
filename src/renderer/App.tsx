@@ -11,8 +11,11 @@ import Library from 'renderer/pages/library';
 import Like from 'renderer/pages/like';
 import Recommend from './pages/recommend';
 import AlbumDetailPage from './pages/albumDetail';
+import DownloadPage from './pages/download';
+import RecentPage from './pages/recent';
+import SearchPage from './pages/search';
 import Login from './pages/login';
-import React  from 'react';
+import React from 'react';
 import AudioPlayer from './components/AudioPlayer';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
@@ -30,44 +33,45 @@ export const Main: React.FC = () => {
   // React.useEffect(()=>{
   //   console.log(location);
   // }, [location])
-  return(
+  return (
     <>
-    <div className="layout">
-      <Sider />
-      <div className="main-container">
-        <Header />
-        <div className="content">
-          <TransitionGroup>
-            <CSSTransition
-              key={location.pathname}
-              classNames="fade"
-              timeout={250}
-            >
-              <Switch location={location}>
-                <Route path="/" exact component={Recommend}/>
-                <Route path="/lib" component={Library}/>
-                <Route path="/like" component={Like}/>
-                <Route path="/albumDetail/:id" component={AlbumDetailPage} />
-                <Route path="/albumDetail" component={AlbumDetailPage} />
-                {/* <Redirect path='/rec'></Redirect> */}
-              </Switch>
-            </CSSTransition>
-          </TransitionGroup>
-          {/* <Outlet/> */}
-
+      <div className="layout">
+        <Sider />
+        <div className="main-container">
+          <Header />
+          <div className="content">
+            <TransitionGroup>
+              <CSSTransition
+                key={location.pathname}
+                classNames="fade"
+                timeout={250}
+              >
+                <Switch location={location}>
+                  <Route path="/" exact component={Recommend} />
+                  <Route path="/lib" component={Library} />
+                  <Route path="/like" component={Like} />
+                  <Route path="/albumDetail/:id" component={AlbumDetailPage} />
+                  <Route path="/albumDetail" component={AlbumDetailPage} />
+                  <Route path="/download" component={DownloadPage} />
+                  <Route path="/recent" component={RecentPage} />
+                  <Route path="/search/:query" component={SearchPage} />
+                  {/* <Redirect path='/rec'></Redirect> */}
+                </Switch>
+              </CSSTransition>
+            </TransitionGroup>
+            {/* <Outlet/> */}
+          </div>
+          {/* <Content /> */}
+          <PlayList />
+          <FooterPlayer />
+          {/* <Player /> */}
         </div>
-        {/* <Content /> */}
-        <PlayList />
-        <FooterPlayer/>
-        {/* <Player /> */}
       </div>
-
-    </div>
-    <PlayingPage/>
-    <AudioPlayer/>
+      <PlayingPage />
+      <AudioPlayer />
     </>
-  )
-}
+  );
+};
 
 // const Rec = () => {
 //   return(
@@ -156,22 +160,19 @@ export const Main: React.FC = () => {
 //   )
 // }
 export default function App() {
-
   const location = useLocation();
-  React.useEffect(()=>{
+  React.useEffect(() => {
     console.log(location);
-  }, [])
+  }, []);
   // console.log(location.)
   return (
-    <QueryClientProvider
-      client={queryClient}
-    >
-    <Switch location={location}>
-      {/* <Route path="/playing" component={PlayingPage}></Route> */}
+    <QueryClientProvider client={queryClient}>
+      <Switch location={location}>
+        {/* <Route path="/playing" component={PlayingPage}></Route> */}
 
-      <Route path="/login" component={Login}></Route>
-      <Route path="/" component={Main}></Route>
-    </Switch>
+        <Route path="/login" component={Login}></Route>
+        <Route path="/" component={Main}></Route>
+      </Switch>
     </QueryClientProvider>
   );
 }

@@ -33,7 +33,7 @@
     color: #8c8c8c;
     justify-content: center;
     align-items: center;
-    transform: scaleY(1.15) translateY(-2px) scaleX(0.8) ;
+    transform: scaleY(1.15) translateY(-2px) scaleX(0.8);
     opacity: 0.7;
     // transform: translateY(2px);
   }
@@ -56,7 +56,7 @@
     -webkit-app-region: no-drag;
     svg {
       &:hover {
-        color: #1ecc94;;
+        color: #1ecc94;
       }
     }
   }
@@ -66,13 +66,13 @@
     overflow: hidden;
     height: 100%;
     -webkit-user-drag: none;
-    
+
     -webkit-app-region: no-drag;
     // width: 24px;
     cursor: pointer;
     margin: 0 6px;
     img {
-    -webkit-user-drag: none;
+      -webkit-user-drag: none;
 
       width: 24px;
       height: 24px;

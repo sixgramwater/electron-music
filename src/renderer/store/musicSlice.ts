@@ -10,7 +10,7 @@ type trackType = {
   duration: number;
   musicUrl?: string;
   lyricUrl?: string;
-}
+};
 
 export interface MusicState {
   // showPlayList: boolean;
@@ -53,22 +53,21 @@ export type PlaylistType = {
     artists: artistType[];
     album: albumType;
     duration: number;
-  }[]
-}
+  }[];
+};
 
 export type PlayingStateType = 'playing' | 'paused' | 'stop';
 
 export type artistType = {
   id: number;
   name: string;
-}
+};
 
 export type albumType = {
   id: number;
   name: string;
   picUrl: string;
-
-}
+};
 
 export type musicType = {
   name: string;
@@ -77,7 +76,7 @@ export type musicType = {
   album: albumType;
   musicUrl?: string | undefined;
   lyricUrl?: string | undefined;
-}
+};
 
 export const fetchDailyRecPlaylist = createAsyncThunk(
   'music/fetchDailyRecommendPlaylist',
@@ -85,15 +84,15 @@ export const fetchDailyRecPlaylist = createAsyncThunk(
     const response = await Api.fetchDailyRecommendPlaylist();
     return response.data;
   }
-)
+);
 
 export const fetchDailyRecSongs = createAsyncThunk(
   'music/fetchDailtRecommendSongs',
   async () => {
-    const response = await Api.fetchDailyRecommendSongs()
+    const response = await Api.fetchDailyRecommendSongs();
     return response.data;
   }
-)
+);
 
 export const fetchMusicUrl = createAsyncThunk(
   'music/fetchMusicUrl',
@@ -101,7 +100,7 @@ export const fetchMusicUrl = createAsyncThunk(
     const response = await Api.fetchMusicUrl(id);
     return response.data;
   }
-)
+);
 
 export const fetchLyricUrl = createAsyncThunk(
   'music/fetchLyricUrl',
@@ -109,7 +108,7 @@ export const fetchLyricUrl = createAsyncThunk(
     const response = await Api.fetchLyricUrl(id);
     return response.data;
   }
-)
+);
 
 export const fetchPlaylistDetail = createAsyncThunk(
   'music/fetchPlaylistDetail',
@@ -117,7 +116,7 @@ export const fetchPlaylistDetail = createAsyncThunk(
     const response = await Api.fetchPlaylistDetail(id);
     return response.data;
   }
-)
+);
 
 export const fetchPlaylistAllSongs = createAsyncThunk(
   'music/fetchPlaylistAllSongs',
@@ -125,7 +124,7 @@ export const fetchPlaylistAllSongs = createAsyncThunk(
     const response = await Api.fetchPlaylistAllSongs(id);
     return response.data;
   }
-)
+);
 
 const initialState: MusicState = {
   isPlaying: false,
@@ -140,13 +139,14 @@ const initialState: MusicState = {
     artists: [
       {
         id: 31183880,
-        name: "Rnla",
-      }
+        name: 'Rnla',
+      },
     ],
     album: {
       id: 85963100,
       name: 'free with you',
-      picUrl: "http://p4.music.126.net/6kzetxKvZxzTXaL3aCl8RA==/109951164738162061.jpg"
+      picUrl:
+        'http://p4.music.126.net/6kzetxKvZxzTXaL3aCl8RA==/109951164738162061.jpg',
     },
     musicUrl: undefined,
     lyricUrl: undefined,
@@ -162,7 +162,7 @@ const initialState: MusicState = {
   recommendPageLoading: false,
   trackPlaylist: [],
   playMode: 0,
-}
+};
 
 const musicSlice = createSlice({
   name: 'music',
@@ -200,8 +200,8 @@ const musicSlice = createSlice({
     },
     addPlaylists: (state, action) => {
       const { id, playlist } = action.payload;
-      const index = state.playlists.findIndex(list=>list.id === id);
-      if(index !== -1) {
+      const index = state.playlists.findIndex((list) => list.id === id);
+      if (index !== -1) {
         state.playlists[index] = playlist;
       } else {
         state.playlists.push(playlist as never);
@@ -218,21 +218,13 @@ const musicSlice = createSlice({
     },
     setPlayMode: (state, action) => {
       state.playMode = action.payload;
-    }
-
-
+    },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchPlaylistDetail.fulfilled, (state, action) => {
+    builder.addCase(fetchPlaylistDetail.fulfilled, (state, action) => {});
+  },
+});
 
-    })
-
-  }
-})
-
-export const {
-  setIsPlaying
-
-} = musicSlice.actions;
+export const { setIsPlaying } = musicSlice.actions;
 
 export default musicSlice.reducer;

@@ -11,21 +11,17 @@ export interface NavItemProps {
 }
 
 const NavItem: React.FC<NavItemProps> = (props) => {
-  const {
-    path,
-    title,
-    icon
-  } = props;
+  const { path, title, icon } = props;
   let history = useHistory();
   const location = useLocation();
   const isActive = location.pathname === path;
   const handleClickItem = () => {
     console.log(path);
-    history.push(path)
-  }
+    history.push(path);
+  };
   const navItemClass = cx(styles.navItem, {
     [styles.active]: isActive,
-  })
+  });
   return (
     // <li className={styles.navItem}>
     //   <NavLink to={path} >
@@ -36,7 +32,7 @@ const NavItem: React.FC<NavItemProps> = (props) => {
       <div className={styles.icon}>{icon}</div>
       <div className={styles.title}>{title}</div>
     </div>
-  )
-}
+  );
+};
 
 export default NavItem;

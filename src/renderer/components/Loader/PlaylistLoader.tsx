@@ -1,4 +1,4 @@
-import ContentLoader from "react-content-loader"
+import ContentLoader from 'react-content-loader';
 
 const PlaylistLoader = () => {
   return (
@@ -24,7 +24,7 @@ const PlaylistLoader = () => {
       <rect x="57" y="524" rx="0" ry="0" width="593" height="25" />
       <rect x="56" y="571" rx="0" ry="0" width="593" height="25" />
     </ContentLoader>
-  )
-}
+  );
+};
 
 export default PlaylistLoader;

@@ -7,10 +7,10 @@ const Footer: React.FC = () => {
   return (
     <div className={styles.footer}>
       <div className={styles.footerInner}>
-        <FooterPlayer/>
+        <FooterPlayer />
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Footer;

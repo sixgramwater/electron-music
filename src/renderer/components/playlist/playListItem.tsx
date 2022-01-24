@@ -3,7 +3,6 @@ import styles from './index.module.scss';
 // import cx from 'classnames';
 
 const PlayListItem: React.FC = () => {
-  
   return (
     <div className={styles.playListItem}>
       <div className={styles.playListItemInner}>
@@ -15,7 +14,7 @@ const PlayListItem: React.FC = () => {
       </div>
       <div className={styles.playListIcons}></div>
     </div>
-  )
-}
+  );
+};
 
 export default PlayListItem;

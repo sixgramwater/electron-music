@@ -3,7 +3,7 @@ import styles from './index.module.scss';
 import Nav from '../nav/index';
 
 const Sider: React.FC = () => {
-  return(
+  return (
     <div className={styles.sider}>
       <div className={styles.siderInner}>
         <div className={styles.logo}>
@@ -14,7 +14,7 @@ const Sider: React.FC = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Sider;

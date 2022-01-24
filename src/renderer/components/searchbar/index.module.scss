@@ -2,6 +2,7 @@
   height: 32px;
   margin-left: 12px;
   margin-right: auto;
+  position: relative;
   -webkit-app-region: no-drag;
   input {
     background: #e3e3e3;
@@ -9,17 +10,151 @@
     border-radius: 30px;
     border: transparent;
     box-sizing: border-box;
-    padding-left: 12px;
+    width: 150px;
+    padding: 0 25px 0 12px;
+    font-size: 13px;
+    font-weight: 520;
     &::placeholder {
       font-size: 12px;
     }
-    &:focus{
+    &:focus {
       outline: none;
       // border: transparent
     }
   }
+  .searchPopup {
+    display: none;
+    position: absolute;
+    left: 0;
+    width: 360px;
+    top: 34px;
+    min-height: 240px;
+    max-height: 400px;
+    border-radius: 8px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 0 12px 2px;
+    background: #fff;
+
+    overflow: hidden;
+    &.show {
+      display: block;
+    }
+    // padding: 4px;
+    .popupInner {
+      padding: 10px 14px;
+      height: 100%;
+      width: 100%;
+      // overflow: hidden;
+    }
+    .hotSearch {
+      display: flex;
+      flex-direction: column;
+      .header {
+        padding: 8 0px;
+      }
+      .mainContent {
+        flex: 1;
+        // display: flex;
+      }
+      .listItem {
+        // user-select: initial;
+        display: flex;
+        padding: 4px 0;
+        margin: 8px 0;
+        transition: 200ms all ease-in-out;
+        cursor: pointer;
+        &:hover {
+          background: #e2e8f0;
+        }
+        .index {
+          width: 32px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 20px;
+          color: #d1d5db;
+          &.colored {
+            color: #1ece9a;
+            font-weight: 600;
+          }
+        }
+        .content {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          padding: 0 0 0 8px;
+          color: #6b7280;
+          font-size: 13px;
+          .musicTitle {
+            color: #000;
+            font-weight: 600;
+          }
+          .score {
+            margin-left: 20px;
+            color: #d1d5db;
+          }
+          .description {
+            margin-top: 4px;
+          }
+        }
+
+        // padding: 8px 12px;
+      }
+    }
+  }
+  // &:focus-within {
+  //   .searchPopup {
+  //     display: block;
+  //   }
+  // }
+  .searchBarInner {
+    position: relative;
+    display: flex;
+    .suffix {
+      position: absolute;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      bottom: 0;
+      right: 8px;
+      cursor: pointer;
+      &:hover {
+        color: #1ece9a;
+      }
+    }
+  }
+
   // .searchBarInner {
   //   background: #e3e3e3;
   //   input {}
   // }
+}
+
+.searchList {
+  font-size: 13px;
+  .section {
+    padding: 6px 0;
+    display: flex;
+
+    .sectionTitle {
+      // width: 64px;
+      padding: 6px 12px 6px 6px;
+    }
+    .sectionContent {
+      flex: 1;
+      .suggestItem {
+        padding: 6px 6px;
+        cursor: pointer;
+        border-radius: 3px;
+        overflow: hidden;
+        transition: all 250ms ease-in-out;
+        .highlighted {
+          color: #ea580c;
+          // color: #1ece9a;
+        }
+        &:hover {
+          background: #e2e8f0;
+        }
+      }
+    }
+  }
 }

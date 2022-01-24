@@ -1,0 +1,56 @@
+.tabs {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  .tabsNav {
+    display: flex;
+    margin: 0 0 16px;
+    position: relative;
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .tabsNavWrap {
+      display: flex;
+      .tabsNavList {
+        display: flex;
+      }
+    }
+  }
+
+  .tabsNavItem {
+    padding: 12px 0;
+    cursor: pointer;
+    transition: 250ms all ease-in-out;
+    position: relative;
+    border-bottom: 2px solid transparent;
+    &.active {
+      border-bottom-color: #1ece9a;
+      color: #1ece9a;
+    }
+
+    &::after {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      border-bottom: 1px solid transparent;
+      content: '';
+    }
+  }
+  .tabsNavItem + .tabsNavItem {
+    margin-left: 32px;
+  }
+
+  .tabsContentHolder {
+    flex: 1;
+    .tabsContent {
+      height: 100%;
+      padding-top: 2px;
+    }
+  }
+}

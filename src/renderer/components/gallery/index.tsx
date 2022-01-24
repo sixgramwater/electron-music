@@ -7,7 +7,7 @@ const Gallery: React.FC = () => {
       <div className={styles.galleryInner}></div>
       {/* <div className={}></div> */}
     </div>
-  )
-}
+  );
+};
 
 export default Gallery;

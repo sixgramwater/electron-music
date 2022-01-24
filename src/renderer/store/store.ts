@@ -6,8 +6,8 @@ const store = configureStore({
   reducer: {
     app: appReducer,
     music: musicReducer,
-  }
-})
+  },
+});
 
 export default store;
 

@@ -9,20 +9,20 @@ export default instance;
 
 export const get = (url: string, query?: any) => {
   return instance({
-    url: prefix+url,
+    url: prefix + url,
     method: 'GET',
-    headers: {'Content-Type': 'application/json;charset=UTF-8'},
+    headers: { 'Content-Type': 'application/json;charset=UTF-8' },
     params: query,
-    withCredentials: true
-  })
-}
+    withCredentials: true,
+  });
+};
 
 export const post = (url: string, query: any) => {
   return instance({
-    url: prefix+url,
+    url: prefix + url,
     method: 'POST',
-    headers: {'Content-Type': 'application/json;charset=UTF-8'},
+    headers: { 'Content-Type': 'application/json;charset=UTF-8' },
     data: query,
-    withCredentials: true
-  })
-}
+    withCredentials: true,
+  });
+};

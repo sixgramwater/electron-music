@@ -20,15 +20,14 @@ export type UserType = {
   province: number;
   salt: string;
   birthday: number;
-}
+};
 
 const initialState: AppState = {
   showPlayList: false,
   showPlayingPage: false,
   token: undefined,
   user: undefined,
-
-}
+};
 
 const appSlice = createSlice({
   name: 'app',
@@ -42,13 +41,10 @@ const appSlice = createSlice({
     },
     setUser: (state, action) => {
       state.user = action.payload;
-    }
-  }
-})
+    },
+  },
+});
 
-export const {
-  toggleShowPlayList,
-
-} = appSlice.actions;
+export const { toggleShowPlayList } = appSlice.actions;
 
 export default appSlice.reducer;

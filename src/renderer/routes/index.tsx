@@ -1,6 +1,5 @@
-import {  Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import React from 'react';
-
 
 export interface ITransitionConfig {
   enter: string;
@@ -14,26 +13,20 @@ export interface IRouteItem {
   children?: IRouteItem[];
 }
 
-
-
 const renderNestedRoutes = (routes: IRouteItem[]) => {
   return (
     <>
-      {
-        routes.map(routeItem => (
-          <Route 
-            path={routeItem.path} 
-            element={routeItem.element}
-            key={routeItem.path}
-          >
-            {
-              routeItem.children && renderNestedRoutes(routeItem.children)
-            }
-          </Route>
-        ))
-      }
+      {routes.map((routeItem) => (
+        <Route
+          path={routeItem.path}
+          element={routeItem.element}
+          key={routeItem.path}
+        >
+          {routeItem.children && renderNestedRoutes(routeItem.children)}
+        </Route>
+      ))}
     </>
-  )
-}
+  );
+};
 
 export default renderNestedRoutes;

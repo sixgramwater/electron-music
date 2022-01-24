@@ -8,46 +8,46 @@ import cx from 'classnames';
 
 const PlayList: React.FC = () => {
   const dispatch = useAppDispatch();
-  const showPlayList = useAppSelector(state => state.app.showPlayList);
+  const showPlayList = useAppSelector((state) => state.app.showPlayList);
   // const playlistLoading = useAppSelector(state=>state.music.playlistLoading);
   const handleClickMask = () => {
     dispatch({
       type: 'app/toggleShowPlayList',
       payload: false,
-    })
-  }
+    });
+  };
 
   const playListClass = cx(styles.playList, {
     [styles.show]: showPlayList,
-  })
+  });
 
   const playListMaskClass = cx(styles.playListMask, {
-    [styles.show]: showPlayList
-  })
+    [styles.show]: showPlayList,
+  });
   return (
     <>
-    <div className={playListClass}>
-      <div className={styles.playListInner}>
-        <div className={styles.playListHeader}>
-          <div className={styles.headerInner}>
-            <div className={styles.title}>播放队列</div>
-            <div className={styles.count}>30首歌曲</div>
+      <div className={playListClass}>
+        <div className={styles.playListInner}>
+          <div className={styles.playListHeader}>
+            <div className={styles.headerInner}>
+              <div className={styles.title}>播放队列</div>
+              <div className={styles.count}>30首歌曲</div>
+            </div>
           </div>
-        </div>
-        <div className={styles.playListContent}>
-          <PlayListItem />
-        </div>
-        <div className={styles.playListFooter}>
-          <div className={styles.playListIcon} onClick={handleClickMask}>
-            <MdOutlineQueueMusic/>
-            <span>收起</span>
+          <div className={styles.playListContent}>
+            <PlayListItem />
+          </div>
+          <div className={styles.playListFooter}>
+            <div className={styles.playListIcon} onClick={handleClickMask}>
+              <MdOutlineQueueMusic />
+              <span>收起</span>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div className={playListMaskClass} onClick={handleClickMask}></div>
+      <div className={playListMaskClass} onClick={handleClickMask}></div>
     </>
-  )
-}
+  );
+};
 
 export default PlayList;

@@ -4,8 +4,7 @@ import AlbumDetailPage from '../pages/albumDetail';
 import PlayingPage from '../pages/playing';
 import Library from 'renderer/pages/library';
 import Like from 'renderer/pages/like';
-import { IRouteItem } from './index'
-
+import { IRouteItem } from './index';
 
 const config: IRouteItem[] = [
   {
@@ -14,7 +13,7 @@ const config: IRouteItem[] = [
     children: [
       {
         path: '/',
-        element: <Recommend />
+        element: <Recommend />,
       },
       {
         path: '/lib',
@@ -26,19 +25,18 @@ const config: IRouteItem[] = [
       },
       {
         path: '/albumDetail',
-        element: <AlbumDetailPage />
-      }
-    ]
+        element: <AlbumDetailPage />,
+      },
+    ],
   },
   {
     path: '/playing',
     element: <PlayingPage />,
     transitionConfig: {
       enter: 'from-bottom',
-      exit: 'to-bottom'
-    }
-  }
-]
-
+      exit: 'to-bottom',
+    },
+  },
+];
 
 export default config;

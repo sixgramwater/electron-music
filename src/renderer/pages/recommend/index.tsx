@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './index.module.scss';
 // import AlbumItem from 'renderer/components/AlbumItem';
 import Scroll from 'renderer/components/scrollbar';
@@ -8,7 +8,7 @@ import AlbumItemLoader from 'renderer/components/Loader/AlbumItemLoader';
 import { fetchDailyRecommendPlaylist } from 'renderer/api';
 import { PlaylistType } from 'renderer/store/musicSlice';
 import { fetchOfficialPlaylist } from 'renderer/api';
-import { useQueries } from 'react-query'
+import { useQueries } from 'react-query';
 
 const Recommend: React.FC = () => {
   // const dispatch = useAppDispatch();
@@ -23,7 +23,7 @@ const Recommend: React.FC = () => {
     {
       queryKey: 'officialPlaylist',
       queryFn: fetchOfficialPlaylist,
-    }
+    },
   ]);
   const dailyRecommendList = result[0].data?.data.recommend.map((item: any) => {
     return {
@@ -37,8 +37,8 @@ const Recommend: React.FC = () => {
         avatarUrl: item.creator.avatarUrl,
         nickname: item.creator.nickname,
         signature: item.creator.signature,
-      }
-    } as PlaylistType
+      },
+    } as PlaylistType;
   });
   const officialPlaylist = result[1].data?.data.playlist.map((item: any) => {
     return {
@@ -52,9 +52,9 @@ const Recommend: React.FC = () => {
         avatarUrl: item.creator.avatarUrl,
         nickname: item.creator.nickname,
         signature: item.creator.signature,
-      }
-    } as PlaylistType
-  })
+      },
+    } as PlaylistType;
+  });
   // console.log(officialPlaylist);
   // console.log(result[1].data?.data)
   const isLoading2 = result[0].isLoading || result[1].isLoading;
@@ -94,10 +94,9 @@ const Recommend: React.FC = () => {
   //   }
   // ]
 
-  return (
-    isLoading2 ?
-    <AlbumItemLoader/>
-    :
+  return isLoading2 ? (
+    <AlbumItemLoader />
+  ) : (
     <Scroll>
       <div className={styles.pageRecommend}>
         <div className={styles.pageInner}>
@@ -111,9 +110,7 @@ const Recommend: React.FC = () => {
               <AlbumItem/>
               <AlbumItem/>
               <AlbumItem/> */}
-              <Slider
-                data={dailyRecommendList}
-              />
+              <Slider data={dailyRecommendList} />
             </div>
           </div>
           <div className={styles.section}>
@@ -121,14 +118,12 @@ const Recommend: React.FC = () => {
               <h2>你的私荐歌单</h2>
             </div>
             <div className={styles.sectionContent}>
-              <Slider
-                data={officialPlaylist}
-              />
+              <Slider data={officialPlaylist} />
             </div>
           </div>
         </div>
       </div>
     </Scroll>
-  )
-}
+  );
+};
 export default Recommend;
