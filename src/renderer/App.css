@@ -2,6 +2,12 @@
  * @NOTE: Prepend a `~` to css file paths that are in your node_modules
  *        See https://github.com/webpack-contrib/sass-loader#imports
  */
+
+/* @font-face {
+  font-family: 'sourceHans';
+  src: url('../../public/SourceHanSerifSC-VF.ttf.woff2');
+} */
+
 body {
   position: relative;
   color: white;
@@ -12,7 +18,8 @@ body {
     #dd5789 51.77%,
     #7a2c9e 129.35%
   );
-  font-family: sans-serif;
+  /* font-family: 'sourceHans' !important; */
+  /* font-family: sans-serif; */
   overflow-y: hidden;
   display: flex;
   justify-content: center;

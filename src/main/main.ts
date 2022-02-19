@@ -12,10 +12,15 @@ import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import path from 'path';
 import { app, BrowserWindow, shell, ipcMain } from 'electron';
+// import fs from 'fs';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
+import Store from 'electron-store';
+// import fs from 'fs/promises';
+// const fs = require('fs');
+const store = new Store();
 
 export default class AppUpdater {
   constructor() {
@@ -78,7 +83,7 @@ const createWindow = async () => {
     icon: getAssetPath('icon.png'),
     frame: false,
     webPreferences: {
-      // nodeIntegration: true,
+      nodeIntegration: true,
 //       preload: path.resolve(__dirname, './public/preload.js'),//preload.js 文件路径
 //       contextIsolation: false,//官方文档默认为true,
       preload: path.join(__dirname, 'preload.js'),
@@ -118,6 +123,8 @@ const createWindow = async () => {
     event.preventDefault();
     shell.openExternal(url);
   });
+
+  listenDownload();
 
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line
@@ -186,7 +193,7 @@ const createLoginWindow = () => {
   height: 528,
   parent: mainWindow?mainWindow:undefined,
   webPreferences: {
-    // nodeIntegration: true,
+    nodeIntegration: true,
 //       preload: path.resolve(__dirname, './public/preload.js'),//preload.js 文件路径
 //       contextIsolation: false,//官方文档默认为true,
     preload: path.join(__dirname, 'preload.js'),
@@ -227,6 +234,10 @@ app
       // dock icon is clicked and there are no other windows open.
       if (mainWindow === null) createWindow();
     });
+    // mainWindow!.webContents.on('did-finish-load', () => {
+      
+    // })
+    // listenDownload();
   })
   .catch(console.log);
 
@@ -234,18 +245,115 @@ app
   ipcMain.on('minWindow', ()=>mainWindow?.minimize());
   ipcMain.on('closeWindow', ()=>mainWindow?.close());
   ipcMain.on('createLoginWindow', () => {
-    console.log('create')
+    console.log('create login window')
     createLoginWindow();
   //  let loginWindow = new BrowserWindow({
 //  })
-  })
+  });
 
   ipcMain.on('create-new-window', (event, value) => {
     // console.log('createNewWindow');
     createNewWindow(value);
-  })
+  });
 
   ipcMain.on('close-hash-window', (event, value) => {
     closeHashWindow(value);
-  })
+  });
+
+  ipcMain.on('electron-store-get', async (event, val) => {
+    event.returnValue = store.get(val);
+  });
+
+  ipcMain.on('electron-store-set', async (event, key, val) => {
+    store.set(key, val);
+  });
+
+  ipcMain.on('trigger-download', (e, value) => {
+    console.log('trigger download', value);
+    mainWindow?.webContents.downloadURL(value);
+  });
+
+  // const { session } = require('electron');
+  // const fs = require('fs');
+  const listenDownload = () => {
+    // const fs = window.require('fs');
+    const { session } = require('electron');
+    session.defaultSession.on('will-download', async (event, item) => {
+      const fileName = item.getFilename();
+      const url = item.getURL();
+      const startTime = item.getStartTime();
+      const initialState = item.getState();
+      const downloadPath = app.getPath('downloads');
+      
+      // let fileNum = 0;
+      let savePath = path.join(downloadPath, fileName);
+  
+      // savePath基础信息
+      const ext = path.extname(savePath);
+      const name = path.basename(savePath, ext);
+      const dir = path.dirname(savePath);
+  
+      // 文件名自增逻辑
+      // while (fs.pathExistsSync(savePath)) {
+      //   fileNum += 1;
+      //   savePath = path.format({
+      //     dir,
+      //     ext,
+      //     name: `${name}(${fileNum})`,
+      //   });
+      // }
+      savePath = path.format({
+        dir,
+        ext,
+        name: `${name}`,
+      });
+  
+      // 设置下载目录，阻止系统dialog的出现
+      item.setSavePath(savePath);
+      console.log({
+        savePath,
+        url,
+        startTime,
+        state: initialState,
+        paused: item.isPaused(),
+        totalBytes: item.getTotalBytes(),
+        receivedBytes: item.getReceivedBytes(),
+      });
+      // const id = guid();
+      // 通知渲染进程，有一个新的下载任务
+      mainWindow!.webContents.send('new-download-item', {
+        // id,
+        savePath,
+        url,
+        startTime,
+        state: initialState,
+        paused: item.isPaused(),
+        totalBytes: item.getTotalBytes(),
+        receivedBytes: item.getReceivedBytes(),
+      });
+  
+      // 下载任务更新
+      item.on('updated', (e, state) => { // eslint-disable-line
+        console.log(item.getReceivedBytes()/item.getTotalBytes()*100+'%');
+        mainWindow!.webContents.send('download-item-updated', {
+          // id,
+          startTime,
+          state,
+          totalBytes: item.getTotalBytes(),
+          receivedBytes: item.getReceivedBytes(),
+          paused: item.isPaused(),
+        });
+      });
+  
+      // 下载任务完成
+      item.on('done', (e, state) => { // eslint-disable-line
+        mainWindow!.webContents.send('download-item-done', {
+          // id,
+          startTime,
+          state,
+        });
+      });
+    });
+  }
+  
 
