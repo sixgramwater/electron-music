@@ -15,7 +15,7 @@ import DownloadPage from './pages/download';
 import RecentPage from './pages/recent';
 import SearchPage from './pages/search';
 import Login from './pages/login';
-import React from 'react';
+import React, { useEffect } from 'react';
 import AudioPlayer from './components/AudioPlayer';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
@@ -25,10 +25,37 @@ const queryClient = new QueryClient();
 // import {} from 'react-router-dom'
 import './App.scss';
 import 'antd/dist/antd.css';
+import { useAppDispatch } from './hooks/hooks';
+
 // import './styles/theme.less';
 // import { useHistory } from 'react-router';
 
 export const Main: React.FC = () => {
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    window.electron.ipcRenderer.on('new-download-item', (event: any, arg: any) => {
+      console.log(arg);
+      dispatch({
+        type: 'app/addNewDownloadItem',
+        payload: arg
+      })
+    });
+    window.electron.ipcRenderer.on('download-item-updated', (event: any, arg: any) => {
+      console.log(arg);
+      dispatch({
+        type: 'app/updateDownloadItem',
+        payload: arg
+      })
+    });
+    window.electron.ipcRenderer.on('download-item-done', (event: any, arg: any) => {
+      console.log('done',arg);
+      dispatch({
+        type: 'app/updateDownloadItem',
+        payload: arg
+      })
+    })
+  }, []);
+  
   const location = useLocation();
   // React.useEffect(()=>{
   //   console.log(location);

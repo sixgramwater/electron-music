@@ -15,8 +15,10 @@
   transition: all ease 250ms;
   vertical-align: middle;
   align-items: center;
+  transition: 150ms ease-in-out all;
   // overflow: hidden;
   &:hover {
+    background: #f0f0f0;
     .panel {
       display: flex;
     }

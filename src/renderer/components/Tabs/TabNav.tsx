@@ -30,7 +30,7 @@ export const Tabs: React.FC<TabsProps> = (props) => {
           <div className={styles.tabsNavList}>
             {React.Children.map(children, (child, index) => {
               if (!child) return;
-              console.log(child);
+              // console.log(child);
               const key = child.key;
               const navItemClass = cx(styles.tabsNavItem, {
                 [styles.active]: activeKey === key,

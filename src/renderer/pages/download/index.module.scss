@@ -22,3 +22,89 @@
     height: calc(100% - 90px);
   }
 }
+
+.musicItemTitle {
+  width: 100%;
+  display: flex;
+  overflow: hidden;
+  align-items: center;
+  padding-right: 6px;
+  .alias {
+    color: #9ca3af;
+    padding: 0 4px;
+    max-width: 150px;
+  }
+  .badge {
+    font-size: 18px;
+    padding: 0 6px;
+    display: flex;
+    align-items: center;
+    color: #1ece9a;
+  }
+  .panel {
+    display: none;
+    // display: flex;
+    padding: 0 6px;
+    margin-left: auto;
+    // display: none;
+    .panelIcon {
+      color: #bebebe;
+      height: 22px;
+      font-size: 22px;
+      // vertical-align: middle;
+      padding: 0 3px;
+      display: flex;
+      align-items: center;
+      svg {
+        cursor: pointer;
+        height: 100%;
+        &:hover {
+          color: #1ece9a;
+        }
+      }
+      // svg {
+      //   transform: translateY(2px);
+      // }
+    }
+  }
+  
+  .icon {
+    display: flex;
+    align-items: center;
+    padding: 0 8px 0 3px;
+  }
+  &:hover {
+    .panel {
+      display: flex;
+    }
+  }
+}
+
+
+.progress {
+  width: 100%;
+  padding: 0 20px 0 0;
+}
+
+.percentContainer {
+  position: relative;
+  height: 24px;
+  width: 100%;
+  .percentInner {
+    height: 100%;
+    background: #1ece9a;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+  }
+}

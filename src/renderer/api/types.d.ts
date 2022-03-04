@@ -12,6 +12,17 @@ export interface IRendererAPI {
 
 declare global {
   interface Window {
-    electron: any;
+    electron: {
+      ipcRenderer: {
+        myPing: () => void;
+        on: (channel: string, func: Function) => void;
+        once: (channel: string, func: Function) => void;
+        send: (channel: string, data?: any) => void; 
+      };
+      store: {
+        get: (key: string) => any;
+        set: (key: string, val: any) => void;
+      };
+    }
   }
 }

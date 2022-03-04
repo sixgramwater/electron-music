@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import styles from './index.module.scss';
 import { Row, Col } from 'antd';
 import { FaRegHeart } from 'react-icons/fa';
@@ -9,23 +9,29 @@ import {
   MdOutlineHighQuality,
 } from 'react-icons/md';
 import { useAppDispatch, useAppSelector } from 'renderer/hooks/hooks';
+import { fetchMusicUrl } from 'renderer/api';
+// import { fetchMusicUrl } from 'renderer/store/musicSlice';
 
-interface MusicTableProps {
+export interface MusicTableProps {
   dataSource: Object[];
+  columns?: ColumnsType[];
   // columns: ColumnsType[];
 }
 
-// interface ColumnsType {
-//   className?: string;
-//   colSpan?: number;
-//   dataIndex: string;
-//   width?: string | number;
-//   title: string;
-//   key: string;
-// }
+export interface ColumnsType {
+  className?: string;
+  flex?: string;
+  colSpan?: number;
+  dataIndex: string;
+  width?: string | number;
+  title: string;
+  key: string;
+  render?: (text: any, record: any, index: number) => ReactNode;
+  onClick?: (value: any) => void;
+}
 
 const MusicTable: React.FC<MusicTableProps> = (props) => {
-  const { dataSource } = props;
+  const { dataSource, columns } = props;
   const dispatch = useAppDispatch();
 
   type ArtistType = {
@@ -64,7 +70,22 @@ const MusicTable: React.FC<MusicTableProps> = (props) => {
       payload: (para.duration / 1000) >> 0,
     });
   };
-  const handleClickPanelDownload = () => {};
+  const handleClickPanelDownload = (para: any) => {
+    const id: number = para.id;
+    fetchMusicUrl(id).then(res=>{
+      const url = res.data.data[0].url;
+      console.log('fetched url: ', url);
+      if(!url)  return;
+      window.electron.ipcRenderer.send('trigger-download', url);
+      dispatch({
+        type: 'app/beforeAddDownloadItem',
+        payload: {
+          musicItem: para,
+          url
+        }
+      })
+    })
+  };
 
   const timeFormat = (time: number) => {
     // let temp = time.toFixed(0);
@@ -76,7 +97,38 @@ const MusicTable: React.FC<MusicTableProps> = (props) => {
       .padStart(2, '0')}`;
     return formatted;
   };
-
+  const customeRenderTableItem = (para: any, index: number) => {
+    // if(!para)  return;
+    // const {  } = para;
+    return (
+    <Row key={para.id? para.id : index}>
+      <div className={styles.musicItem}>
+        {
+          columns!.map((col, index) => {
+            const colValue = para[col.dataIndex];
+            if(col.render) {
+              return (
+                <Col key={col.key} flex={col.flex} span={col.colSpan}>
+                  {
+                    col.render(colValue, para, index)
+                  }
+                </Col>
+              )
+            } 
+            return (
+            <Col key={col.key} flex={col.flex} span={col.colSpan}>
+              <div className={styles.itemTitle}
+              >
+                <span>{colValue}</span>
+              </div>
+            </Col>
+            )
+          })
+        }
+      </div>
+    </Row>
+    )
+  }
   const renderTableItem = (para: MusicItemType) => {
     if (!para) return;
     const {
@@ -115,7 +167,7 @@ const MusicTable: React.FC<MusicTableProps> = (props) => {
                 </i>
                 <i
                   className={styles.panelIcon}
-                  onClick={handleClickPanelDownload}
+                  onClick={() => handleClickPanelDownload(para)}
                 >
                   <MdOutlineDownload />
                 </i>
@@ -156,22 +208,43 @@ const MusicTable: React.FC<MusicTableProps> = (props) => {
         </div>
       </div>
       <div className={styles.tableContent}>
-        <Row
-          style={{
-            color: '#7d7d7d',
-            fontSize: '13px',
-          }}
-        >
-          <Col span={11}>歌曲</Col>
-          <Col flex="1">歌手</Col>
-          <Col flex="1">专辑</Col>
-          <Col flex="60px">
-            <span>时长</span>
-          </Col>
-        </Row>
+        {
+          columns ? 
+          <Row
+            style={{
+              color: '#7d7d7d',
+              fontSize: '13px',
+            }}
+          >
+            {
+              columns.map(col => {
+                return (
+                  <Col key={col.key} flex={col.flex} span={col.colSpan}>{col.title}</Col>
+                )
+              })
+            }
+
+          </Row>
+          :
+          <Row
+            style={{
+              color: '#7d7d7d',
+              fontSize: '13px',
+            }}
+          >
+            <Col span={11}>歌曲</Col>
+            <Col flex="1">歌手</Col>
+            <Col flex="1">专辑</Col>
+            <Col flex="60px">
+              <span>时长</span>
+            </Col>
+          </Row>
+        }
+        
         {dataSource ? (
-          dataSource.map((item: any) => {
-            return renderTableItem(item);
+          dataSource.map((item: any, index: number) => {
+            if(!columns)  return renderTableItem(item);
+            else return customeRenderTableItem(item, index);
           })
         ) : (
           <h2>no data</h2>

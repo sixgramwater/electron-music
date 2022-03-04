@@ -2,6 +2,8 @@ import React from 'react';
 import styles from './index.module.scss';
 import Scroll from 'renderer/components/scrollbar';
 import { Tabs, TabItem } from '../../components/Tabs/TabNav';
+import Downloading from './downloading';
+import Downloaded from './downloaded';
 
 const DownloadPage: React.FC = () => {
   return (
@@ -12,15 +14,17 @@ const DownloadPage: React.FC = () => {
             <h2>本地和下载</h2>
           </div>
           <div className={styles.content}>
-            <Tabs defaultActiveKey={'local'}>
-              <TabItem key="local" tab="本地下载">
+            <Tabs defaultActiveKey={'downloaded'}>
+              {/* <TabItem key="local" tab="本地下载">
                 local download content 123123123213
-              </TabItem>
+              </TabItem> */}
               <TabItem key="downloaded" tab="已下载">
-                downloaded content
+                <Downloaded />
               </TabItem>
               <TabItem key="downloading" tab="下载中">
-                downloading content
+                {/* downloading content */}
+                <Downloading/>
+
               </TabItem>
             </Tabs>
           </div>

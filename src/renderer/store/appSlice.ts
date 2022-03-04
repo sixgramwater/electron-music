@@ -5,6 +5,7 @@ export interface AppState {
   showPlayingPage: boolean;
   user: UserType | undefined;
   token: string | undefined;
+  downloadList: downloadItemType[]
 }
 
 export type UserType = {
@@ -22,11 +23,45 @@ export type UserType = {
   birthday: number;
 };
 
+type downloadStateType = "progressing" | "completed" | "cancelled" | "interrupted";
+
+type ArtistType = {
+  name: string;
+  id: number;
+};
+
+type MusicItemType = {
+  name: string;
+  id: number;
+  artists: ArtistType[];
+  album: {
+    name: string;
+    id: number;
+  };
+  duration: number;
+  alias: string[];
+};
+export interface downloadItemType {
+  fileName: string;
+  savePath: string;
+  totalBytes: number;
+  receivedBytes: number;
+  paused: boolean;
+  // percent: number;
+  downloadPath: string;
+  state: downloadStateType;
+  startTime: number;
+  url: string;
+  musicItem?: MusicItemType;
+
+}
+
 const initialState: AppState = {
   showPlayList: false,
   showPlayingPage: false,
   token: undefined,
   user: undefined,
+  downloadList: [],
 };
 
 const appSlice = createSlice({
@@ -42,6 +77,35 @@ const appSlice = createSlice({
     setUser: (state, action) => {
       state.user = action.payload;
     },
+    initDownloadList: (state, action) => {
+      state.downloadList = action.payload;
+    },
+    beforeAddDownloadItem: (state, action) => {
+      state.downloadList.push(action.payload);
+    },
+    addNewDownloadItem: (state, action) => {
+      const index = state.downloadList.findIndex(item => item.url === action.payload.url);
+      if(index !== -1) {
+        let item = state.downloadList[index];
+        state.downloadList[index] = {
+          ...item,
+          ...action.payload
+
+        }
+      }
+      // state.downloadList.push(action.payload);
+    },
+    updateDownloadItem: (state, action) => {
+      const index = state.downloadList.findIndex(item => item.startTime === action.payload.startTime);
+      if(index !== -1) {
+        let item = state.downloadList[index];
+        state.downloadList[index] = {
+          ...item,
+          ...action.payload
+        }
+        
+      }
+    }
   },
 });
 
