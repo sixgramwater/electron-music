@@ -38,7 +38,7 @@ export const lyricParser = (lyric: string) => {
       }
     }
   }
-  console.log(parsedLines);
+  // console.log(parsedLines);
   parsedLines.sort((a, b) => {
     return a.time - b.time;
   });

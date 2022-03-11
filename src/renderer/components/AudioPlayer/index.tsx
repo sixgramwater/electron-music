@@ -6,7 +6,7 @@ const AudioPlayer: React.FC = () => {
   const dispatch = useAppDispatch();
   const playingState = useAppSelector((state) => state.music.playingState);
   const curMusic = useAppSelector((state) => state.music.curMusic);
-  const curMusicId = useAppSelector((state) => state.music.curMusicId);
+  // const curMusicId = useAppSelector((state) => state.music.curMusicId);
   // const id = 85963100;
   const audioRef: any = useRef(null);
   const audioUrl = curMusic?.musicUrl ? curMusic?.musicUrl : '';
@@ -15,7 +15,15 @@ const AudioPlayer: React.FC = () => {
   useEffect(() => {
     if (!curMusic?.musicUrl) {
       fetchMusicUrl(curMusic!.id).then((para) => {
-        console.log(para.data.data[0].url);
+        const fetchedUrl = para.data.data[0].url;
+        if(!fetchedUrl) {
+          dispatch({
+            type: 'app/setToastContent',
+            payload: '无法加载歌曲'
+          })
+        }
+        // console.log(para.data.data[0].url);
+
         dispatch({
           type: 'music/setCurMusic',
           payload: {
@@ -33,7 +41,15 @@ const AudioPlayer: React.FC = () => {
   // const audioUrl = `https://music.163.com/song/media/outer/url?id=${id}.mp3`
   useEffect(() => {
     if (playingState === 'playing') {
-      play();
+      if(audioUrl) {
+        play()
+      }
+      // else {
+      //   dispatch({
+      //     type:'app/setToastContent',
+      //     payload: ''
+      //   })
+      // }
     } else if (playingState === 'paused') {
       pause();
     } else {

@@ -1,0 +1,118 @@
+.ranklistItem {
+  display: flex;
+  // flex-direction: column;
+  width: 100%;
+  background: #f3f3f3;
+  overflow: hidden;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s ease transform;
+  &:hover {
+    transform: translateY(-8px);
+    .ranklistCoverMask {
+      opacity: 1;
+      // display: block;
+    }
+  }
+  // padding: 8px 8px;;
+  // height: 100%;
+  // overflow: hidden;
+  // width: 200px;
+  // height: 180px;
+
+  .ranklistCover {
+    width: 160px;
+    height: 160px;
+    // width: 100%;
+    // height: 100%;
+    background: #cecece;
+    border-radius: 10px;
+    position: relative;
+    transition: transform 200ms ease;
+    overflow: hidden;
+    cursor: pointer;
+
+    .ranklistCoverImg {
+      height: 100%;
+      width: 100%;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .ranklistCoverMask {
+      opacity: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      font-size: 64px;
+      transition: all 200ms ease;
+      box-sizing: border-box;
+      // display: flex;
+      svg {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translateY(-50%) translateX(-50%);
+        color: #fff;
+        transition: color ease 200ms;
+        &:hover {
+          color: #1ece9a;
+        }
+      }
+    }
+  }
+
+  .ranklistName {
+    padding: 8px 0;
+    span {
+      font-size: 13px;
+    }
+  }
+
+  .detailInfo {
+    padding: 12px 14px;
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    flex: 1;
+    .title {
+
+      font-weight: 800;
+      font-size: 20px;
+      // padding: 10px 0;
+    }
+    .tracklist {
+      padding-top: 12px;
+      color: #7b7b7b;
+      // text-overflow: ellipsis;
+      // white-space: nowrap;
+      // overflow: hidden;
+      // display: flex;
+      .trackItem {
+        display: flex;
+        // display: inline-block;
+        // min-width: 0;
+        padding: 4px 0;
+        // overflow: hidden;
+        // text-overflow: ellipsis;
+        // white-space: nowrap;
+        .trackInfo {
+          // min-width: 0;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        // word-break: break-all;
+      }
+      .index {
+        padding-right: 8px;
+      }
+      // .trackInfo {}
+    }
+  }
+}

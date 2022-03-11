@@ -14,6 +14,7 @@ import AlbumDetailPage from './pages/albumDetail';
 import DownloadPage from './pages/download';
 import RecentPage from './pages/recent';
 import SearchPage from './pages/search';
+import ArtistDetailPage from './pages/artistDetail';
 import Login from './pages/login';
 import React, { useEffect } from 'react';
 import AudioPlayer from './components/AudioPlayer';
@@ -26,6 +27,7 @@ const queryClient = new QueryClient();
 import './App.scss';
 import 'antd/dist/antd.css';
 import { useAppDispatch } from './hooks/hooks';
+import Toast from './components/Toast';
 
 // import './styles/theme.less';
 // import { useHistory } from 'react-router';
@@ -55,7 +57,7 @@ export const Main: React.FC = () => {
       })
     })
   }, []);
-  
+
   const location = useLocation();
   // React.useEffect(()=>{
   //   console.log(location);
@@ -81,6 +83,7 @@ export const Main: React.FC = () => {
                   <Route path="/albumDetail" component={AlbumDetailPage} />
                   <Route path="/download" component={DownloadPage} />
                   <Route path="/recent" component={RecentPage} />
+                  <Route path="/artist/:id" component={ArtistDetailPage} />
                   <Route path="/search/:query" component={SearchPage} />
                   {/* <Redirect path='/rec'></Redirect> */}
                 </Switch>
@@ -96,6 +99,7 @@ export const Main: React.FC = () => {
       </div>
       <PlayingPage />
       <AudioPlayer />
+      <Toast />
     </>
   );
 };

@@ -45,6 +45,16 @@ export const fetchHotSearch = () => get('/search/hot/detail');
 export const fetchSearchSuggest = (keywords: string) =>
   get('/search/suggest', { keywords });
 
+// singer
+
+export const fetchSingerDetail = (id: number) => get('/artist/detail', { id }).then((value) => value.data);
+
+export const fetchSingerAlbum = (id: number, limit?: number, offset?: number) => get('/artist/album', { id, limit, offset }).then(value => value.data)
+
+export const fetchSingerTopSongs = (id: number) => get('/artist/top/song', { id }).then(value => value.data);
+// export const fetchSingerDesc = (id: number)
+export const fetchSingerAllSongs = (id: number, limit?: number, offset?: number) => get('/artist/songs', { id, limit, offset }).then(value => value.data)
+
 export const search = (
   keywords: string,
   limit: number = 30,
@@ -52,7 +62,19 @@ export const search = (
   type: number = 1
 ) => get('/cloudsearch', { keywords, limit, offset, type });
 
-// export const
+// like
+export const likeSongs = (like: boolean = true) => get('/like', { like }).then(value => value.data);
+
+export const fetchLikelist = (uid: number) => get('/likelist', { uid }).then(value=>value.data);
+
+
+// banner
+export const fetchBanner = () => get('/banner').then(value => value.data);
+
+// toplist
+export const fetchToplistDetail = () => get('/toplist/detail').then(value=>value.data);
+
+// export const fetch
 
 const Api = {
   loginByEmail,

@@ -9,7 +9,7 @@ import {
 import { Row, Col } from 'antd';
 import { FaRegHeart } from 'react-icons/fa';
 import { useAppDispatch, useAppSelector } from 'renderer/hooks/hooks';
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import PlaylistLoader from 'renderer/components/Loader/PlaylistLoader';
 import { fetchPlaylistDetail } from 'renderer/api';
 import Scroll from '../../components/scrollbar';
@@ -22,6 +22,7 @@ type AlbumDetailParaType = {
 
 const AlbumDetailPage: React.FC = () => {
   const stringId = useParams<AlbumDetailParaType>().id;
+  const history = useHistory()
   const id = parseInt(stringId);
   // console.log(id);
   const [loading, setLoading] = useState(false);
@@ -81,7 +82,11 @@ const AlbumDetailPage: React.FC = () => {
   const albumCover =
     'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2Fbf19f7ffec9278ce7f92cd79c132db9945d87c57a10c-63iyrZ_fw658&refer=http%3A%2F%2Fhbimg.b0.upaiyun.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1640440257&t=1113a3a43c3d8214798abcf346e4b58d';
   const handleClickPlayAll = () => {};
-  const handleClickSinger = () => {};
+  const handleClickSinger = (artists: ArtistType[]) => {
+    const ar = artists[0];
+    history.push(`/artist/${ar.id}`);
+
+  };
 
   const handleClickAlbum = () => {};
 
@@ -162,7 +167,7 @@ const AlbumDetailPage: React.FC = () => {
           </Col>
           <Col flex="1 0 0%" style={{ overflow: 'hidden' }}>
             <div className={styles.itemTitle}>
-              <span onClick={handleClickSinger}>
+              <span onClick={()=>handleClickSinger(artists)}>
                 {artists.map((artist) => artist.name).join(' / ')}
                 {/* {artists[0].name} */}
               </span>
@@ -268,7 +273,7 @@ const AlbumDetailPage: React.FC = () => {
                     </div>
                   </Col>
                   <Col flex="1">
-                    <span onClick={handleClickSinger}>Tylar Swift</span>
+                    <span onClick={()=>handleClickSinger}>Tylar Swift</span>
                   </Col>
                   <Col flex="1">
                     <span onClick={handleClickAlbum}>Red</span>

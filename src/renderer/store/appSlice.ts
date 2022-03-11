@@ -5,7 +5,9 @@ export interface AppState {
   showPlayingPage: boolean;
   user: UserType | undefined;
   token: string | undefined;
-  downloadList: downloadItemType[]
+  downloadList: downloadItemType[];
+  showToast: boolean;
+  toastContent: string;
 }
 
 export type UserType = {
@@ -62,6 +64,8 @@ const initialState: AppState = {
   token: undefined,
   user: undefined,
   downloadList: [],
+  showToast: false,
+  toastContent: '',
 };
 
 const appSlice = createSlice({
@@ -103,8 +107,14 @@ const appSlice = createSlice({
           ...item,
           ...action.payload
         }
-        
+
       }
+    },
+    toggleShowToast: (state, action) => {
+      state.showToast = action.payload;
+    },
+    setToastContent: (state, action) => {
+      state.toastContent = action.payload;
     }
   },
 });

@@ -26,6 +26,7 @@ const FooterPlayer: React.FC = () => {
   const duration = useAppSelector((state) => state.music.duration);
   const playMode = useAppSelector((state) => state.music.playMode);
   const playingState = useAppSelector((state) => state.music.playingState);
+  const isPlaying = useAppSelector((state) => state.music.isPlaying);
   // const history = useHistory();
   const handleClickPlayListIcon = () => {
     dispatch({
@@ -107,7 +108,7 @@ const FooterPlayer: React.FC = () => {
             <MdSkipPrevious />
           </div>
           <div className={styles.playerButton}>
-            {playingState === 'stop' || playingState === 'paused' ? (
+            {!isPlaying ? (
               <MdOutlinePlayCircleFilled
                 style={{ fontSize: '40px', color: '#1ece9a' }}
                 onClick={handleClickPlay}

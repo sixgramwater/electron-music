@@ -1,0 +1,29 @@
+.button {
+  // width: 120px;
+  // flex: 0;
+  cursor: pointer;
+  // margin: 2px 4px;
+  background: #1ece9a;
+  border-radius: 24px;
+  height: 24px;
+  padding: 4px 14px;
+  display: flex;
+  justify-content: center;
+  color: #fff;
+  font-size: 13.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 250ms all ease;
+  height: 100%;
+  .prefix {
+    height: 100%;
+    // width: 22px;
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+  }
+  &:hover {
+    background: #1dc492;
+  }
+}

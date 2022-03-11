@@ -27,7 +27,7 @@
     cursor: pointer;
     transition: 250ms all ease-in-out;
     position: relative;
-    border-bottom: 2px solid transparent;
+    border-bottom: 3px solid transparent;
     &.active {
       border-bottom-color: #1ece9a;
       color: #1ece9a;

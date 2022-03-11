@@ -1,0 +1,33 @@
+.pageLibrary {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: 8px 36px;
+  .pageHeader {
+    display: flex;
+    flex-direction: column;
+    .pageTitle {
+      h1 {
+        font-weight: 800;
+      }
+    }
+
+    .bannerContainer {
+      // margin: 0 -8px;
+      width: 100%;
+      display: flex !important;
+      flex-direction: row;
+      justify-content: space-between;
+      // display: flex;
+
+    }
+  }
+
+  .ranklistContainer {
+    display: flex;
+    .ranklistItemContainer {
+      display: flex;
+    }
+  }
+}

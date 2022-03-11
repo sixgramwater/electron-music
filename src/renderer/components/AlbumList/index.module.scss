@@ -1,0 +1,15 @@
+.albumList {
+  display: flex;
+  flex-wrap: wrap;
+  // flex-direction: column;
+  width: 100%;
+  justify-content: space-between;
+  .albumContainer {
+    width: 160px;
+    padding: 0 10px;
+  }
+
+  // .albumContainer + .albumContainer {
+  //   padding: 0 10px;
+  // }
+}

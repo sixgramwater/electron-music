@@ -36,8 +36,9 @@ const Lyric: React.FC<LyricProps> = (props) => {
   const [lines, setLines] = useState<lineType[]>([]);
   useEffect(() => {
     const parsedResult = lyricParser(lyricText);
-    console.log(lyricText);
-    console.log(parsedResult);
+    console.log('lrc parse sucees')
+    // console.log(lyricText);
+    // console.log(parsedResult);
     setLines(parsedResult);
   }, [id, lyricText]);
   // lines = lyricParser(lyricText);

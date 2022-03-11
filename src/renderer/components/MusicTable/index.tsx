@@ -10,6 +10,7 @@ import {
 } from 'react-icons/md';
 import { useAppDispatch, useAppSelector } from 'renderer/hooks/hooks';
 import { fetchMusicUrl } from 'renderer/api';
+import { useHistory } from 'react-router';
 // import { fetchMusicUrl } from 'renderer/store/musicSlice';
 
 export interface MusicTableProps {
@@ -33,6 +34,7 @@ export interface ColumnsType {
 const MusicTable: React.FC<MusicTableProps> = (props) => {
   const { dataSource, columns } = props;
   const dispatch = useAppDispatch();
+  const history = useHistory()
 
   type ArtistType = {
     name: string;
@@ -52,7 +54,10 @@ const MusicTable: React.FC<MusicTableProps> = (props) => {
   };
 
   const handleClickPlayAll = () => {};
-  const handleClickSinger = () => {};
+  const handleClickSinger = (artists: ArtistType[]) => {
+    const ar = artists[0];
+    history.push(`/artist/${ar.id}`);
+  };
 
   const handleClickAlbum = () => {};
 
@@ -114,7 +119,7 @@ const MusicTable: React.FC<MusicTableProps> = (props) => {
                   }
                 </Col>
               )
-            } 
+            }
             return (
             <Col key={col.key} flex={col.flex} span={col.colSpan}>
               <div className={styles.itemTitle}
@@ -176,7 +181,7 @@ const MusicTable: React.FC<MusicTableProps> = (props) => {
           </Col>
           <Col flex="1 0 0%" style={{ overflow: 'hidden' }}>
             <div className={styles.itemTitle}>
-              <span onClick={handleClickSinger}>
+              <span onClick={()=>handleClickSinger(artists)}>
                 {artists?.map((at) => at.name).join(' / ')}
               </span>
             </div>
@@ -209,7 +214,7 @@ const MusicTable: React.FC<MusicTableProps> = (props) => {
       </div>
       <div className={styles.tableContent}>
         {
-          columns ? 
+          columns ?
           <Row
             style={{
               color: '#7d7d7d',
@@ -240,7 +245,7 @@ const MusicTable: React.FC<MusicTableProps> = (props) => {
             </Col>
           </Row>
         }
-        
+
         {dataSource ? (
           dataSource.map((item: any, index: number) => {
             if(!columns)  return renderTableItem(item);

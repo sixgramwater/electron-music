@@ -1,0 +1,27 @@
+.toast {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  width: 168px;
+  // height: 36px;
+  // min-width: 120px;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  word-break: break-all;
+  pointer-events: none;
+  text-align: center;
+  z-index: 999;
+  color: #ccc;
+  background: rgba(0,0,0,.8);
+  opacity: 0;
+  transition: opacity .3s ease;
+  &.show {
+    opacity: 1;
+  }
+}

@@ -1,0 +1,15 @@
+.bannerItem {
+  display: flex;
+  float: left;
+  // justify-content: center;
+  width: calc(50% - 8px);
+  overflow: hidden;
+  border-radius: 8px;
+  img {
+    // overflow: hidden;
+    width: 100%;
+  }
+  // padding: 0 8px;
+}
+
+
