@@ -89,7 +89,7 @@
         color: #8c8c8c;
         -webkit-app-region: no-drag;
         &:hover {
-          color: #1ece9a;
+          color: var(--primary-color);
         }
         svg {
           // -webkit-app-region: no-drag;
@@ -209,7 +209,7 @@
       svg {
         cursor: pointer;
         &:hover {
-          color: #1ece9a;
+          color: var(--primary-color);
         }
       }
     }
@@ -230,7 +230,7 @@
         svg {
           cursor: pointer;
           &:hover {
-            color: #1ece9a;
+            color: var(--primary-color);
           }
         }
         //  margin-bottom: auto;
@@ -249,7 +249,7 @@
       svg {
         cursor: pointer;
         &:hover {
-          color: #1ece9a;
+          color: var(--primary-color);
         }
       }
     }

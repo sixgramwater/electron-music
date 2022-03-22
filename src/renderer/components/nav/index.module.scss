@@ -18,7 +18,7 @@
   cursor: pointer;
   // background: ;
   &.active {
-    background: #1ece9a;
+    background: var(--primary-color);
     color: #d2f6ee;
   }
   .icon {

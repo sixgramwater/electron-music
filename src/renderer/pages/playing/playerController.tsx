@@ -102,12 +102,12 @@ const PlayerController: React.FC = () => {
         <div className={styles.playerButton}>
           {isPlaying ? (
             <MdPauseCircleFilled
-              style={{ fontSize: '40px', color: '#1ece9a' }}
+              style={{ fontSize: '40px', color: 'var(--primary-color)' }}
               onClick={handleClickPauseBtn}
             ></MdPauseCircleFilled>
           ) : (
             <MdOutlinePlayCircleFilled
-              style={{ fontSize: '40px', color: '#1ece9a' }}
+              style={{ fontSize: '40px', color: 'var(--primary-color)' }}
               onClick={handleClickPlayBtn}
             />
           )}

@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import styles from './index.module.scss';
 import { useAppSelector, useAppDispatch } from 'renderer/hooks/hooks';
 import cx from 'classnames';
+import { useDispatch } from 'react-redux';
 
 const Toast = () => {
   const [showToast, setShowToast] = useState(false);

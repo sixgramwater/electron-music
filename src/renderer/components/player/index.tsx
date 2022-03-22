@@ -43,7 +43,7 @@ const Player: React.FC = () => {
           </div>
           <div className={styles.playerButton}>
             <MdOutlinePlayCircleFilled
-              style={{ fontSize: '40px', color: '#1ece9a' }}
+              style={{ fontSize: '40px', color: 'var(--primary-color)' }}
             />
           </div>
           <div className={styles.playerButton}>

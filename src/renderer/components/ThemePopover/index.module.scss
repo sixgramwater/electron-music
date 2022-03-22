@@ -1,0 +1,40 @@
+.themePopover {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  // width: 120px;
+  .themeChanger {
+    display: flex;
+    flex-direction: column;
+    .themeItem {
+      border: 1px #d9d9d9 solid;
+      padding: 4px 10px;
+
+      border-radius: 8px;
+      display: flex;
+      margin: 8px 0;
+      .info {
+        margin-left: 8px;
+      }
+      .colorPreview {
+        height: 100%;
+        padding: 4px 0;
+        width: 16px;
+        border-radius: 8px;
+        overflow: hidden;
+        .colorBlock {
+          width: 100%;
+          height: 100%;
+        }
+      }
+      &.selected {
+        border-color: var(--primary-color);
+      }
+      &:hover {
+        border-color: var(--primary-color);
+      }
+      transition: border 0.2s ease-in;
+      cursor: pointer;
+    }
+  }
+}

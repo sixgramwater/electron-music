@@ -26,7 +26,7 @@
     text-align: center;
     // word-wrap: no-wrap;
     &.active {
-      color: #1ece9a;
+      color: var(--primary-color);
     }
   }
 }

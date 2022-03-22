@@ -68,13 +68,13 @@ const VolumeBar = () => {
             }}
             trackStyle={{
               width: '3px',
-              backgroundColor: '#1ece9a',
+              backgroundColor: 'var(--primary-color)',
             }}
             handleStyle={{
               width: '12px',
               height: '12px',
-              border: '1px solid #1ece9a',
-              backgroundColor: '#1ece9a',
+              border: '1px solid var(--primary-color)',
+              backgroundColor: 'var(--primary-color)',
               transform: 'translateX(1px)',
             }}
           />

@@ -1,15 +1,58 @@
 import React from 'react';
 import styles from './index.module.scss';
 // import cx from 'classnames';
+import { trackType } from 'renderer/store/playlistSlice';
+import { timeFormat } from 'renderer/utils';
+import cx from 'classnames';
+import { useAppDispatch, useAppSelector } from 'renderer/hooks/hooks';
 
-const PlayListItem: React.FC = () => {
+export type PlaylistItemProps = trackType;
+
+const PlayListItem: React.FC<PlaylistItemProps> = (props) => {
+  const {
+    id,
+    name,
+    artists,
+    duration,
+    album
+  } = props;
+  const curMusic = useAppSelector(state => state.music.curMusic);
+  const dispatch = useAppDispatch();
+  const handleDBClick = () => {
+    dispatch({
+      type: 'music/setCurMusic',
+      payload: {
+        id,
+        name,
+        artists,
+        duration,
+        album
+      }
+    });
+    dispatch({
+      type: 'music/setPlayingState',
+      payload: 'playing'
+    })
+    dispatch({
+      type: 'music/setDuration',
+      payload: (duration / 1000) >> 0,
+    });
+  }
+  const playlistItemClass = cx(styles.playListItem, {
+    [styles.active] : curMusic?.id === id
+  })
   return (
-    <div className={styles.playListItem}>
+    <div className={playlistItemClass} onDoubleClick={handleDBClick}>
       <div className={styles.playListItemInner}>
-        <div className={styles.title}>Senorita</div>
+        <div className={styles.title}>{name}</div>
         <div className={styles.info}>
-          <span className={styles.singer}>Shawn Mendes/ Camila Cabello</span>
-          <span className={styles.musicLength}>04:39</span>
+          <div className={styles.singerContainer}>
+            <span className={styles.singer}>
+              {artists.map((artist) => artist.name).join(' / ')}
+            </span>
+          </div>
+
+          <span className={styles.musicLength}>{timeFormat(duration)}</span>
         </div>
       </div>
       <div className={styles.playListIcons}></div>

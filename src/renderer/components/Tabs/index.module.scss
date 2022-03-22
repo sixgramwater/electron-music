@@ -29,8 +29,8 @@
     position: relative;
     border-bottom: 3px solid transparent;
     &.active {
-      border-bottom-color: #1ece9a;
-      color: #1ece9a;
+      border-bottom-color: var(--primary-color);
+      color: var(--primary-color);
     }
 
     &::after {

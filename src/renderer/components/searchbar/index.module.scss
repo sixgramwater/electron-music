@@ -73,7 +73,7 @@
           font-size: 20px;
           color: #d1d5db;
           &.colored {
-            color: #1ece9a;
+            color: var(--primary-color);
             font-weight: 600;
           }
         }
@@ -118,7 +118,7 @@
       right: 8px;
       cursor: pointer;
       &:hover {
-        color: #1ece9a;
+        color: var(--primary-color);
       }
     }
   }
@@ -149,7 +149,7 @@
         transition: all 250ms ease-in-out;
         .highlighted {
           color: #ea580c;
-          // color: #1ece9a;
+          // color: var(--primary-color);
         }
         &:hover {
           background: #e2e8f0;

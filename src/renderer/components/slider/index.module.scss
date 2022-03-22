@@ -58,7 +58,7 @@
         pointer-events: all;
         cursor: pointer;
         &:hover {
-          color: #1ece9a;
+          color: var(--primary-color);
         }
         &.left {
           transform: scaleY(200%) translateX(-20px);

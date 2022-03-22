@@ -35,7 +35,9 @@ const Library: React.FC = () => {
   });
 
   const groupedBanners = group(mappedBanners);
+  // const homePageResource =
   // console.log(groupedBanners);
+
 
   return (
     <Scroll>
@@ -55,8 +57,8 @@ const Library: React.FC = () => {
                   autoplay={true}
                 >
                   {
-                    groupedBanners?.map((item: any) => (
-                      <div className={styles.bannerContainer}>
+                    groupedBanners?.map((item: any, index) => (
+                      <div className={styles.bannerContainer} key={index}>
                         <BannerItem
                         imgUrl={item[0].imgUrl}
                         />

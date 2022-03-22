@@ -13,11 +13,11 @@ const Button: React.FC<ButtonProps> = (props) => {
     onClick && onClick();
   }
   return (
-    <div className={styles.button}>
+    <div className={styles.button}  onClick={handleClick}>
       <div className={styles.prefix}>
         {prefix}
       </div>
-      <span onClick={() => handleClick}>{children}</span>
+      <span>{children}</span>
     </div>
   )
 }

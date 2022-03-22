@@ -32,6 +32,7 @@ export interface MusicState {
 
   trackPlaylist: trackType[];
   playMode: number;
+
 }
 
 export type PlaylistType = {
@@ -74,6 +75,7 @@ export type musicType = {
   id: number;
   artists: artistType[];
   album: albumType;
+  duration?: number;
   musicUrl?: string | undefined;
   lyricUrl?: string | undefined;
 };
@@ -136,6 +138,7 @@ const initialState: MusicState = {
   curMusic: {
     name: 'free with you',
     id: 1425763494,
+    duration: 168000,
     artists: [
       {
         id: 31183880,
@@ -209,6 +212,12 @@ const musicSlice = createSlice({
     },
     setTrackPlaylist: (state, action) => {
       state.trackPlaylist = action.payload;
+    },
+    addTrackPlaylist: (state, action: PayloadAction<trackType>) => {
+      const newTrack = action.payload;
+      if(state.trackPlaylist.findIndex(item => item.id === newTrack.id) === -1) {
+        state.trackPlaylist.unshift(newTrack);
+      }
     },
     setMusicId: (state, action) => {
       state.curMusicId = action.payload;

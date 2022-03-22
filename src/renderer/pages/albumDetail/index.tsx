@@ -13,6 +13,7 @@ import { useHistory, useParams } from 'react-router';
 import PlaylistLoader from 'renderer/components/Loader/PlaylistLoader';
 import { fetchPlaylistDetail } from 'renderer/api';
 import Scroll from '../../components/scrollbar';
+// import { timeFormat } from 'renderer/utils'
 // import { MdOutlinePlayArrow } from 'react-icons/md';
 // import AlbumItem from 'renderer/components/AlbumItem';
 
@@ -41,17 +42,17 @@ const AlbumDetailPage: React.FC = () => {
     if (curPlaylist) return;
     setLoading(true);
     fetchPlaylistDetail(id).then((para) => {
-      const datalist = para.data.playlist;
+      const datalist = para.data?.playlist;
       // console.log(datalist);
       const payload = {
-        id: datalist.id,
-        name: datalist.name,
-        picUrl: datalist.coverImgUrl,
-        userId: datalist.userId,
-        createTime: datalist.createTime,
-        updateTime: datalist.updateTime,
-        trackCount: datalist.trackCount,
-        tracks: datalist.tracks.map((track: any) => {
+        id: datalist?.id,
+        name: datalist?.name,
+        picUrl: datalist?.coverImgUrl,
+        userId: datalist?.userId,
+        createTime: datalist?.createTime,
+        updateTime: datalist?.updateTime,
+        trackCount: datalist?.trackCount,
+        tracks: datalist?.tracks.map((track: any) => {
           return {
             name: track.name,
             id: track.id,
@@ -60,11 +61,11 @@ const AlbumDetailPage: React.FC = () => {
             duration: track.dt,
           };
         }),
-        trackIds: datalist.trackIds,
+        trackIds: datalist?.trackIds,
         creator: {
-          avatarUrl: datalist.creator.avatarUrl,
-          nickname: datalist.creator.nickname,
-          signature: datalist.creator.signature,
+          avatarUrl: datalist?.creator.avatarUrl,
+          nickname: datalist?.creator.nickname,
+          signature: datalist?.creator.signature,
         },
       };
       // console.log(payload);
@@ -81,14 +82,38 @@ const AlbumDetailPage: React.FC = () => {
   }, []);
   const albumCover =
     'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2Fbf19f7ffec9278ce7f92cd79c132db9945d87c57a10c-63iyrZ_fw658&refer=http%3A%2F%2Fhbimg.b0.upaiyun.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1640440257&t=1113a3a43c3d8214798abcf346e4b58d';
-  const handleClickPlayAll = () => {};
+  const handleClickPlayAll = () => {
+    // console.log(curPlaylist)
+    dispatch({
+      type: 'music/setTrackPlaylist',
+      payload: curPlaylist?.tracks
+    });
+
+    dispatch({
+      type: 'music/setCurMusic',
+      payload: curPlaylist?.tracks[0]
+    });
+
+    dispatch({
+      type: 'music/setPlayingState',
+      payload: 'playing'
+    });
+    dispatch({
+      type: 'music/setDuration',
+      payload: (curPlaylist!.tracks[0].duration / 1000) >> 0,
+    });
+
+
+  };
   const handleClickSinger = (artists: ArtistType[]) => {
     const ar = artists[0];
     history.push(`/artist/${ar.id}`);
 
   };
 
-  const handleClickAlbum = () => {};
+  const handleClickAlbum = (id: number) => {
+    history.push(`/artistAlbumDetail/${id}`);
+  };
 
   const handleClickLike = () => {};
 
@@ -98,7 +123,10 @@ const AlbumDetailPage: React.FC = () => {
       type: 'music/setCurMusic',
       payload: para,
     });
-
+    dispatch({
+      type: 'music/setPlayingState',
+      payload: 'playing'
+    })
     dispatch({
       type: 'music/setDuration',
       payload: (para.duration / 1000) >> 0,
@@ -132,6 +160,7 @@ const AlbumDetailPage: React.FC = () => {
       .padStart(2, '0')}`;
     return formatted;
   };
+
   const renderMusicItem = (para: MusicItemType) => {
     const { name = 'default title', id, artists, duration, album } = para;
     return (
@@ -175,7 +204,7 @@ const AlbumDetailPage: React.FC = () => {
           </Col>
           <Col flex="1 0 0%" style={{ overflow: 'hidden' }}>
             <div className={styles.itemTitle}>
-              <span onClick={handleClickAlbum}>{album.name}</span>
+              <span onClick={()=>handleClickAlbum(album.id)}>{album.name}</span>
             </div>
           </Col>
           <Col flex="60px">
@@ -221,11 +250,11 @@ const AlbumDetailPage: React.FC = () => {
               </div>
             </div>
             <div className={styles.detailButton}>
-              <div className={styles.button}>
+              <div className={styles.button}  onClick={handleClickPlayAll}>
                 <div className={styles.prefix}>
                   <MdOutlinePlayArrow />
                 </div>
-                <span onClick={handleClickPlayAll}>播放全部</span>
+                <span>播放全部</span>
               </div>
             </div>
           </div>
@@ -276,7 +305,7 @@ const AlbumDetailPage: React.FC = () => {
                     <span onClick={()=>handleClickSinger}>Tylar Swift</span>
                   </Col>
                   <Col flex="1">
-                    <span onClick={handleClickAlbum}>Red</span>
+                    <span>Red</span>
                   </Col>
                   <Col flex="60px">
                     <span>04:23</span>

@@ -12,7 +12,29 @@ const AudioPlayer: React.FC = () => {
   const audioUrl = curMusic?.musicUrl ? curMusic?.musicUrl : '';
   const seekTime = useAppSelector((state) => state.music.seekTime);
   const volume = useAppSelector((state) => state.music.volume);
+  const isPlaying = useAppSelector(state => state.music.isPlaying);
   useEffect(() => {
+    const memMusic = localStorage.getItem('lastPlayedMusic');
+    if(memMusic) {
+      const result = JSON.parse(memMusic);
+      dispatch({
+        type: 'music/setCurMusic',
+        payload: result
+      });
+      dispatch({
+        type: 'music/setDuration',
+        payload: (result.duration / 1000) >> 0,
+      });
+    }
+  }, [])
+  // const [needToPlay, setNeedToPlay] = useState(false);
+  useEffect(() => {
+    if(isPlaying) {
+      dispatch({
+        type: 'music/setIsPlaying',
+        payload: false,
+      })
+    }
     if (!curMusic?.musicUrl) {
       fetchMusicUrl(curMusic!.id).then((para) => {
         const fetchedUrl = para.data.data[0].url;
@@ -23,7 +45,6 @@ const AudioPlayer: React.FC = () => {
           })
         }
         // console.log(para.data.data[0].url);
-
         dispatch({
           type: 'music/setCurMusic',
           payload: {
@@ -31,6 +52,10 @@ const AudioPlayer: React.FC = () => {
             musicUrl: para.data.data[0].url,
           },
         });
+        localStorage.setItem('lastPlayedMusic', JSON.stringify({
+          ...curMusic,
+          musicUrl: fetchedUrl,
+        }))
       });
     }
   }, [curMusic?.id]);
@@ -74,26 +99,40 @@ const AudioPlayer: React.FC = () => {
   };
   const onPlay = () => {
     console.log('onplay');
+    dispatch({
+      type: 'music/setIsPlaying',
+      payload: true
+    })
   };
   const onCanPlay = () => {
-    console.log('onCanPlay');
+    if(playingState === 'playing') {
+      play();
+    }
+    // play();
+    // console.log('onCanPlay');
   };
   const play = () => {
     if (audioRef.current) {
-      dispatch({
-        type: 'music/setIsPlaying',
-        payload: true,
-      });
+      // dispatch({
+      //   type: 'music/setIsPlaying',
+      //   payload: true,
+      // });
       audioRef.current.play();
     }
     // audioRef.current?.play();
   };
+  const onPause = () => {
+    dispatch({
+      type: 'music/setIsPlaying',
+      payload: false,
+    });
+  }
   const pause = () => {
     if (audioRef.current) {
-      dispatch({
-        type: 'music/setIsPlaying',
-        payload: false,
-      });
+      // dispatch({
+      //   type: 'music/setIsPlaying',
+      //   payload: false,
+      // });
       audioRef.current.pause();
     }
   };
@@ -116,8 +155,10 @@ const AudioPlayer: React.FC = () => {
       src={audioUrl}
       onEnded={onEnded}
       onPlay={onPlay}
+      onPause={onPause}
       onCanPlay={onCanPlay}
       onTimeUpdate={onTimeUpdate}
+      // onPlaying={}
       // crossOrigin='use-credentials'
     />
   );

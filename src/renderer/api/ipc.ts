@@ -1,6 +1,6 @@
 // const {ipcRenderer} = window.electron;
 
-const { ipcRenderer } = window.electron;
+const { ipcRenderer, store } = window.electron;
 export const maxWindow = () => {
   ipcRenderer.send('maxWindow');
 };
@@ -16,6 +16,10 @@ export const closeWindow = () => {
 export const createLoginWindow = () => {
   ipcRenderer.send('createLoginWindow');
 };
+
+export const loginSuccess = (user: any) => {
+  ipcRenderer.send('loginSuccess', user);
+}
 
 type createWindowOptions = {
   height: number;
@@ -33,3 +37,9 @@ export const createNewWindow = (options: createWindowOptions) => {
 export const closeHashWindow = (hash: string) => {
   ipcRenderer.send('close-hash-window', hash);
 };
+
+export const nativeStore = {
+  get: store.get,
+  set: store.set,
+}
+

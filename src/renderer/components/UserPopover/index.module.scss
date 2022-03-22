@@ -1,0 +1,21 @@
+.userPopover {
+
+  .list {
+    display: flex;
+    flex-direction: column;
+    .listItem {
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      // align-items: ;
+      width: 100px;
+      margin: 0 -16px;
+      padding: 5px 12px;
+      transition: background-color ease 0.25s;
+      &:hover {
+        background-color: #efefef;
+      }
+      font-size: 13px;
+    }
+  }
+}

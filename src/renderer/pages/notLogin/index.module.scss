@@ -1,0 +1,22 @@
+.notLoginPage {
+  display: flex;
+  width: 100%;
+  height: calc(100vh - 64px);
+  justify-content: center;
+  flex-direction: column;
+  .pageContent {
+    width: 100%;
+    padding: 24px;
+    justify-content: center;
+    // height: 100vh;
+    .pageHeader {
+      text-align: center;
+      padding: 10px 0px;
+    }
+  }
+  .btn {
+    width: 80px;
+    margin: 0 auto;
+    justify-content: center;
+  }
+}

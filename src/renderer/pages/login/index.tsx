@@ -8,6 +8,7 @@ import { loginByEmail } from 'renderer/api';
 import { message } from 'antd';
 import { UserType } from 'renderer/store/appSlice';
 import { useAppDispatch } from 'renderer/hooks/hooks';
+import { loginSuccess } from 'renderer/api/ipc';
 
 const Login: React.FC = () => {
   const [loading, setLoading] = React.useState(false);
@@ -23,24 +24,28 @@ const Login: React.FC = () => {
         setLoading(false);
         console.log(res.data);
         const account = res.data.account;
+        const profile = res.data.profile;
         const user = {
           id: account.id,
           userName: account.userName,
-          nickname: account.nickname,
-          vipType: account.vipType,
-          signature: account.sigature,
-          follows: account.follows,
-          followed: account.followed,
-          avatarUrl: account.avatarUrl,
-          city: account.city,
-          province: account.province,
+          nickname: profile.nickname,
+          vipType: profile.vipType,
+          signature: profile.sigature,
+          follows: profile.follows,
+          followed: profile.followed,
+          avatarUrl: profile.avatarUrl,
+          city: profile.city,
+          province: profile.province,
           salt: account.salt,
-          birthday: account.birthday,
+          birthday: profile.birthday,
+          token: res.data.token,
         } as UserType;
-        dispatch({
-          type: 'app/setUser',
-          payload: user,
-        });
+        loginSuccess(user);
+        localStorage.setItem('user', JSON.stringify(user));
+        // dispatch({
+        //   type: 'app/setUser',
+        //   payload: user,
+        // });
         message.success('登录成功');
         setTimeout(() => {
           closeHashWindow('login');

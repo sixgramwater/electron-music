@@ -10,10 +10,17 @@ import {
 import SearchBar from '../searchbar';
 import { useHistory } from 'react-router-dom';
 import { createLoginWindow, createNewWindow } from 'renderer/api/ipc';
+import ThemePopover from '../ThemePopover';
+import { useAppSelector } from 'renderer/hooks/hooks';
+import UserPopover from '../UserPopover';
 const Header: React.FC = () => {
-  const avatar =
-    'https://gimg2.baidu.com/image_search/src=http%3A%2F%2F5b0988e595225.cdn.sohucs.com%2Fq_70%2Cc_zoom%2Cw_640%2Fimages%2F20181019%2F2bb900d12d894574868e599bb9323293.jpeg&refer=http%3A%2F%2F5b0988e595225.cdn.sohucs.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1640436280&t=25b30bfceb643c23e1317d53a2ed6191';
+  const user = useAppSelector(state=>state.app.user);
+  const isLogin = user ? true : false;
+  const avatar = isLogin ? user?.avatarUrl :
+  'avatar.png';
+    // 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2F5b0988e595225.cdn.sohucs.com%2Fq_70%2Cc_zoom%2Cw_640%2Fimages%2F20181019%2F2bb900d12d894574868e599bb9323293.jpeg&refer=http%3A%2F%2F5b0988e595225.cdn.sohucs.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1640436280&t=25b30bfceb643c23e1317d53a2ed6191';
   const history = useHistory();
+
   const handleClickBackward = () => {
     history.go(-1);
   };
@@ -51,13 +58,27 @@ const Header: React.FC = () => {
         <div className={styles.headerAvatar}>
           <img src={avatar} alt="avatar" />
         </div>
-        <div className={styles.userName}>
-          <span>Quin33</span>
-        </div>
+        {
+          isLogin ? (
+            <UserPopover>
+            <div className={styles.userName}>
+              <span>{isLogin ? user?.nickname : '请先登录'}</span>
+            </div>
+            </UserPopover>
+          )
+          :(
+            <div className={styles.userName} onClick={handleClickAvatar}>
+              <span>{isLogin ? user?.nickname : '请先登录'}</span>
+            </div>
+          )
+        }
+
         {/* <div className={styles.headerBtn}></div> */}
-        <div className={styles.headerBtn} onClick={handleClickAvatar}>
+        <ThemePopover>
+        <div className={styles.headerBtn} >
           <VscJersey />
         </div>
+        </ThemePopover>
         <div className={styles.headerBtn}>
           <VscSettingsGear style={{ fontSize: '16px' }} />
         </div>

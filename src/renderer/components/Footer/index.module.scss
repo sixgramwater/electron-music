@@ -83,7 +83,7 @@
       svg {
         cursor: pointer;
         &:hover {
-          color: #1ece9a;
+          color: var(--primary-color);
         }
       }
     }
@@ -105,7 +105,7 @@
       svg {
         cursor: pointer;
         &:hover {
-          color: #1ece9a;
+          color: var(--primary-color);
         }
       }
     }

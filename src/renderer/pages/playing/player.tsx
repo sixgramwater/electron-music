@@ -50,13 +50,13 @@ const Player: React.FC = () => {
           }}
           trackStyle={{
             height: '2px',
-            backgroundColor: '#1ece9a',
+            backgroundColor: 'var(--primary-color)',
           }}
           handleStyle={{
             width: '10px',
             height: '10px',
-            border: '2px solid #1ece9a',
-            backgroundColor: '#1ece9a',
+            border: '2px solid var(--primary-color)',
+            backgroundColor: 'var(--primary-color)',
           }}
         />
       </div>

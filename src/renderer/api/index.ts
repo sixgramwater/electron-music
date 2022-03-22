@@ -29,10 +29,10 @@ export const fetchPlaylistAllSongs = (id: number) =>
 
 // music url
 export const fetchMusicUrl = (id: number) =>
-  get('/song/url', { id, reallIP: '36.149.165.179' });
+  get('/song/url', { id, realIP: '36.149.165.179' });
 // lyric url
 export const fetchLyricUrl = (id: number) =>
-  get('/lyric', { id, reallIP: '36.149.165.179' });
+  get('/lyric', { id, realIP: '36.149.165.179' });
 
 export const fetchOfficialPlaylist = () => get('/user/playlist?uid=1463586082');
 // recent
@@ -75,6 +75,13 @@ export const fetchBanner = () => get('/banner').then(value => value.data);
 export const fetchToplistDetail = () => get('/toplist/detail').then(value=>value.data);
 
 // export const fetch
+
+
+// album
+export const fetchAlbumDetail = (id: number) => get('/album', { id }).then(value => value.data);
+
+// homepage
+export const fetchHomepageResource = () => get('/homepage/block/page').then(value => value.data);
 
 const Api = {
   loginByEmail,

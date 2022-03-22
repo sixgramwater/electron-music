@@ -19,18 +19,24 @@
     }
     .detailInfo {
       flex: 1;
+      min-width: 0;
       padding: 0 24px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       .detailTitle {
+        // text-overflow: ellipsis;
+        // overflow: hidden;
+        // white-space: nowrap;
         h1 {
+          margin-bottom: 0;
+          // text-overflow: ellipsis;
           font-weight: 800;
         }
       }
       .detailDesc {
         font-size: 12px;
-        padding: 12px 0;
+        padding: 10px 0;
         .author {
           display: flex;
           align-items: center;
@@ -64,7 +70,7 @@
         // flex: 0;
         cursor: pointer;
         // margin: 2px 4px;
-        background: #1ece9a;
+        background: var(--primary-color);
         border-radius: 24px;
         height: 24px;
         padding: 4px 14px;
@@ -174,7 +180,7 @@
     padding: 0 6px;
     display: flex;
     align-items: center;
-    color: #1ece9a;
+    color: var(--primary-color);
   }
   .panel {
     display: none;
@@ -194,7 +200,7 @@
         cursor: pointer;
         height: 100%;
         &:hover {
-          color: #1ece9a;
+          color: var(--primary-color);
         }
       }
       // svg {

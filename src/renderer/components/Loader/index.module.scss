@@ -21,7 +21,7 @@
     // width: 32px;
     // height: 32px;
     font-size: 32px;
-    color: #1ece9a;
+    color: var(--primary-color);
     left: 50%;
     top: 50%;
     transform: translateX(-50%) translateY(-50%);
@@ -37,9 +37,9 @@
   width: 10px;
   height: 10px;
   border-radius: 5px;
-  background-color: #1ece9a;
-  color: #1ece9a;
-  box-shadow: 9999px 0 0 -5px #1ece9a;
+  background-color: var(--primary-color);
+  color: var(--primary-color);
+  box-shadow: 9999px 0 0 -5px var(--primary-color);
   animation: dotPulse 1.5s infinite linear;
   animation-delay: 0.25s;
 }
@@ -53,57 +53,57 @@
   width: 10px;
   height: 10px;
   border-radius: 5px;
-  background-color: #1ece9a;
-  color: #1ece9a;
+  background-color: var(--primary-color);
+  color: var(--primary-color);
 }
 
 .dot-pulse::before {
-  box-shadow: 9984px 0 0 -5px #1ece9a;
+  box-shadow: 9984px 0 0 -5px var(--primary-color);
   animation: dotPulseBefore 1.5s infinite linear;
   animation-delay: 0s;
 }
 
 .dot-pulse::after {
-  box-shadow: 10014px 0 0 -5px #1ece9a;
+  box-shadow: 10014px 0 0 -5px var(--primary-color);
   animation: dotPulseAfter 1.5s infinite linear;
   animation-delay: 0.5s;
 }
 
 @keyframes dotPulseBefore {
   0% {
-    box-shadow: 9984px 0 0 -5px #1ece9a;
+    box-shadow: 9984px 0 0 -5px var(--primary-color);
   }
   30% {
-    box-shadow: 9984px 0 0 2px #1ece9a;
+    box-shadow: 9984px 0 0 2px var(--primary-color);
   }
   60%,
   100% {
-    box-shadow: 9984px 0 0 -5px #1ece9a;
+    box-shadow: 9984px 0 0 -5px var(--primary-color);
   }
 }
 
 @keyframes dotPulse {
   0% {
-    box-shadow: 9999px 0 0 -5px #1ece9a;
+    box-shadow: 9999px 0 0 -5px var(--primary-color);
   }
   30% {
-    box-shadow: 9999px 0 0 2px #1ece9a;
+    box-shadow: 9999px 0 0 2px var(--primary-color);
   }
   60%,
   100% {
-    box-shadow: 9999px 0 0 -5px #1ece9a;
+    box-shadow: 9999px 0 0 -5px var(--primary-color);
   }
 }
 
 @keyframes dotPulseAfter {
   0% {
-    box-shadow: 10014px 0 0 -5px #1ece9a;
+    box-shadow: 10014px 0 0 -5px var(--primary-color);
   }
   30% {
-    box-shadow: 10014px 0 0 2px #1ece9a;
+    box-shadow: 10014px 0 0 2px var(--primary-color);
   }
   60%,
   100% {
-    box-shadow: 10014px 0 0 -5px #1ece9a;
+    box-shadow: 10014px 0 0 -5px var(--primary-color);
   }
 }

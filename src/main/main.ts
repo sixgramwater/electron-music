@@ -235,7 +235,7 @@ app
       if (mainWindow === null) createWindow();
     });
     // mainWindow!.webContents.on('did-finish-load', () => {
-      
+
     // })
     // listenDownload();
   })
@@ -258,6 +258,10 @@ app
 
   ipcMain.on('close-hash-window', (event, value) => {
     closeHashWindow(value);
+  });
+
+  ipcMain.on('loginSuccess', (event, value) => {
+    mainWindow!.webContents.send('login-success', value);
   });
 
   ipcMain.on('electron-store-get', async (event, val) => {
@@ -284,15 +288,15 @@ app
       const startTime = item.getStartTime();
       const initialState = item.getState();
       const downloadPath = app.getPath('downloads');
-      
+
       // let fileNum = 0;
       let savePath = path.join(downloadPath, fileName);
-  
+
       // savePath基础信息
       const ext = path.extname(savePath);
       const name = path.basename(savePath, ext);
       const dir = path.dirname(savePath);
-  
+
       // 文件名自增逻辑
       // while (fs.pathExistsSync(savePath)) {
       //   fileNum += 1;
@@ -307,7 +311,7 @@ app
         ext,
         name: `${name}`,
       });
-  
+
       // 设置下载目录，阻止系统dialog的出现
       item.setSavePath(savePath);
       console.log({
@@ -331,7 +335,7 @@ app
         totalBytes: item.getTotalBytes(),
         receivedBytes: item.getReceivedBytes(),
       });
-  
+
       // 下载任务更新
       item.on('updated', (e, state) => { // eslint-disable-line
         console.log(item.getReceivedBytes()/item.getTotalBytes()*100+'%');
@@ -344,7 +348,7 @@ app
           paused: item.isPaused(),
         });
       });
-  
+
       // 下载任务完成
       item.on('done', (e, state) => { // eslint-disable-line
         mainWindow!.webContents.send('download-item-done', {
@@ -355,5 +359,5 @@ app
       });
     });
   }
-  
+
 

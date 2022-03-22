@@ -39,7 +39,7 @@
     padding: 0 6px;
     display: flex;
     align-items: center;
-    color: #1ece9a;
+    color: var(--primary-color);
   }
   .panel {
     display: none;
@@ -59,7 +59,7 @@
         cursor: pointer;
         height: 100%;
         &:hover {
-          color: #1ece9a;
+          color: var(--primary-color);
         }
       }
       // svg {
@@ -67,7 +67,7 @@
       // }
     }
   }
-  
+
   .icon {
     display: flex;
     align-items: center;
@@ -92,7 +92,7 @@
   width: 100%;
   .percentInner {
     height: 100%;
-    background: #1ece9a;
+    background: var(--primary-color);
     border-radius: 2px;
     overflow: hidden;
   }

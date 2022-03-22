@@ -97,7 +97,7 @@ const SearchPopup: React.FC<SearchPopupProps> = (props) => {
                         return (
                           <div
                             className={styles.listItem}
-                            key={item.id}
+                            key={item.id ? item.id : index}
                             onClick={() =>
                               handleClickHotSearchItem(item.searchWord)
                             }

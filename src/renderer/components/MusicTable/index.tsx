@@ -11,11 +11,13 @@ import {
 import { useAppDispatch, useAppSelector } from 'renderer/hooks/hooks';
 import { fetchMusicUrl } from 'renderer/api';
 import { useHistory } from 'react-router';
+import { timeFormat } from 'renderer/utils';
 // import { fetchMusicUrl } from 'renderer/store/musicSlice';
 
 export interface MusicTableProps {
   dataSource: Object[];
   columns?: ColumnsType[];
+  showButton?: boolean;
   // columns: ColumnsType[];
 }
 
@@ -32,7 +34,7 @@ export interface ColumnsType {
 }
 
 const MusicTable: React.FC<MusicTableProps> = (props) => {
-  const { dataSource, columns } = props;
+  const { dataSource, columns, showButton = true } = props;
   const dispatch = useAppDispatch();
   const history = useHistory()
 
@@ -59,7 +61,9 @@ const MusicTable: React.FC<MusicTableProps> = (props) => {
     history.push(`/artist/${ar.id}`);
   };
 
-  const handleClickAlbum = () => {};
+  const handleClickAlbum = (id: number) => {
+    history.push(`/artistAlbumDetail/${id}`);
+  };
 
   const handleClickLike = () => {};
 
@@ -69,7 +73,10 @@ const MusicTable: React.FC<MusicTableProps> = (props) => {
       type: 'music/setCurMusic',
       payload: para,
     });
-
+    dispatch({
+      type: 'music/setPlayingState',
+      payload: 'playing'
+    })
     dispatch({
       type: 'music/setDuration',
       payload: (para.duration / 1000) >> 0,
@@ -92,16 +99,16 @@ const MusicTable: React.FC<MusicTableProps> = (props) => {
     })
   };
 
-  const timeFormat = (time: number) => {
-    // let temp = time.toFixed(0);
-    time = (time / 1000) >> 0;
-    const minutes = Math.floor(time / 60);
-    const seconds = Math.floor(time - minutes * 60);
-    const formatted = `${minutes.toFixed(0).padStart(2, '0')}:${seconds
-      .toFixed(0)
-      .padStart(2, '0')}`;
-    return formatted;
-  };
+  // const timeFormat = (time: number) => {
+  //   // let temp = time.toFixed(0);
+  //   time = (time / 1000) >> 0;
+  //   const minutes = Math.floor(time / 60);
+  //   const seconds = Math.floor(time - minutes * 60);
+  //   const formatted = `${minutes.toFixed(0).padStart(2, '0')}:${seconds
+  //     .toFixed(0)
+  //     .padStart(2, '0')}`;
+  //   return formatted;
+  // };
   const customeRenderTableItem = (para: any, index: number) => {
     // if(!para)  return;
     // const {  } = para;
@@ -181,14 +188,14 @@ const MusicTable: React.FC<MusicTableProps> = (props) => {
           </Col>
           <Col flex="1 0 0%" style={{ overflow: 'hidden' }}>
             <div className={styles.itemTitle}>
-              <span onClick={()=>handleClickSinger(artists)}>
+              <span onClick={()=>handleClickSinger(artists)} className={styles.artist}>
                 {artists?.map((at) => at.name).join(' / ')}
               </span>
             </div>
           </Col>
           <Col flex="1 0 0%" style={{ overflow: 'hidden' }}>
             <div className={styles.itemTitle}>
-              <span onClick={handleClickAlbum}>{album?.name}</span>
+              <span onClick={()=>handleClickAlbum(album?.id)} className={styles.album}>{album?.name}</span>
             </div>
           </Col>
           <Col flex="60px">
@@ -203,14 +210,18 @@ const MusicTable: React.FC<MusicTableProps> = (props) => {
   return (
     <div className={styles.musicTable}>
       <div className={styles.toolbar}>
-        <div className={styles.detailButton}>
-          <div className={styles.button}>
-            <div className={styles.prefix}>
-              <MdOutlinePlayArrow />
+        {
+          showButton &&
+          <div className={styles.detailButton}>
+            <div className={styles.button}>
+              <div className={styles.prefix}>
+                <MdOutlinePlayArrow />
+              </div>
+              <span onClick={handleClickPlayAll}>播放全部</span>
             </div>
-            <span onClick={handleClickPlayAll}>播放全部</span>
           </div>
-        </div>
+        }
+
       </div>
       <div className={styles.tableContent}>
         {

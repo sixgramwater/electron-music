@@ -7,3 +7,14 @@ export const group = (nums: any[]) => {
   }
   return res;
 }
+
+export const timeFormat = (time: number) => {
+  // let temp = time.toFixed(0);
+  time = (time / 1000) >> 0;
+  const minutes = Math.floor(time / 60);
+  const seconds = Math.floor(time - minutes * 60);
+  const formatted = `${minutes.toFixed(0).padStart(2, '0')}:${seconds
+    .toFixed(0)
+    .padStart(2, '0')}`;
+  return formatted;
+};

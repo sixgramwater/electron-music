@@ -1,5 +1,5 @@
 import React from 'react';
-import { useQueries, useQuery } from 'react-query';
+import { useQuery } from 'react-query';
 import { useParams } from 'react-router';
 import { fetchSingerAlbum, fetchSingerDetail, fetchSingerTopSongs } from 'renderer/api';
 import MusicTable from 'renderer/components/MusicTable';
@@ -77,7 +77,7 @@ const ArtistDetailPage = () => {
             />
           </TabItem>
           <TabItem key="desc" tab='简介'>
-            <p>{detailData.artist.briefDesc? detailData.artist.briefDesc : '暂无简介'}</p>
+            <p>{detailData.artist.briefDesc? detailData.artist.briefDesc.split('\n').map((item: string, index: number)=>(<p key={index}>{item}</p>)) : '暂无简介'}</p>
           </TabItem>
         </Tabs>
       </div>

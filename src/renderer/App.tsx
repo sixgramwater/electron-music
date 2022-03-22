@@ -3,6 +3,7 @@ import { Switch, Route, useLocation } from 'react-router-dom';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import Header from './components/header';
 import PlayList from './components/playlist';
+import './App.css';
 // import Content from './components/content';
 import FooterPlayer from './components/Footer/footerPlayer';
 import Sider from './components/sider';
@@ -14,9 +15,10 @@ import AlbumDetailPage from './pages/albumDetail';
 import DownloadPage from './pages/download';
 import RecentPage from './pages/recent';
 import SearchPage from './pages/search';
+import ArtistAlbumDetailPage from './pages/artistAlbumDetail';
 import ArtistDetailPage from './pages/artistDetail';
 import Login from './pages/login';
-import React, { useEffect } from 'react';
+import React, { useEffect, lazy, Suspense } from 'react';
 import AudioPlayer from './components/AudioPlayer';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
@@ -26,14 +28,20 @@ const queryClient = new QueryClient();
 // import {} from 'react-router-dom'
 import './App.scss';
 import 'antd/dist/antd.css';
-import { useAppDispatch } from './hooks/hooks';
+import { useAppDispatch, useAppSelector } from './hooks/hooks';
 import Toast from './components/Toast';
+
+const LazyLogin = lazy(() => import('./pages/login'));
+const LazyMain = lazy(() => import('./pages/main'));
+// const lazyHome = lazy(() => import('./'))
 
 // import './styles/theme.less';
 // import { useHistory } from 'react-router';
 
 export const Main: React.FC = () => {
   const dispatch = useAppDispatch();
+  const user = useAppSelector(state=>state.app.user);
+  const isLogined = user ? true : false;
   useEffect(() => {
     window.electron.ipcRenderer.on('new-download-item', (event: any, arg: any) => {
       console.log(arg);
@@ -55,7 +63,8 @@ export const Main: React.FC = () => {
         type: 'app/updateDownloadItem',
         payload: arg
       })
-    })
+    });
+
   }, []);
 
   const location = useLocation();
@@ -85,6 +94,7 @@ export const Main: React.FC = () => {
                   <Route path="/recent" component={RecentPage} />
                   <Route path="/artist/:id" component={ArtistDetailPage} />
                   <Route path="/search/:query" component={SearchPage} />
+                  <Route path="/artistAlbumDetail/:id" component={ArtistAlbumDetailPage} />
                   {/* <Redirect path='/rec'></Redirect> */}
                 </Switch>
               </CSSTransition>
@@ -104,106 +114,46 @@ export const Main: React.FC = () => {
   );
 };
 
-// const Rec = () => {
-//   return(
-//     <div>
-//       recommend
-//     </div>
-//   )
-// }
 
-// const getSceneConfig = (location: any) => {
-//   const matchedRoute = config.find(config => new RegExp(`^${config.path}$`).test(location.pathname));
-//   return (matchedRoute && matchedRoute.transitionConfig) || {enter: "from-bottom", exit: "to-bottom"};
-// };
-
-// let oldLocation: any = null;
-
-// const Layout = () => {
-//   const location = useLocation();
-//   // const history = useHistory();
-//   // React.useEffect(() => {
-//   //   console.log(classes());
-//   // }, [location.pathname]);
-
-//   const classes = () => {
-//     let classnames = '';
-//     // if(history.action === 'PUSH') {
-//     //   classnames = 'forward-' + getSceneConfig(location).enter
-//     // } else if (history.action === 'POP' && oldLocation) {
-//     //   classnames = 'backward-' + getSceneConfig(location).exit
-//     // }
-//     if(!location.key) {
-//       classnames = 'forward-' + getSceneConfig(location).enter
-//       location.key="used";
-//     } else if(location.key && oldLocation) {
-//       location.key = '';
-//       classnames = 'backward-' + getSceneConfig(oldLocation).exit
-//     }
-//     console.log(classnames);
-//     return classnames;
-//     // else return "no";
-//   }
-//   oldLocation = location;
-
-//   const getKey = () => {
-//     return location.pathname === '/playing' ? 'isPlaying' : 'notPlaying'
-//   }
-//   // useEffect(() => {
-//   //   console.log(location.pathname)
-//   // }, [location.pathname])
-//   // const location = useLocation();
-//   // const TransitionPlayingPage = () => {
-//   //   return (
-//   //     <CSSTransition
-//   //           in={location.pathname==='/playing'}
-//   //           classNames="slide"
-//   //           timeout={250}
-//   //         >
-//   //       <PlayingPage />
-//   //     </CSSTransition>
-//   //   )
-//   // }
-//   return (
-//     <TransitionGroup
-//       component={null}
-//       childFactory={child => React.cloneElement(child, {classNames: classes()})}
-//     >
-//       <CSSTransition
-//         key={getKey()}
-//         timeout={250}
-//         // classNames="slide"
-//       >
-//         <Routes>
-//           <Route path="/" element={<Main />} >
-
-//             <Route path="/" element={<Recommend />}/>
-//             <Route path="/lib" element={<Library />}/>
-//             <Route path="/like" element={<Like />}/>
-//             <Route path="/albumDetail" element={<AlbumDetailPage />} />
-//           </Route>
-//           <Route path="/playing" element={<PlayingPage />}/>
-
-//         </Routes>
-//       </CSSTransition>
-//     </TransitionGroup>
-
-//   )
-// }
 export default function App() {
   const location = useLocation();
+  const dispatch = useAppDispatch();
   React.useEffect(() => {
-    console.log(location);
+    window.electron.ipcRenderer.on('login-success', (event: any, arg: any) => {
+      const user = arg;
+      console.log('user login', user);
+      localStorage.setItem('user', JSON.stringify(user));
+      dispatch({
+        type: 'app/setUser',
+        payload: user
+      });
+
+    });
+
+    // console.log(location);
   }, []);
+
+  React.useEffect(() => {
+    const userString = localStorage.getItem('user');
+    if(userString) {
+      const user = JSON.parse(userString);
+      dispatch({
+        type: 'app/setUser',
+        payload: user
+      });
+    }
+  }, [])
   // console.log(location.)
   return (
+    <Suspense fallback={<div>loading</div>}>
     <QueryClientProvider client={queryClient}>
       <Switch location={location}>
         {/* <Route path="/playing" component={PlayingPage}></Route> */}
 
-        <Route path="/login" component={Login}></Route>
-        <Route path="/" component={Main}></Route>
+        <Route path="/login" component={LazyLogin}></Route>
+        <Route path="/" component={LazyMain}></Route>
       </Switch>
     </QueryClientProvider>
+    </Suspense>
   );
 }

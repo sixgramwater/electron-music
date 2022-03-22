@@ -11,6 +11,7 @@ import {
 import { useAppDispatch, useAppSelector } from 'renderer/hooks/hooks';
 import { FaRandom, FaIndent, FaSync } from 'react-icons/fa';
 import VolumeBar from '../volumeBar';
+// import { timeFormat } from 'renderer/utils';
 
 // import { useAppSelector } from 'renderer/hooks/hooks';
 // import { useHistory } from 'react-router-dom';
@@ -59,6 +60,12 @@ const FooterPlayer: React.FC = () => {
     });
   };
   const clickPlayModeButton = () => {
+    const mode = ['随机播放','列表循环', '单曲循环'];
+    // toast(mode[(playMode+1) % 3]);
+    dispatch({
+      type: 'app/setToastContent',
+      payload: `${mode[(playMode+1) % 3]}`
+    })
     dispatch({
       type: 'music/setPlayMode',
       payload: (playMode + 1) % 3,
@@ -110,12 +117,12 @@ const FooterPlayer: React.FC = () => {
           <div className={styles.playerButton}>
             {!isPlaying ? (
               <MdOutlinePlayCircleFilled
-                style={{ fontSize: '40px', color: '#1ece9a' }}
+                style={{ fontSize: '40px', color: 'var(--primary-color)' }}
                 onClick={handleClickPlay}
               />
             ) : (
               <MdPauseCircleFilled
-                style={{ fontSize: '40px', color: '#1ece9a' }}
+                style={{ fontSize: '40px', color: 'var(--primary-color)' }}
                 onClick={handleClickPause}
               />
             )}

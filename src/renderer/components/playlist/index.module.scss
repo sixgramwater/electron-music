@@ -34,6 +34,7 @@
           font-size: 20px;
           // padding: 8px 0;
           font-weight: 550;
+
         }
         .count {
           padding: 4px 0;
@@ -64,7 +65,7 @@
           font-size: 18px;
         }
         &:hover {
-          color: #1ece9a;
+          color: var(--primary-color);
         }
       }
     }
@@ -91,6 +92,7 @@
 
 .playListItem {
   // height: 64px;
+  cursor: pointer;
   box-sizing: border-box;
   &.select {
     background: #f8f8f8;
@@ -106,6 +108,9 @@
     .title {
       font-size: 14px;
       padding: 2px 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .info {
@@ -113,6 +118,11 @@
       padding: 2px 0;
       justify-content: space-between;
       font-size: 12px;
+      .singerContainer {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
       .singer {
         color: #7d7d7d;
       }
@@ -120,6 +130,15 @@
       .musicLength {
         color: #7c7c7c;
       }
+    }
+  }
+  &.active {
+    color: var(--primary-color) !important;
+    .singer {
+      color: var(--primary-color) !important;
+    }
+    .musicLength {
+      color: var(--primary-color) !important;
     }
   }
 }
