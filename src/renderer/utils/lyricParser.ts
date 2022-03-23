@@ -44,3 +44,18 @@ export const lyricParser = (lyric: string) => {
   });
   return parsedLines;
 };
+
+const kTimeExp = /\[(\d{2,}):(\d{2})(?:\.(\d{2,3}))?]/g;
+export const kLyricParser = (lyric: string) => {
+  if(!lyric)  return [];
+  const lines = lyric.split('\n');
+  let parsedLines = [];
+  const offset = 0;
+  for(let i=0; i< lines.length; i++) {
+    const line = lines[i];
+    const result: any = kTimeExp.exec(line);
+    if(result) {
+      const txt = line.replace(kTimeExp, '').trim();
+    }
+  }
+}

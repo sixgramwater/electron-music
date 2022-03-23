@@ -9,8 +9,10 @@ import { fetchDailyRecommendPlaylist, fetchHomepageResource } from 'renderer/api
 import { PlaylistType } from 'renderer/store/musicSlice';
 import { fetchOfficialPlaylist } from 'renderer/api';
 import { useQueries, useQuery } from 'react-query';
+import { useAppSelector } from 'renderer/hooks/hooks';
 
 const Recommend: React.FC = () => {
+  const user = useAppSelector(state=>state.app.user);
   // const dispatch = useAppDispatch();
   // const [isLoading, setIsLoading] = useState(false);
   // const playLists = useAppSelector(state=>state.music.recommendPlaylist);
@@ -135,7 +137,7 @@ const Recommend: React.FC = () => {
           <h1 className={styles.pageTitle}>推荐</h1>
           <div className={styles.section}>
             <div className={styles.sectionTitle}>
-              <h2>Hi Quin33 今日为您推荐</h2>
+              <h2>Hi {user?.nickname} 今日为您推荐</h2>
             </div>
             <div className={styles.sectionContent}>
               {/* <AlbumItem/>

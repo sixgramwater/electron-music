@@ -15,6 +15,7 @@ import {
 import { IoHeartDislikeOutline, IoHeartOutline } from 'react-icons/io5';
 import { useAppDispatch, useAppSelector } from 'renderer/hooks/hooks';
 import VolumeBar from 'renderer/components/volumeBar';
+import { createNewWindow } from 'renderer/api/ipc';
 
 const PlayerController: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -31,6 +32,17 @@ const PlayerController: React.FC = () => {
       .padStart(2, '0')}`;
     return formatted;
   };
+  const handleClickComment = () => {
+    createNewWindow({
+      width: 648,
+      height: 100,
+      // minHeight: 648,
+      // minWidth: 186,
+      hash: 'klyric',
+      transparent: true,
+      noParent: true,
+    })
+  }
   const handleClickPlayListIcon = () => {
     dispatch({
       type: 'app/toggleShowPlayList',
@@ -84,7 +96,7 @@ const PlayerController: React.FC = () => {
         <div className={styles.miniButton}>
           <MdOutlineDownload />
         </div>
-        <div className={styles.miniButton}>
+        <div className={styles.miniButton} onClick={handleClickComment}>
           <MdOutlineComment />
         </div>
       </div>

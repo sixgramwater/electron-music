@@ -39,6 +39,9 @@
       "node_modules",
       "package.json"
     ],
+    "electronDownload":{
+      "mirror":"https://npm.taobao.org/mirrors/electron/"
+    },
     "afterSign": ".erb/scripts/notarize.js",
     "mac": {
       "target": {

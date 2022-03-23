@@ -1,0 +1,71 @@
+.klyric {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  // background-color: rgba(0,0,0,0.4);
+  // display: flex;
+  -webkit-app-region: drag;
+
+  .klyricMask {
+    // 648*84
+    position: absolute;
+    -webkit-app-region: drag;
+
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    visibility: hidden;
+    &.show {
+      visibility: visible;
+    }
+    background-color: rgba(0,0,0,0.5);
+    .controlBar {
+      padding: 4px 30px;
+      // height: 20px;
+      // background: rgba($color: #000000, $alpha: 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .icon {
+        -webkit-app-region: no-drag;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        padding: 2px 0;
+        // margin: 0;
+        width: 17px;
+        margin-left: auto;
+        // margin: 0 3px;
+        cursor: pointer;
+        color: #98999b;
+        &:hover {
+          color: #f9f9fa;
+        }
+      }
+    }
+  }
+  .lyricContainer {
+    // height: 80px;
+    display: flex;
+    position: absolute;
+    user-select: none;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    // text-shadow:2px 2px 2px #000;
+    // webkit-text-fill-color: transparent;
+    // background-color: #36a4ef;
+    background-image: linear-gradient(to right, #ced720 0%,#35a3ed 0%);
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    font-size: 36px;
+    font-weight: 550;
+    // -webkit-text-stroke: 1.0px #000;
+  }
+}
+
+// body {
+//   background: ;
+// }

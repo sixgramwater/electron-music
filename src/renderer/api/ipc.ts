@@ -9,8 +9,8 @@ export const minWindow = () => {
   ipcRenderer.send('minWindow');
 };
 
-export const closeWindow = () => {
-  ipcRenderer.send('closeWindow');
+export const closeWindow = (hide?: any) => {
+  ipcRenderer.send('closeWindow', hide);
 };
 
 export const createLoginWindow = () => {
@@ -27,6 +27,8 @@ type createWindowOptions = {
   minHeight?: number;
   minWidth?: number;
   hash: string;
+  transparent?: boolean;
+  noParent?: boolean;
 };
 
 export const createNewWindow = (options: createWindowOptions) => {
