@@ -45,17 +45,42 @@ export const lyricParser = (lyric: string) => {
   return parsedLines;
 };
 
-const kTimeExp = /\[(\d{2,}):(\d{2})(?:\.(\d{2,3}))?]/g;
+
+
+const spanExp = /\(\d+,(\d+)\)([\u4E00-\u9FA5A-Za-z0-9]?)/g;
+const lineSpanExp = /^\[(\d+),(\d+)\]/g;
+// const kTimeExp = /\[(\d{2,}):(\d{2})(?:\.(\d{2,3}))?]/g;
 export const kLyricParser = (lyric: string) => {
   if(!lyric)  return [];
   const lines = lyric.split('\n');
   let parsedLines = [];
-  const offset = 0;
+  // const offset = 0;
   for(let i=0; i< lines.length; i++) {
     const line = lines[i];
-    const result: any = kTimeExp.exec(line);
-    if(result) {
-      const txt = line.replace(kTimeExp, '').trim();
+    const lineResult = [...line.matchAll(lineSpanExp)];
+    if(lineResult.length !== 0) {
+      const lineSpans = lineResult[0];
+      const lineStartTime = parseInt(lineSpans[1]);
+      const lineSpan = parseInt(lineSpans[2]);
+      const result = [...line.matchAll(spanExp)];
+      let lastStartTime = lineStartTime;
+      const lineContent = result.map((item) => {
+        const st = lastStartTime;
+        const sp = parseInt(item[1]);
+        lastStartTime += sp;
+        return {
+          text: item[2],
+          span: sp,
+          startTime: st,
+        }
+      });
+
+      parsedLines.push({
+        startTime: lineStartTime,
+        lineSpan: lineSpan,
+        lineContent
+      })
     }
   }
+  return parsedLines;
 }

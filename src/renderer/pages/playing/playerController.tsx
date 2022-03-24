@@ -33,15 +33,15 @@ const PlayerController: React.FC = () => {
     return formatted;
   };
   const handleClickComment = () => {
-    createNewWindow({
-      width: 648,
-      height: 100,
-      // minHeight: 648,
-      // minWidth: 186,
-      hash: 'klyric',
-      transparent: true,
-      noParent: true,
-    })
+    // createNewWindow({
+    //   width: 648,
+    //   height: 100,
+    //   // minHeight: 648,
+    //   // minWidth: 186,
+    //   hash: 'klyric',
+    //   transparent: true,
+    //   noParent: true,
+    // })
   }
   const handleClickPlayListIcon = () => {
     dispatch({

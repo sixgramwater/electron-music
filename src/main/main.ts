@@ -204,7 +204,7 @@ const createNewWindow = (options: createWindowOptions) => {
     transparent: transparent ? transparent : false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
-      devTools: false,
+      devTools: true,
     },
   });
   let startUrl;
@@ -318,9 +318,34 @@ app
     createNewWindow(value);
   });
 
+  // ipcMain.on('create-klyric-window', (event, value) => {
+  //   createNewWindow({
+
+  //   })
+  // })
+
   ipcMain.on('close-hash-window', (event, value) => {
     closeHashWindow(value);
   });
+
+  ipcMain.on('send-parsedLines', (event, value) => {
+    const kWin = win['klyric'];
+    if(kWin)  {
+      setTimeout(() => {
+        kWin.webContents.send('set-parsedLines', value);
+        console.log(value.length);
+      }, 2000)
+    }
+
+  });
+
+  ipcMain.on('send-curTime', (event, value) => {
+    const kWin = win['klyric'];
+    if(kWin)
+    kWin.webContents.send('set-curTime', value);
+  })
+
+
 
   ipcMain.on('loginSuccess', (event, value) => {
     mainWindow!.webContents.send('login-success', value);

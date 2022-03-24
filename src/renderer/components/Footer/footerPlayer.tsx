@@ -11,6 +11,8 @@ import {
 import { useAppDispatch, useAppSelector } from 'renderer/hooks/hooks';
 import { FaRandom, FaIndent, FaSync } from 'react-icons/fa';
 import VolumeBar from '../volumeBar';
+import cx from 'classnames';
+import { closeKlyricWindow, createKlyricWindow } from 'renderer/api/ipc';
 // import { timeFormat } from 'renderer/utils';
 
 // import { useAppSelector } from 'renderer/hooks/hooks';
@@ -26,8 +28,13 @@ const FooterPlayer: React.FC = () => {
   const curTime = useAppSelector((state) => state.music.curTime);
   const duration = useAppSelector((state) => state.music.duration);
   const playMode = useAppSelector((state) => state.music.playMode);
-  const playingState = useAppSelector((state) => state.music.playingState);
+  // const playingState = useAppSelector((state) => state.music.playingState);
   const isPlaying = useAppSelector((state) => state.music.isPlaying);
+  const showKlyric = useAppSelector((state) => state.app.showKlyric);
+
+  const klyricButtonClass = cx(styles.btn, {
+    [styles.active]: showKlyric
+  })
   // const history = useHistory();
   const handleClickPlayListIcon = () => {
     dispatch({
@@ -83,7 +90,23 @@ const FooterPlayer: React.FC = () => {
         return <FaRandom style={{ fontSize: '14px' }} />;
     }
   };
-
+  const handleToggleKlyric = () => {
+    const updatedShowKlyric = !showKlyric;
+    // console.log('toggle to', !showKlyric)
+    if(updatedShowKlyric) {
+      createKlyricWindow();
+    } else {
+      closeKlyricWindow();
+    }
+    dispatch({
+      type: 'app/setShowKlyric',
+      payload: updatedShowKlyric,
+    });
+    dispatch({
+      type: 'app/setToastContent',
+      payload: `动态歌词${updatedShowKlyric ? '开启': '关闭'}`
+    })
+  }
   const timeFormat = (time: number) => {
     // let temp = time.toFixed(0);
     const minutes = Math.floor(time / 60);
@@ -140,6 +163,9 @@ const FooterPlayer: React.FC = () => {
             <span>
               {timeFormat(curTime)} / {timeFormat(duration)}
             </span>
+          </div>
+          <div className={styles.klyricButton} onClick={handleToggleKlyric}>
+            <div className={klyricButtonClass}>词</div>
           </div>
           <div
             className={styles.playListIcon}

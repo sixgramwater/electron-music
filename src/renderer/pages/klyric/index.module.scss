@@ -9,7 +9,7 @@
   .klyricMask {
     // 648*84
     position: absolute;
-    -webkit-app-region: drag;
+    -webkit-app-region: no-drag;
 
     top: 0;
     left: 0;
@@ -50,19 +50,30 @@
     display: flex;
     position: absolute;
     user-select: none;
+    span {
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      transition: all ease 100ms;
+    }
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     // text-shadow:2px 2px 2px #000;
     // webkit-text-fill-color: transparent;
     // background-color: #36a4ef;
+    transition: all ease 100ms;
+
     background-image: linear-gradient(to right, #ced720 0%,#35a3ed 0%);
     top: 50%;
     left: 50%;
     transform: translateX(-50%) translateY(-50%);
     font-size: 36px;
     font-weight: 550;
-    // -webkit-text-stroke: 1.0px #000;
+    white-space: nowrap;
+    will-change: auto;
+    overflow: hidden;
+    // -webkit-text-stroke: 0.5px #000;
   }
 }
 
