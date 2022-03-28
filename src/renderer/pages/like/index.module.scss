@@ -1,0 +1,12 @@
+.likePage {
+  .pageTitle {
+    h1 {
+      font-weight: 800;
+    }
+  }
+  height: 100%;
+  // min-height: 100vh;
+  padding: 8px 36px;
+  display: flex;
+  flex-direction: column;
+}

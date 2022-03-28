@@ -53,6 +53,7 @@ const Login: React.FC = () => {
         // console.log
       })
       .catch(() => {
+        setLoading(false);
         message.error('用户名或密码错误');
       });
     // console.log(values);

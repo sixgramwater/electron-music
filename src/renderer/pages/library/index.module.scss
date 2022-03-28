@@ -31,3 +31,22 @@
     }
   }
 }
+
+.content {
+  padding-top: 20px;
+}
+.section {
+  padding-bottom: 24px;
+
+  .sectionTitle {
+    padding: 12px 0;
+    h2 {
+      font-size: 22px;
+      font-weight: 500;
+    }
+  }
+}
+.sectionContent {
+  display: flex;
+  justify-content: space-between;
+}

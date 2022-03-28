@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styles from './index.module.scss';
 // import AlbumItem from 'renderer/components/AlbumItem';
 import Scroll from 'renderer/components/scrollbar';
 import Slider from '../../components/slider';
 import AlbumItemLoader from 'renderer/components/Loader/AlbumItemLoader';
 // import { useAppSelector, useAppDispatch } from 'renderer/hooks/hooks';
-import { fetchDailyRecommendPlaylist, fetchHomepageResource } from 'renderer/api';
-import { PlaylistType } from 'renderer/store/musicSlice';
-import { fetchOfficialPlaylist } from 'renderer/api';
-import { useQueries, useQuery } from 'react-query';
+import { fetchHomepageResource } from 'renderer/api';
+// import { PlaylistType } from 'renderer/store/musicSlice';
+// import { fetchOfficialPlaylist } from 'renderer/api';
+import { useQuery } from 'react-query';
 import { useAppSelector } from 'renderer/hooks/hooks';
 
 const Recommend: React.FC = () => {

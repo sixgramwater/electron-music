@@ -8,6 +8,7 @@ import { group } from 'renderer/utils';
 import { Tabs, TabItem } from '../../components/Tabs/TabNav';
 import RanklistItem from 'renderer/components/RanklistItem';
 import Scroll from 'renderer/components/scrollbar';
+import LibHome from './libHome';
 
 
 const Library: React.FC = () => {
@@ -70,6 +71,9 @@ const Library: React.FC = () => {
                     ))
                   }
                 </Carousel>
+              </div>
+              <div className={styles.content}>
+                <LibHome />
               </div>
             </TabItem>
             <TabItem

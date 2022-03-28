@@ -13,6 +13,7 @@ import { useHistory, useParams } from 'react-router';
 import PlaylistLoader from 'renderer/components/Loader/PlaylistLoader';
 import { fetchPlaylistDetail } from 'renderer/api';
 import Scroll from '../../components/scrollbar';
+import MusicTable from 'renderer/components/MusicTable';
 // import { timeFormat } from 'renderer/utils'
 // import { MdOutlinePlayArrow } from 'react-icons/md';
 // import AlbumItem from 'renderer/components/AlbumItem';
@@ -59,6 +60,7 @@ const AlbumDetailPage: React.FC = () => {
             artists: track.ar,
             album: track.al,
             duration: track.dt,
+            alias: track.alia,
           };
         }),
         trackIds: datalist?.trackIds,
@@ -260,7 +262,16 @@ const AlbumDetailPage: React.FC = () => {
           </div>
         </div>
         <div className={styles.detailContent}>
-          <div className={styles.musicTable}>
+          {
+            curPlaylist &&
+            <MusicTable
+              showButton={false}
+              dataSource={curPlaylist?.tracks}
+            />
+
+          }
+
+          {/* <div className={styles.musicTable}>
             <Row
               style={{
                 color: '#7d7d7d',
@@ -313,7 +324,7 @@ const AlbumDetailPage: React.FC = () => {
                 </div>
               </Row>
             )}
-          </div>
+          </div> */}
         </div>
       </div>
     </Scroll>
