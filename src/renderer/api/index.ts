@@ -27,6 +27,13 @@ export const fetchPlaylistDetail = (id: number) =>
 export const fetchPlaylistAllSongs = (id: number) =>
   get('/playlist/track/all', { id });
 
+export const fetchUserRecPlaylist = () =>
+  get('/top/playlist', { limit: 10 }).then(value=>value.data);
+
+
+export const fetchHqPlaylist = () =>
+  get('/top/playlist/highquality', { limit: 10 }).then(value=>value.data);
+
 // music url
 export const fetchMusicUrl = (id: number) =>
   get('/song/url', { id, realIP: '36.149.165.179' });
@@ -44,6 +51,10 @@ export const fetchHotSearch = () => get('/search/hot/detail');
 
 export const fetchSearchSuggest = (keywords: string) =>
   get('/search/suggest', { keywords });
+
+
+// music detail
+export const fetchMusicDetail = (ids: string | number) => get('/song/detail', { ids }).then(value=>value.data);
 
 // singer
 

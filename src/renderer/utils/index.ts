@@ -18,3 +18,13 @@ export const timeFormat = (time: number) => {
     .padStart(2, '0')}`;
   return formatted;
 };
+
+// type predicateType = (value: any) => boolean;
+export const findLastIndex = (array: any[], predicate: (value: any) => boolean) => {
+  for(let i=array.length-1; i--; i>=0) {
+    if(predicate(array[i])) {
+      return i;
+    }
+  }
+  return -1;
+}

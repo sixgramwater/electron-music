@@ -16,12 +16,12 @@ const NavList: React.FC = () => {
         </div>
         <div className={styles.navTitle}>本地音乐</div>
         <div className={styles.navList}>
-          {/* <NavItem 
+          {/* <NavItem
             title="推荐"
             path="/"
             icon={ <FaStar/>}
           /> */}
-          <NavItem title="音乐库" path="/lib" icon={<FaMusic />} />
+          {/* <NavItem title="音乐库" path="/lib" icon={<FaMusic />} /> */}
           <NavItem title="最近播放" path="/recent" icon={<FaClock />} />
           <NavItem title="本地与下载" path="/download" icon={<FaDownload />} />
         </div>

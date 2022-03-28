@@ -9,8 +9,8 @@ export const minWindow = () => {
   ipcRenderer.send('minWindow');
 };
 
-export const closeWindow = () => {
-  ipcRenderer.send('closeWindow');
+export const closeWindow = (hide?: any) => {
+  ipcRenderer.send('closeWindow', hide);
 };
 
 export const createLoginWindow = () => {
@@ -27,6 +27,8 @@ type createWindowOptions = {
   minHeight?: number;
   minWidth?: number;
   hash: string;
+  transparent?: boolean;
+  noParent?: boolean;
 };
 
 export const createNewWindow = (options: createWindowOptions) => {
@@ -37,6 +39,22 @@ export const createNewWindow = (options: createWindowOptions) => {
 export const closeHashWindow = (hash: string) => {
   ipcRenderer.send('close-hash-window', hash);
 };
+
+export const createKlyricWindow = () => {
+  createNewWindow({
+    width: 648,
+    height: 100,
+    // minHeight: 648,
+    // minWidth: 186,
+    hash: 'klyric',
+    transparent: true,
+    noParent: true,
+  });
+}
+
+export const closeKlyricWindow = () => {
+  closeHashWindow('klyric');
+}
 
 export const nativeStore = {
   get: store.get,

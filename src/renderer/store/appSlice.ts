@@ -8,6 +8,8 @@ export interface AppState {
   downloadList: downloadItemType[];
   showToast: boolean;
   toastContent: string;
+  showKlyric: boolean;
+  likeList: number[];
 }
 
 export type UserType = {
@@ -66,6 +68,8 @@ const initialState: AppState = {
   downloadList: [],
   showToast: false,
   toastContent: '',
+  showKlyric: false,
+  likeList: [],
 };
 
 const appSlice = createSlice({
@@ -115,6 +119,12 @@ const appSlice = createSlice({
     },
     setToastContent: (state, action) => {
       state.toastContent = action.payload;
+    },
+    setShowKlyric: (state, action) => {
+      state.showKlyric = action.payload;
+    },
+    setLikeList: (state, action) => {
+      state.likeList = action.payload;
     }
   },
 });

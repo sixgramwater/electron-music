@@ -88,6 +88,20 @@
       }
     }
   }
+  .klyricButton {
+    color: #7c7c7c;
+    padding: 0 4px;
+    user-select: none;
+    cursor: pointer;
+    .btn {
+      &:hover {
+        color: var(--primary-color);
+      }
+      &.active {
+        color: var(--primary-color);
+      }
+    }
+  }
 
   .playerBtns {
     display: flex;

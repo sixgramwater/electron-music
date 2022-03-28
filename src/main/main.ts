@@ -11,7 +11,7 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import path from 'path';
-import { app, BrowserWindow, shell, ipcMain } from 'electron';
+import { app, BrowserWindow, shell, ipcMain, Tray, Menu } from 'electron';
 // import fs from 'fs';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
@@ -31,6 +31,7 @@ export default class AppUpdater {
 }
 
 let mainWindow: BrowserWindow | null = null;
+let tray = null;
 
 ipcMain.on('ipc-example', async (event, arg) => {
   const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
@@ -138,10 +139,59 @@ type createWindowOptions = {
   minHeight?: number;
   minWidth?: number;
   hash: string;
+  transparent?: boolean;
+  noParent?: boolean;
+}
+
+const createTray = () => {
+  const RESOURCES_PATH = app.isPackaged
+    ? path.join(process.resourcesPath, 'assets')
+    : path.join(__dirname, '../../assets');
+
+  const getAssetPath = (...paths: string[]): string => {
+    return path.join(RESOURCES_PATH, ...paths);
+  };
+
+  tray = new Tray(getAssetPath('icon.ico'));
+  let trayMenuTemplate = [
+    {
+      label: "显示Entropy Music",
+      click: function() {
+        if(mainWindow)  winshow(mainWindow);
+        // return mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show();
+      }
+    },
+    {
+      label: "退出应用",
+      click: function() {
+        app.quit();
+      }
+    }
+  ];
+  const contextMenu = Menu.buildFromTemplate(trayMenuTemplate);
+  tray.setToolTip("Entropy Music");
+  tray.setContextMenu(contextMenu);
+}
+
+const winshow = (win:any) => {
+  if (win.isVisible()) {
+    if (win.isMinimized()) {
+      win.restore()
+      win.focus()
+    } else {
+      win.focus()
+    }
+  } else {
+    // !isMac && win.minimize()
+    win.minimize();
+    win.show()
+    win.setSkipTaskbar(false)
+  }
 }
 
 const createNewWindow = (options: createWindowOptions) => {
-  const { width, height, minHeight, minWidth, hash } = options;
+  const { width, height, minHeight, minWidth, hash, transparent, noParent } = options;
+  // console.log('transparent', transparent);
   win[hash] = new BrowserWindow({
     width,
     height,
@@ -149,9 +199,12 @@ const createNewWindow = (options: createWindowOptions) => {
     minWidth,
     fullscreenable: false,
     titleBarStyle: 'hidden',
-    parent: mainWindow!,
+    parent: noParent ? undefined : mainWindow!,
+    frame: false,
+    transparent: transparent ? transparent : false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
+      devTools: true,
     },
   });
   let startUrl;
@@ -229,6 +282,7 @@ app
   .whenReady()
   .then(() => {
     createWindow();
+    createTray();
     app.on('activate', () => {
       // On macOS it's common to re-create a window in the app when the
       // dock icon is clicked and there are no other windows open.
@@ -243,7 +297,15 @@ app
 
   ipcMain.on('maxWindow', ()=>mainWindow?.maximize());
   ipcMain.on('minWindow', ()=>mainWindow?.minimize());
-  ipcMain.on('closeWindow', ()=>mainWindow?.close());
+  ipcMain.on('closeWindow', (event, hide) => {
+    if(hide) {
+      console.log('hide');
+      mainWindow?.setSkipTaskbar(true);
+      mainWindow?.hide();
+    } else {
+      mainWindow?.close();
+    }
+  });
   ipcMain.on('createLoginWindow', () => {
     console.log('create login window')
     createLoginWindow();
@@ -256,9 +318,34 @@ app
     createNewWindow(value);
   });
 
+  // ipcMain.on('create-klyric-window', (event, value) => {
+  //   createNewWindow({
+
+  //   })
+  // })
+
   ipcMain.on('close-hash-window', (event, value) => {
     closeHashWindow(value);
   });
+
+  ipcMain.on('send-parsedLines', (event, value) => {
+    const kWin = win['klyric'];
+    if(kWin)  {
+      setTimeout(() => {
+        kWin.webContents.send('set-parsedLines', value);
+        console.log(value.length);
+      }, 2000)
+    }
+
+  });
+
+  ipcMain.on('send-curTime', (event, value) => {
+    const kWin = win['klyric'];
+    if(kWin)
+    kWin.webContents.send('set-curTime', value);
+  })
+
+
 
   ipcMain.on('loginSuccess', (event, value) => {
     mainWindow!.webContents.send('login-success', value);

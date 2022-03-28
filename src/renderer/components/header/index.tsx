@@ -16,8 +16,8 @@ import UserPopover from '../UserPopover';
 const Header: React.FC = () => {
   const user = useAppSelector(state=>state.app.user);
   const isLogin = user ? true : false;
-  const avatar = isLogin ? user?.avatarUrl :
-  'avatar.png';
+  const avatar = isLogin ? user?.avatarUrl : require('../../assets/avatar.png');
+  // 'avatar.png';
     // 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2F5b0988e595225.cdn.sohucs.com%2Fq_70%2Cc_zoom%2Cw_640%2Fimages%2F20181019%2F2bb900d12d894574868e599bb9323293.jpeg&refer=http%3A%2F%2F5b0988e595225.cdn.sohucs.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1640436280&t=25b30bfceb643c23e1317d53a2ed6191';
   const history = useHistory();
 
