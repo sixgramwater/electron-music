@@ -37,6 +37,7 @@ const RecentPage: React.FC = () => {
           artists: track.ar,
           album: track.al,
           duration: track.dt,
+          alias: track.alia,
         };
       })
     : [];

@@ -28,3 +28,21 @@ export const findLastIndex = (array: any[], predicate: (value: any) => boolean) 
   }
   return -1;
 }
+
+
+export const shuffle = <T>(array: T[]) => {
+  const n = array.length;
+  let temp = array.slice();
+  for(let i=0;i<n;i++) {
+    let randomIndex = i+Math.random()*(n-i)>>0;
+    if(randomIndex >= n)  randomIndex = n-1;
+    [temp[randomIndex], temp[i]] = [temp[i], temp[randomIndex]];
+  }
+  return temp;
+}
+
+export const parseDate = (time: number) => {
+  if(!time)  return '';
+  let date = new Date(time);
+  return date.toJSON().substring(0,10);
+}

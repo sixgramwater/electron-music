@@ -1,7 +1,7 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useState } from 'react';
 import styles from './index.module.scss';
 import { Row, Col } from 'antd';
-import { FaRegHeart } from 'react-icons/fa';
+import { FaRegHeart, FaHeart } from 'react-icons/fa';
 import {
   MdOutlinePlayArrow,
   MdOutlineAddBox,
@@ -9,7 +9,7 @@ import {
   MdOutlineHighQuality,
 } from 'react-icons/md';
 import { useAppDispatch, useAppSelector } from 'renderer/hooks/hooks';
-import { fetchMusicUrl } from 'renderer/api';
+import { fetchMusicUrl, likeSongs } from 'renderer/api';
 import { useHistory } from 'react-router';
 import { timeFormat } from 'renderer/utils';
 // import { fetchMusicUrl } from 'renderer/store/musicSlice';
@@ -35,8 +35,10 @@ export interface ColumnsType {
 
 const MusicTable: React.FC<MusicTableProps> = (props) => {
   const { dataSource, columns, showButton = true } = props;
+  const likeList = useAppSelector(state => state.app.likeList);
   const dispatch = useAppDispatch();
-  const history = useHistory()
+  const history = useHistory();
+  const [clicked, setClicked] = useState(false);
 
   type ArtistType = {
     name: string;
@@ -55,7 +57,28 @@ const MusicTable: React.FC<MusicTableProps> = (props) => {
     alias: string[];
   };
 
-  const handleClickPlayAll = () => {};
+  const handleClickPlayAll = () => {
+    if(dataSource.length === 0)  return;
+    const firstItem = dataSource[0] as MusicItemType;
+    dispatch({
+      type: 'music/setTrackPlaylist',
+      payload: dataSource
+    });
+
+    dispatch({
+      type: 'music/setCurMusic',
+      payload: firstItem
+    });
+
+    dispatch({
+      type: 'music/setPlayingState',
+      payload: 'playing'
+    });
+    dispatch({
+      type: 'music/setDuration',
+      payload: (firstItem.duration / 1000) >> 0,
+    });
+  };
   const handleClickSinger = (artists: ArtistType[]) => {
     const ar = artists[0];
     history.push(`/artist/${ar.id}`);
@@ -65,9 +88,47 @@ const MusicTable: React.FC<MusicTableProps> = (props) => {
     history.push(`/artistAlbumDetail/${id}`);
   };
 
-  const handleClickLike = () => {};
+  const handleClickLike = (id: number) => {
+    if(clicked)  return;
+    setClicked(true);
+    likeSongs(id).then(value => {
+      dispatch({
+        type: 'app/addLikeList',
+        payload: id
+      })
+      setClicked(false);
+      dispatch({
+        type: 'app/setToastContent',
+        payload: '喜欢歌曲成功'
+      });
 
-  const handleClickPanelAdd = () => {};
+    })
+  };
+
+  const handleClickDisLike = (id: number) => {
+    if(clicked)  return;
+    setClicked(true);
+    likeSongs(id, false).then(value => {
+      dispatch({
+        type: 'app/removeLikeList',
+        payload: id
+      })
+      dispatch({
+        type: 'app/setToastContent',
+        payload: '取消喜欢歌曲'
+      })
+      setClicked(false);
+
+    })
+
+  }
+
+  const handleClickPanelAdd = (para: MusicItemType) => {
+    dispatch({
+      type: 'music/addTrackPlaylist',
+      payload: para,
+    })
+  };
   const handleClickPanelPlay = (para: MusicItemType) => {
     dispatch({
       type: 'music/setCurMusic',
@@ -156,8 +217,12 @@ const MusicTable: React.FC<MusicTableProps> = (props) => {
         <div className={styles.musicItem}>
           <Col span={11}>
             <div className={styles.musicItemTitle}>
-              <i className={styles.icon} onClick={handleClickLike}>
-                <FaRegHeart />
+              <i className={styles.icon} >
+                {
+                  likeList.includes(id) ?
+                  <FaHeart style={{color: '#ff6a6a'}} onClick={()=>handleClickDisLike(id)}/> :
+                  <FaRegHeart onClick={()=>handleClickLike(id)}/>
+                }
               </i>
               <span className={styles.title}>{name}</span>
               {alias?.length !== 0 && (
@@ -174,7 +239,7 @@ const MusicTable: React.FC<MusicTableProps> = (props) => {
                 >
                   <MdOutlinePlayArrow />
                 </i>
-                <i className={styles.panelIcon} onClick={handleClickPanelAdd}>
+                <i className={styles.panelIcon} onClick={()=>handleClickPanelAdd(para)}>
                   <MdOutlineAddBox />
                 </i>
                 <i

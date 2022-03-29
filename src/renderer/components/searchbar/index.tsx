@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import styles from './index.module.scss';
 import { FiSearch } from 'react-icons/fi';
 import SearchPopup from './searchPopup';
@@ -55,11 +55,19 @@ const SearchBar: React.FC<SearchBarProps> = (props) => {
           <FiSearch onClick={handleClickSuffix} />
         </div>
       </div>
-      <SearchPopup
+      {
+        showPopup &&
+        <SearchPopup
+          query={debouncedQuery}
+          onClickPopup={onPopupClick}
+          show={showPopup}
+        />
+      }
+      {/* <SearchPopup
         query={debouncedQuery}
         onClickPopup={onPopupClick}
         show={showPopup}
-      />
+      /> */}
       {/* <div className={styles.searchPopup}>
         <div className={styles.popupInner}>
           <div className={styles.searchList}>

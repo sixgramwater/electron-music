@@ -21,19 +21,20 @@ const Like: React.FC = () => {
   const targetRef = useRef<HTMLDivElement>(null);
   const limit = 30;
   const maxPageSize = likeList? likeList.length / limit >> 0 : 0;
-  const [checkPoint, setCheckPoint] = useState(-1);
+  // const [checkPoint, setCheckPoint] = useState(-1);
   useEffect(() => {
-    console.log(uid);
+    // console.log(uid);
+    if(likeList.length !== 0)  return;
     fetchLikelist(uid).then((value: any) => {
       // console.log(value);
-      const cpt: number = value.checkPoint;
-      setCheckPoint(cpt);
+      // const cpt: number = value.checkPoint;
+      // setCheckPoint(cpt);
       dispatch({
         type: 'app/setLikeList',
         payload: value.ids,
       })
     })
-  }, [checkPoint]);
+  }, []);
 
   const handleIntersection = () => {
     console.log('intersect');
@@ -41,7 +42,7 @@ const Like: React.FC = () => {
   }
 
   const { data, status, isFetchingNextPage, hasNextPage, fetchNextPage } = useInfiniteQuery(
-    ['likelist', checkPoint, 1],
+    ['likelist', likeList],
     ({ pageParam = 0 }) => fetchMusicDetail(getSlice(likeList, limit, pageParam))
       .then(value => value.songs.map((song: any) => {
         return {
@@ -54,13 +55,13 @@ const Like: React.FC = () => {
         };
       })),
     {
-      staleTime: Infinity,
+      // staleTime: Infinity,
       enabled: likeList?.length !== 0,
       getNextPageParam: (lastPage, allPages) => allPages.length+1 > maxPageSize ? undefined : allPages.length+1,
     }
 
   )
-  console.log(data);
+  // console.log(data);
   useIntersectionObserver({
     target: targetRef,
     onIntersect: handleIntersection,

@@ -22,14 +22,26 @@
       display: flex;
       padding: 0 24px;
       flex-direction: column;
+      justify-content: space-between;
       .albumName {
         h2 {
           font-size: 42px;
           font-weight: 800;
+          margin-bottom: 0;
         }
       }
       .btn {
-        width: 100px;
+        width: 120px;
+      }
+
+      .info {
+        padding: 0 5px;
+        .artist {
+          padding: 8px 0;
+        }
+        .publishTime {
+          padding: 8px 0;
+        }
       }
     }
   }

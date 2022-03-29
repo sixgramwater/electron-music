@@ -1,7 +1,9 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'renderer/hooks/hooks';
 // import { useQuery } from 'react-query';
 import { fetchMusicUrl } from 'renderer/api';
+import { shuffle } from 'renderer/utils';
+import { trackType } from 'renderer/store/playlistSlice';
 const AudioPlayer: React.FC = () => {
   const dispatch = useAppDispatch();
   const playingState = useAppSelector((state) => state.music.playingState);
@@ -13,6 +15,10 @@ const AudioPlayer: React.FC = () => {
   const seekTime = useAppSelector((state) => state.music.seekTime);
   const volume = useAppSelector((state) => state.music.volume);
   const isPlaying = useAppSelector(state => state.music.isPlaying);
+  const playMode = useAppSelector(state => state.music.playMode);
+  const playList = useAppSelector(state => state.music.trackPlaylist);
+
+  const [shuffleSeq, setShuffleSeq] = useState<trackType[]>([]);
   useEffect(() => {
     const memMusic = localStorage.getItem('lastPlayedMusic');
     if(memMusic) {
@@ -52,6 +58,7 @@ const AudioPlayer: React.FC = () => {
             musicUrl: para.data.data[0].url,
           },
         });
+        // if(curMusic && curMusic.id !== )
         localStorage.setItem('lastPlayedMusic', JSON.stringify({
           ...curMusic,
           musicUrl: fetchedUrl,
@@ -93,10 +100,79 @@ const AudioPlayer: React.FC = () => {
       audioRef.current.volume = volume;
     }
   }, [volume]);
+
+  useEffect(() => {
+    if(playList.length === 0)  return;
+    const seq = shuffle(playList);
+    setShuffleSeq(seq);
+    // const len = playList.length;
+
+  }, [playList])
   const onEnded = () => {
     console.log('onend');
     pause();
+    if(playMode === 0) {
+      if(playList.length === 0 || !curMusic)  return;
+      if(playList.length === 1)  {
+        audioRef.current.currentTime = 0;
+        play();
+        return;
+      }
+      const curIndex = shuffleSeq.findIndex((track) => track.id === curMusic.id);
+      const nextIndex = (curIndex+1)%shuffleSeq.length;
+      const nextTrack = shuffleSeq[nextIndex];
+      // if(nextTrack.id === curMusic)
+      dispatch({
+        type: 'music/setCurMusic',
+        payload: nextTrack,
+      });
+      dispatch({
+        type: 'music/setPlayingState',
+        payload: 'playing'
+      })
+      dispatch({
+        type: 'music/setDuration',
+        payload: (nextTrack.duration / 1000) >> 0,
+      });
+
+      // random
+      // const nextId = playList.length === 0 ? undefined :
+      // const nextRandom =
+    } else if(playMode === 1) {
+      if(playList.length === 0 || !curMusic)  return;
+      if(playList.length === 1)  {
+        audioRef.current.currentTime = 0;
+        play();
+        return;
+      }
+      const curIndex = playList.findIndex((track) => track.id === curMusic.id);
+      const nextIndex = (curIndex+1)%playList.length;
+      const nextTrack = playList[nextIndex];
+      // if(nextTrack.id === curMusic)
+      dispatch({
+        type: 'music/setCurMusic',
+        payload: nextTrack,
+      });
+      dispatch({
+        type: 'music/setPlayingState',
+        payload: 'playing'
+      })
+      dispatch({
+        type: 'music/setDuration',
+        payload: (nextTrack.duration / 1000) >> 0,
+      });
+
+      // list seq
+      // const nextId =
+
+    } else if(playMode === 2) {
+      audioRef.current.currentTime = 0;
+      // console.log()
+      // audioRef.current.currentTime = 0;
+      play();
+    }
   };
+
   const onPlay = () => {
     console.log('onplay');
     dispatch({
@@ -104,6 +180,7 @@ const AudioPlayer: React.FC = () => {
       payload: true
     })
   };
+
   const onCanPlay = () => {
     if(playingState === 'playing') {
       play();

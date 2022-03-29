@@ -125,6 +125,15 @@ const appSlice = createSlice({
     },
     setLikeList: (state, action) => {
       state.likeList = action.payload;
+    },
+    addLikeList: (state, action) => {
+      if(!state.likeList.includes(action.payload)) {
+        state.likeList.unshift(action.payload);
+      }
+    },
+    removeLikeList: (state, action) => {
+      // console.log()
+      state.likeList = state.likeList.filter(id => id !== action.payload);
     }
   },
 });

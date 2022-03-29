@@ -71,7 +71,10 @@ const PlayingPage: React.FC = () => {
               </div>
             </div>
             <div className={styles.lyricContainer}>
-              <Lyric id={curMusic?.id} />
+              {
+                showPlayingPage &&
+                <Lyric id={curMusic?.id} />
+              }
             </div>
           </div>
         </div>

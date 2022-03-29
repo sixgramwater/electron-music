@@ -16,13 +16,14 @@ interface SearchPopupProps {
 const SearchPopup: React.FC<SearchPopupProps> = (props) => {
   const { query, onClickPopup, show } = props;
   const { data, isLoading } = useQuery('hotSearch', fetchHotSearch, {
-    staleTime: 1000,
+    enabled: show
+    // staleTime: 1000,
   });
   const suggestResult = useQuery(
     ['searchSuggest', query],
     () => fetchSearchSuggest(query),
     {
-      enabled: query !== '',
+      enabled: show && query !== '',
     }
   );
   const rawSuggestData = suggestResult.data?.data.result;
@@ -215,4 +216,4 @@ const SearchPopup: React.FC<SearchPopupProps> = (props) => {
   );
 };
 
-export default SearchPopup;
+export default React.memo(SearchPopup);

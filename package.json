@@ -31,7 +31,7 @@
   },
   "build": {
     "productName": "Entropy Music",
-    "appId": "org.erb.EntropyMusic",
+    "appId": "com.sixgramwater.EntropyMusic",
     "asar": true,
     "asarUnpack": "**\\*.{node,dll}",
     "files": [
@@ -94,36 +94,37 @@
       "provider": "github",
       "owner": "electron-react-boilerplate",
       "repo": "electron-react-boilerplate"
+    },
+    "nsis": {
+      "shortcutName": "entropy music",
+      "oneClick": false,
+      "allowElevation": true,
+      "allowToChangeInstallationDirectory": true,
+      "perMachine": true
     }
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/electron-react-boilerplate/electron-react-boilerplate.git"
+    "url": "git+https://github.com/sixgramwater/electron-music.git"
   },
   "author": {
-    "name": "Electron React Boilerplate Maintainers",
-    "email": "electronreactboilerplate@gmail.com",
-    "url": "https://electron-react-boilerplate.js.org"
+    "name": "sixgramwater",
+    "email": "sixgramwater@gmail.com",
+    "url": "https://github.com/sixgramwater/electron-music"
   },
   "contributors": [
     {
-      "name": "Amila Welihinda",
-      "email": "amilajack@gmail.com",
-      "url": "https://github.com/amilajack"
-    },
-    {
-      "name": "John Tran",
-      "email": "jptran318@gmail.com",
-      "url": "https://github.com/jooohhn"
+      "name": "sixgramwater",
+      "email": "sixgramwater@gmail.com",
+      "url": "https://github.com/sixgramwater"
     }
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/electron-react-boilerplate/electron-react-boilerplate/issues"
+    "url": "https://github.com/sixgramwater/electron-music/issues"
   },
   "keywords": [
     "electron",
-    "boilerplate",
     "react",
     "typescript",
     "ts",
@@ -132,7 +133,7 @@
     "hot",
     "reload"
   ],
-  "homepage": "https://github.com/electron-react-boilerplate/electron-react-boilerplate#readme",
+  "homepage": "https://github.com/sixgramwater/electron-music",
   "jest": {
     "testURL": "http://localhost/",
     "testEnvironment": "jsdom",

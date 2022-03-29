@@ -74,7 +74,7 @@ export const search = (
 ) => get('/cloudsearch', { keywords, limit, offset, type });
 
 // like
-export const likeSongs = (like: boolean = true) => get('/like', { like }).then(value => value.data);
+export const likeSongs = (id: number, like: boolean = true) => get('/like', { id, like }).then(value => value.data);
 
 export const fetchLikelist = (uid: number) => get('/likelist', { uid }).then(value=>value.data);
 
