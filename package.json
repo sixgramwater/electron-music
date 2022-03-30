@@ -1,5 +1,6 @@
 {
   "name": "entropy-music",
+  "version": "1.1.0",
   "description": "Electron music application based on React, React Router, Redux, Webpack, React-query",
   "scripts": {
     "build": "concurrently \"npm run build:main\" \"npm run build:renderer\"",
@@ -92,8 +93,8 @@
     ],
     "publish": {
       "provider": "github",
-      "owner": "electron-react-boilerplate",
-      "repo": "electron-react-boilerplate"
+      "owner": "sixgramwater",
+      "repo": "electron-music"
     },
     "nsis": {
       "shortcutName": "entropy music",
