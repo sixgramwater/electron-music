@@ -1,23 +1,57 @@
-<img src=".erb/img/erb-banner.svg" width="100%" />
-
-<br>
-
+<!-- <img src=".erb/img/erb-banner.svg" width="100%" /> -->
+# Entropy Music
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)]()
+[![Author](https://img.shields.io/badge/author-sixgramwater-orange "Author")](https://github.com/sixgramwater "Author")
 <p>
-  Electron React Boilerplate uses <a href="https://electron.atom.io/">Electron</a>, <a href="https://facebook.github.io/react/">React</a>, <a href="https://github.com/reactjs/react-router">React Router</a>, <a href="https://webpack.js.org/">Webpack</a> and <a href="https://www.npmjs.com/package/react-refresh">React Fast Refresh</a>.
+Electron music application based on React, Redux, React-Router, Webpack 5.
 </p>
 
-<br>
+<!-- <p>
+  Electron React Boilerplate uses <a href="https://electron.atom.io/">Electron</a>, <a href="https://facebook.github.io/react/">React</a>, <a href="https://github.com/reactjs/react-router">React Router</a>, <a href="https://webpack.js.org/">Webpack</a> and <a href="https://www.npmjs.com/package/react-refresh">React Fast Refresh</a>.
+</p> -->
 
-<div align="center">
+<!-- <br> -->
 
-[![Build Status][github-actions-status]][github-actions-url]
+## Features
+- Electron & React & typescript
+- Clean and elegant UI
+- Theme-changing support
+- Lyric display support
+- Separate Desktop Klyric display [experimental]
+- Full support for album & artist & playlist
+- User Login & logout
+- Track playlist & multiple play mode support
+- Search & hotword & input suggest
+- Infinity fetch support
+- Native tray support
+
+## Screenshots
+### homepage
+![homepage](https://raw.githubusercontent.com/sixgramwater/markdown-imgs/master/homepage.png)
+
+### library
+![library](https://raw.githubusercontent.com/sixgramwater/markdown-imgs/master/library.png)
+
+### playing
+![playing](https://raw.githubusercontent.com/sixgramwater/markdown-imgs/master/playing.png)
+
+<!-- ![klyric](https://raw.githubusercontent.com/sixgramwater/markdown-imgs/master/klyric.png) -->
+### klyric
+![klyric](https://raw.githubusercontent.com/sixgramwater/markdown-imgs/master/klyric2.png)
+
+
+
+
+<!-- <div align="center"> -->
+
+<!-- [![Build Status][github-actions-status]][github-actions-url]
 [![Github Tag][github-tag-image]][github-tag-url]
 
 [![OpenCollective](https://opencollective.com/electron-react-boilerplate/backers/badge.svg)](#backers)
 [![OpenCollective](https://opencollective.com/electron-react-boilerplate/sponsors/badge.svg)](#sponsors)
-[![StackOverflow][stackoverflow-img]][stackoverflow-url]
+[![StackOverflow][stackoverflow-img]][stackoverflow-url] -->
 
-</div>
+<!-- </div> -->
 
 ## Install
 
@@ -51,7 +85,13 @@ npm run package
 
 See our [docs and guides here](https://electron-react-boilerplate.js.org/docs/installation)
 
-## Donations
+## TODO
+- [ ] Klyric animation & bugs fixing
+- [ ] Mini-player mode support
+- [ ] Native settings (download path customization)
+- [ ] i18N support
+
+<!-- ## Donations
 
 **Donations will ensure the following:**
 
@@ -134,7 +174,7 @@ Become a sponsor and get your logo on our README on Github with a link to your s
 - [Amila Welihinda](https://github.com/amilajack)
 - [John Tran](https://github.com/jooohhn)
 - [C. T. Lin](https://github.com/chentsulin)
-- [Jhen-Jie Hong](https://github.com/jhen0409)
+- [Jhen-Jie Hong](https://github.com/jhen0409) -->
 
 ## License
 
