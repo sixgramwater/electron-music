@@ -26,20 +26,31 @@ Electron music application based on React, Redux, React-Router, Webpack 5.
 - Native tray support
 
 ## Screenshots
-### homepage
-![homepage](https://raw.githubusercontent.com/sixgramwater/markdown-imgs/master/homepage.png)
+### Daily Recommend
+![recommend](https://user-images.githubusercontent.com/22321620/176373584-c9f05fcc-f03f-4562-9eb0-6270e21cb8cf.png)
 
-### library
-![library](https://raw.githubusercontent.com/sixgramwater/markdown-imgs/master/library.png)
+### Music library
 
-### playing
-![playing](https://raw.githubusercontent.com/sixgramwater/markdown-imgs/master/playing.png)
+![library](https://user-images.githubusercontent.com/22321620/176373897-3b4c4b51-e49a-40a8-966c-f2a5cc4e522b.png)
+
+### Music Playing
+![playing](https://user-images.githubusercontent.com/22321620/176373929-0096a0c7-445a-41c6-b2ed-8f40e46a40ad.png)
+
 
 <!-- ![klyric](https://raw.githubusercontent.com/sixgramwater/markdown-imgs/master/klyric.png) -->
-### klyric
-![klyric](https://raw.githubusercontent.com/sixgramwater/markdown-imgs/master/klyric2.png)
+### Desktop Lyric
 
+![lyric](https://user-images.githubusercontent.com/22321620/176374013-c6c53052-21ab-4032-b0aa-0c2d0531a46c.png)
 
+### Music Download
+
+![download](https://user-images.githubusercontent.com/22321620/176374355-79cadd70-fc2d-4f10-9146-ea70bed94735.png)
+
+### Theme changing
+![theme](https://user-images.githubusercontent.com/22321620/176374754-b6e5690e-ede3-487a-a828-bc46f5b43444.png)
+
+### Search (Hot Words Suggestion)
+![search](https://user-images.githubusercontent.com/22321620/176375046-8564d82f-6ff9-4b44-9ef1-f93cad7135bb.png)
 
 
 <!-- <div align="center"> -->
